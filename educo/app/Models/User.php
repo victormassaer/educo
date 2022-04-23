@@ -21,6 +21,14 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'profile_id',
+        'profile_picture',
+        'age',
+        'company_id',
+        'role_id',
+        'gender',
+        'degree',
+        'country'
     ];
 
     /**
@@ -41,4 +49,17 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function skills() {
+        //userhasskill table aanmaken
+        return $this->hasMany(Skill::class);
+    }
+
+    public function certificates() {
+        return $this->hasMany(Certificate::class);
+    }
+
+    public function profile() {
+        return $this->belongsTo(Profile::class);
+    }
 }
