@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ExpertDashboardController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +17,18 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+
+
+Route::group([
+    'middleware' => ['auth']
+], function(){
+    //USER DASHBOARD
+    Route::get('/dashboard', function () {return view('pages.user.dashboard');})->name('dashboard');
+
+    //EXPERT DASHBOARD
+    Route::get('/expert/dashboard',[ExpertDashboardController::class, 'index'])->name('expert.dashboard.index');
+    }
+);
+
+require __DIR__.'/auth.php';
