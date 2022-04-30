@@ -20,15 +20,19 @@ Route::get('/', function () {
 
 
 
-Route::group([
-    'middleware' => ['auth']
-], function(){
-    //USER DASHBOARD
-    Route::get('/dashboard', function () {return view('pages.user.dashboard');})->name('dashboard');
+Route::group(
+    [
+        'middleware' => ['auth']
+    ],
+    function () {
+        //USER DASHBOARD
+        Route::get('/dashboard', function () {
+            return view('pages.user.dashboard');
+        })->name('dashboard');
 
-    //EXPERT DASHBOARD
-    Route::get('/expert/dashboard',[ExpertDashboardController::class, 'index'])->name('expert.dashboard.index');
+        //EXPERT DASHBOARD
+        Route::get('/expert/dashboard', [ExpertDashboardController::class, 'index'])->name('expert.dashboard.index');
     }
 );
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
