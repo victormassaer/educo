@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Course;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ExpertDashboardController extends Controller
 {
@@ -14,6 +16,9 @@ class ExpertDashboardController extends Controller
      */
     public function index()
     {
-        return view('pages.expert.dashboard');
+        $user = Auth::user();
+        $courses = Course::where("instructor_id", $user->id)->get();
+        $data['courses'] = $courses;
+        return view('pages.expert.dashboard', $data);
     }
 }

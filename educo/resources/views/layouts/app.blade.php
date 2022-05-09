@@ -22,7 +22,12 @@
     <div class="min-h-screen bg-gray-100 flex flex-grow overflow-y-auto">
 
         <!-- Sidebar -->
-        @include('layouts.sidebar')
+        @if (Request::is('expert/*'))
+            @include('layouts.sidebar-expert')
+        @else
+            @include('layouts.sidebar-user')
+        @endif
+
 
         <!-- Page Content -->
         <div class="w-full relative flex-1 overflow-y-auto h-screen"> {{ $slot }} </div>
