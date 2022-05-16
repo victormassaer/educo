@@ -52,7 +52,7 @@
 
     <div>
         <h2>mandatory courses</h2>
-        @foreach($courses as $course)
+        @foreach($mandatoryCourses as $course)
             @if($course->mandatory === 1)
             <div>
                 <h3>course: {{$course->title}}</h3>
@@ -64,7 +64,7 @@
 
     <div>
         <h2>personal courses</h2>
-        @foreach($courses as $course)
+        @foreach($personalCourses as $course)
             @if($course->mandatory === 0)
                 <div>
                     <h3>course: {{$course->title}}</h3>

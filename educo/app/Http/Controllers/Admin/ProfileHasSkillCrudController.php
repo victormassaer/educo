@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\ProfileRequest;
+use App\Http\Requests\ProfileHasSkillRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
- * Class ProfileCrudController
+ * Class ProfileHasSkillCrudController
  * @package App\Http\Controllers\Admin
  * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
  */
-class ProfileCrudController extends CrudController
+class ProfileHasSkillCrudController extends CrudController
 {
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
@@ -26,9 +26,9 @@ class ProfileCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(\App\Models\Profile::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/profile');
-        CRUD::setEntityNameStrings('profile', 'profiles');
+        CRUD::setModel(\App\Models\ProfileHasSkill::class);
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/profile-has-skill');
+        CRUD::setEntityNameStrings('profile has skill', 'profile has skills');
     }
 
     /**
@@ -39,10 +39,9 @@ class ProfileCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        CRUD::column('title');
-        CRUD::column('description');
-
-        $this->crud->addClause('where', 'company_id', '=', backpack_user()->company_id);
+        CRUD::column('profile_id');
+        CRUD::column('skill_id');
+        CRUD::column('company_id');
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
@@ -59,18 +58,14 @@ class ProfileCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
-        CRUD::setValidation(ProfileRequest::class);
+        CRUD::setValidation(ProfileHasSkillRequest::class);
 
-        CRUD::addField([
-            'name' => 'title',
-            'type' => 'text',
-            'label' => 'Title',
-        ]);
-        CRUD::field('description');
+        CRUD::field('profile_id');
+        CRUD::field('skill_id');
         CRUD::addField([
             'name' => 'company_id',
             'type' => 'text',
-            'label' => 'company_id',
+            'label' => 'Company_id',
             'value' => backpack_user()->company_id,
             'attributes' => [
                 'readonly' => 'readonly'

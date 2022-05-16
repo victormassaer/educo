@@ -3,3 +3,4 @@
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('user') }}'><i class='nav-icon la la-question'></i> Users</a></li>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('skill') }}'><i class='nav-icon la la-question'></i> Skills</a></li>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('profile') }}'><i class='nav-icon la la-question'></i> Profiles</a></li>
+<li class='nav-item'><a class='nav-link' href='{{ backpack_url('profile-has-skill') }}'><i class='nav-icon la la-question'></i> Profile has skills</a></li>
