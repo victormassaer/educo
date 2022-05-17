@@ -15,4 +15,8 @@ class Profile extends Model
         'description',
         'company_id',
     ];
+
+    public function user() {
+        return $this->hasOne(User::class);
+    }
 }
