@@ -15,4 +15,12 @@ class ProfileHasSkill extends Model
         'skill_id',
         'company_id',
     ];
+
+    public function profile() {
+        return $this->hasOne(User::class);
+    }
+
+    public function company() {
+        return $this->hasOne(Company::class);
+    }
 }

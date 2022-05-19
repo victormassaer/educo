@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AdminDashboardController;
+use App\Http\Controllers\AdminRolesDashboardController;
+use App\Http\Controllers\AdminUserDetailPageController;
 use App\Http\Controllers\ExpertDashboardController;
 use App\Http\Controllers\UserDetailController;
 use Illuminate\Support\Facades\Route;
@@ -39,6 +41,8 @@ Route::group([
 
     //ADMIN DASHBOARD
     Route::get('/companyAdmin/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard.index');
+    Route::get('/companyAdmin/userDetail/{id}/index', [AdminUserDetailPageController::class, 'index'])->name('admin.userDetail.index');
+    Route::get('/companyAdmin/roles', [AdminRolesDashboardController::class, 'index'])->name('admin.roles.index');
     }
 );
 

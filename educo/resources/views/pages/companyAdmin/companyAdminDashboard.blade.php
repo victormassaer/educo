@@ -19,7 +19,7 @@
         <div class="mb-5">
             <h2 class="font-bold text-2xl text-blue-600">Active Employees</h2>
             @foreach($activeEmployees as $employee)
-                <a href="#">
+                <a href="{{route('admin.userDetail.index', $employee->id)}}">
                     <div class="bg-white inline-block mr-4 rounded p-4 py-6 text-center my-5">
                         <img src="https://placekitten.com/100/100" class="rounded" alt="profile picture">
                         <p class="font-bold">{{$employee->name}}</p>
@@ -32,7 +32,7 @@
         <div class="mb-5">
             <h2 class="font-bold text-2xl text-blue-600">Inactive Employees</h2>
             @foreach($inactiveEmployees as $employee)
-                <a href="#">
+                <a href="{{route('admin.userDetail.index', $employee->id)}}">
                     <div class="bg-white inline-block mr-4 rounded p-4 py-6 text-center my-5">
                         <img src="https://placekitten.com/100/100" class="rounded" alt="profile picture">
                         <p class="font-bold">{{$employee->name}}</p>

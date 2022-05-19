@@ -15,7 +15,7 @@ class AdminDashboardController extends Controller
         $user = Auth::user();
         $employees = User::where('company_id', $user->company_id)->get();
         $participationsPerUser = [];
-        $allParcipations = [];
+        $allParticipations = [];
         $activeParticipations = [];
         $inactiveParticipations = [];
         $activeEmployees = [];
@@ -25,11 +25,11 @@ class AdminDashboardController extends Controller
         }
         foreach($participationsPerUser as $participation){
             foreach($participation as $p){
-                $allParcipations[] = $p;
+                $allParticipations[] = $p;
             }
         }
         $checkDate = now()->subDays(30);
-        foreach($allParcipations as $participation){
+        foreach($allParticipations as $participation){
             if($participation->updated_at > $checkDate){
                 $activeParticipations[] = $participation;
                 $activeUser = User::where('id', $participation->user_id)->first();
