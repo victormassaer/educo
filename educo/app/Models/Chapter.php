@@ -14,7 +14,15 @@ class Chapter extends Model
         'course_id',
     ];
 
-    public function elements() {
+    public $timestamps = false;
+
+    public function course()
+    {
+        return $this->belongsTo(Course::class);
+    }
+
+    public function elements()
+    {
         return $this->hasMany(Element::class);
     }
 }

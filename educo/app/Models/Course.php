@@ -11,18 +11,25 @@ class Course extends Model
 
     protected $fillable = [
         'title',
+        'description',
         'img',
         'instructor_id',
         'mandatory',
         'duration',
         'number_of_chapters',
+        'difficulty',
+        'draft',
     ];
 
-    public function instructor() {
+    public $timestamps = false;
+
+    public function instructor()
+    {
         return $this->belongsTo(User::class);
     }
 
-    public function chapters() {
+    public function chapters()
+    {
         return $this->hasMany(Chapter::class);
     }
 }
