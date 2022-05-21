@@ -24,4 +24,9 @@ class Element extends Model
     {
         return $this->belongsTo(Chapter::class);
     }
+
+    public function video()
+    {
+        return $this->hasOne(Video::class);
+    }
 }

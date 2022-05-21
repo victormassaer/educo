@@ -23,7 +23,8 @@
                 @foreach ($courses as $course)
                     <div class="bg-white rounded-md flex-1 flex items-center flex-col p-6 gap-4">
                         <h4 class="text-2xl font-bold">{{ $course->title }}</h4>
-                        <img class="rounded-md" src={{ $course->img }} alt="course thumbnail">
+                        <img class="rounded-md" src="{{ asset('storage/' . $course->img) }}"
+                            alt=" course thumbnail">
                         <p class="text-lg">50 Students</p>
                         <div class="flex gap-4">
                             <button

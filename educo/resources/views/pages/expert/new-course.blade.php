@@ -16,7 +16,7 @@
         {{-- STEP 1 --}}
         @if ($step === '1')
             <h3 class="text-3xl font-bold text-primary mb-6">Details</h3>
-            <form action="/expert/new-course/create" method="POST"
+            <form action="/expert/new-course/create" method="POST" enctype="multipart/form-data"
                 class="flex flex-col max-w-screen-sm gap-2 items-start">
                 @csrf
                 <label class="mt-4" for="title">Title</label>
@@ -24,12 +24,14 @@
                 <label class="mt-4" for="description">Description</label>
                 <textarea class="rounded-md max-h-96" name="description" id="description" cols="70" rows="10"
                     placeholder="description"></textarea>
-                <label class="mt-4" for="">Difficulty</label>
+                <label class="mt-4" for="difficulty">Difficulty</label>
                 <select class="rounded-md w-3/5" name="difficulty" id="difficulty">
                     <option>easy</option>
                     <option>medium</option>
                     <option>hard</option>
                 </select>
+                <label class="mt-4" for="thumbnail">Thumbnail</label>
+                <input type="file" id="thumbnail" name="thumbnail">
                 <button type="submit"
                     class="mt-4 whitespace-nowrap py-2 px-4 border-2 rounded-md border-tertiary text-tertiary cursor-pointer">
                     Next step
@@ -44,6 +46,9 @@
                     <x-svg.icons.plus class="stroke-white w-8 h-8" />
                 </a>
             </div>
+            @if (count($course->chapters) === 0)
+                <p>No sections yet</p>
+            @endif
             @foreach ($course->chapters as $chapter)
                 <div class="mb-4">
                     <div class="flex bg-white rounded-md p-2">
