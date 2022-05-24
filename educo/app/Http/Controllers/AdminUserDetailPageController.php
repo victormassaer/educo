@@ -32,6 +32,7 @@ class AdminUserDetailPageController extends Controller
         $personalCourses = [];
         $chapters = [];
         $certificates = $user->certificate;
+        $activeCourses = [];
         foreach($participations as $participation){
             $course = Course::where('id', $participation->course_id)->first();
             $courses[] = $course;
@@ -48,6 +49,14 @@ class AdminUserDetailPageController extends Controller
             $personalCourses[] = $course;
         }
 
+        foreach($participations as $participation){
+            $course = Course::where('id', $participation->course_id)->first();
+            $totalChapters = $course->number_of_chapters;
+            if($participation->total_completed != $totalChapters){
+                $activeCourses[] = $course;
+            }
+        }
+
         $data = [
             'company' => $company,
             'profile' => $profile,
@@ -57,6 +66,7 @@ class AdminUserDetailPageController extends Controller
             'personalCourses' => $personalCourses,
             'certificates' => $certificates,
             'user' => $user,
+            'activeCourses' => $activeCourses
         ];
         return view('pages.companyAdmin.userDetailPage', $data);
     }

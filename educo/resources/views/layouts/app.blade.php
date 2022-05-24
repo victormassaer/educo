@@ -21,7 +21,7 @@
     <div class="min-h-screen bg-gray-100 flex flex-grow overflow-y-auto">
 
         <!-- Sidebar -->
-        @if (Request::is('expert/*'))
+        @if (auth()->user()->role_id === 2)
             @include('layouts.sidebar-expert')
         @else
             @include('layouts.sidebar-user')

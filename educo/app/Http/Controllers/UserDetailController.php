@@ -33,6 +33,7 @@ class UserDetailController extends Controller
         $personalCourses = [];
         $chapters = [];
         $certificates = $user->certificate;
+        $activeCourses = [];
         foreach($participations as $participation){
             $course = Course::where('id', $participation->course_id)->first();
             $courses[] = $course;
@@ -49,6 +50,14 @@ class UserDetailController extends Controller
             $personalCourses[] = $course;
         }
 
+        foreach($participations as $participation){
+            $course = Course::where('id', $participation->course_id)->first();
+            $totalChapters = $course->number_of_chapters;
+            if($participation->total_completed != $totalChapters){
+                $activeCourses[] = $course;
+            }
+        }
+
         $data = [
             'company' => $company,
             'profile' => $profile,
@@ -57,6 +66,7 @@ class UserDetailController extends Controller
             'mandatoryCourses' => $mandatoryCourses,
             'personalCourses' => $personalCourses,
             'certificates' => $certificates,
+            'activeCourses'=> $activeCourses
         ];
         return view('pages.user.detail', $data);
     }
