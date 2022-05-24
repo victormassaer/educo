@@ -11,6 +11,7 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
+    use \Backpack\CRUD\app\Models\Traits\CrudTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -55,11 +56,15 @@ class User extends Authenticatable
         return $this->hasMany(Skill::class);
     }
 
-    public function certificates() {
+    public function certificate() {
         return $this->hasMany(Certificate::class);
     }
 
     public function profile() {
         return $this->belongsTo(Profile::class);
+    }
+
+    public function participation() {
+        return $this->hasMany(Participation::class);
     }
 }
