@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ExpertDashboardController;
+use App\Http\Controllers\UserDashboardController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,7 +25,7 @@ Route::group([
     'middleware' => ['auth']
 ], function(){
     //USER DASHBOARD
-    Route::get('/dashboard', function () {return view('pages.user.dashboard');})->name('dashboard');
+    Route::get('/dashboard', [UserDashboardController::class, 'getAll'])->name('dashboard');
 
     //EXPERT DASHBOARD
     Route::get('/expert/dashboard',[ExpertDashboardController::class, 'index'])->name('expert.dashboard.index');

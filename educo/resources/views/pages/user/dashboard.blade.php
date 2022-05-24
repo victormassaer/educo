@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
+            {{ __('Course dashboard') }}
         </h2>
     </x-slot>
 
@@ -14,4 +14,11 @@
             </div>
         </div>
     </div>
+
+    <div class="py-5 max-w-7xl mx-auto sm:px-6 lg:px-8 flex flex-row">
+        @foreach($courses as $course)
+            <x-Course :course="$course" class="basis-1/3"/>
+        @endforeach
+    </div>
+
 </x-app-layout>
