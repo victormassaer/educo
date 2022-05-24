@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminAllEmployeesDashboardController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\AdminRolesDashboardController;
 use App\Http\Controllers\AdminUserDetailPageController;
@@ -44,20 +45,22 @@ Route::group([
         Route::get('/expert/new-course/new-section/new-element', [ExpertDashboardController::class, 'newCourseElement'])->name('expert.dashboard.new-course-element');
         Route::post('/expert/new-course/new-section/new-element/create', [ExpertDashboardController::class, 'createNewCourseElement'])->name('expert.dashboard.create-new-course-element');
         Route::post('/expert/new-course/new-section/new-element/video/create', [ExpertDashboardController::class, 'createNewElementVideo'])->name('expert.dashboard.create-new-element-video');
-    //EXPERT DASHBOARD
-    Route::get('/expert/dashboard',[ExpertDashboardController::class, 'index'])->name('expert.dashboard.index');
 
-    //USER DETAIL PAGE
-    Route::get('/user/detail',[UserDetailController::class, 'index'])->name('user.detail.index');
-    Route::get('/user/detail/edit',[UserDetailController::class, 'editInfoIndex'])->name('user.detail.edit.index');
-    Route::post('/user/detail/edit',[UserDetailController::class, 'editInfoStore'])->name('user.detail.edit.store');
-    Route::get('/user/detail/complete',[UserDetailController::class, 'completeInfoStore'])->name('user.detail.complete.index');
+        //EXPERT DASHBOARD
+        Route::get('/expert/dashboard',[ExpertDashboardController::class, 'index'])->name('expert.dashboard.index');
 
-    //ADMIN DASHBOARD
-    Route::get('/companyAdmin/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard.index');
-    Route::get('/companyAdmin/userDetail/{id}/index', [AdminUserDetailPageController::class, 'index'])->name('admin.userDetail.index');
-    Route::get('/companyAdmin/roles', [AdminRolesDashboardController::class, 'index'])->name('admin.roles.index');
-    }
+        //USER DETAIL PAGE
+        Route::get('/user/detail',[UserDetailController::class, 'index'])->name('user.detail.index');
+        Route::get('/user/detail/edit',[UserDetailController::class, 'editInfoIndex'])->name('user.detail.edit.index');
+        Route::post('/user/detail/edit',[UserDetailController::class, 'editInfoStore'])->name('user.detail.edit.store');
+        Route::get('/user/detail/complete',[UserDetailController::class, 'completeInfoStore'])->name('user.detail.complete.index');
+
+        //ADMIN DASHBOARD
+        Route::get('/companyAdmin/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard.index');
+        Route::get('/companyAdmin/userDetail/{id}/index', [AdminUserDetailPageController::class, 'index'])->name('admin.userDetail.index');
+        Route::get('/companyAdmin/roles', [AdminRolesDashboardController::class, 'index'])->name('admin.roles.index');
+        Route::get('/companyAdmin/employees/index', [AdminAllEmployeesDashboardController::class, 'index'])->name('admin.employees.index');
+        }
 );
 
 require __DIR__.'/auth.php';
