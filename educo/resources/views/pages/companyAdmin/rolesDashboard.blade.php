@@ -18,12 +18,12 @@
     <section class="px-44">
         @foreach($profiles as $profile)
             <div class="inline-block bg-white p-4 rounded mx-4 text-center">
-                <h2 class="font-bold">{{$profile->title}}</h2>
-                members:
+                <h2 class="font-bold text-xl text-primary-blue">{{$profile->title}}</h2>
+                <h2 class="font-bold">members:</h2>
                 @foreach($profile->user as $user)
                     <p>{{$user->name}}</p>
                 @endforeach
-                <h2>mandatory skills:</h2>
+                <h2 class="font-bold">mandatory skills:</h2>
                 @foreach($profile->skills as $skill)
                     <div>{{$skill->title}}</div>
                 @endforeach
