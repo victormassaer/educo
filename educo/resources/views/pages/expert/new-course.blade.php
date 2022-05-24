@@ -50,17 +50,24 @@
                 <p>No sections yet</p>
             @endif
             @foreach ($course->chapters as $chapter)
-                <div class="mb-4">
-                    <div class="flex bg-white rounded-md p-2">
-                        <h4 class="text-xl font-bold">Section {{ $loop->index + 1 }}: {{ $chapter->title }}</h4>
+                <div class="mb-4 bg-white rounded-md p-4">
+                    <div class="flex ">
+                        <h4 class="text-xl font-bold mb-2">Section {{ $loop->index + 1 }}: {{ $chapter->title }}
+                        </h4>
                     </div>
                     <div>
                         @foreach ($chapter->elements as $element)
-                            <div>{{ $element->type }}</div>
+                            <div class="bg-gray-200 p-2 rounded-md m-2">
+                                <h4 class="text-xl font-semibold">{{ $element->type }}: {{ $element->title }}</h1>
+                            </div>
                         @endforeach
                     </div>
                 </div>
             @endforeach
+            <button onclick="window.location='{{ url('expert/dashboard') }}'"
+                class="mt-4 whitespace-nowrap py-2 px-4 border-2 rounded-md border-tertiary text-tertiary cursor-pointer">
+                Save
+            </button>
         @endif
     </div>
 </x-app-layout>

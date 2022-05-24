@@ -39,19 +39,31 @@
                 </button>
             </form>
         @elseif($step === '2')
-            <form action="/expert/new-course/new-section/new-element/video/create" enctype="multipart/form-data"
-                method="POST" class="flex flex-col max-w-screen-sm gap-2 items-start">
-                @csrf
-                <label class="mt-4" for="video">Upload video</label>
-                <input type="hidden" id="course_id" name="course_id" value={{ $course_id }}>
-                <input type="hidden" id="element_id" name="element_id" value={{ $element_id }}>
-                <input type="hidden" id="section_id" name="section_id" value={{ $section_id }}>
-                <input type="file" id="video" name="video" accept=".mp4">
-                <button type="submit"
-                    class="mt-4 whitespace-nowrap py-2 px-4 border-2 rounded-md border-tertiary text-tertiary cursor-pointer">
-                    Upload
-                </button>
-            </form>
+            @php
+                $type = null;
+                if (request()->video_id) {
+                    $type = 'video';
+                } elseif (request()->task_id) {
+                    $type = 'task';
+                }
+            @endphp
+            @if ($type === 'video')
+                <form action="/expert/new-course/new-section/new-element/video/create" enctype="multipart/form-data"
+                    method="POST" class="flex flex-col max-w-screen-sm gap-2 items-start">
+                    @csrf
+                    <label class="mt-4" for="video">Upload video</label>
+                    <input type="hidden" id="course_id" name="course_id" value={{ $course_id }}>
+                    <input type="hidden" id="element_id" name="element_id" value={{ $element_id }}>
+                    <input type="hidden" id="section_id" name="section_id" value={{ $section_id }}>
+                    <input type="file" id="video" name="video" accept=".mp4">
+                    <button type="submit"
+                        class="mt-4 whitespace-nowrap py-2 px-4 border-2 rounded-md border-tertiary text-tertiary cursor-pointer">
+                        Upload
+                    </button>
+                </form>
+            @elseif($type === 'task')
+                <h1>task</h1>
+            @endif
         @elseif($step === '3')
             <div class="max-w-3xl">
                 <iframe src={{ $video['body']['player_embed_url'] }} width="100%" height="100%" class="max-w-4xl h-96"

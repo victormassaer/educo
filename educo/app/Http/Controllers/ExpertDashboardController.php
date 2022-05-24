@@ -6,6 +6,7 @@ use App\Models\Chapter;
 use App\Models\Course;
 use App\Models\Element;
 use App\Models\Video;
+use App\Models\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -142,11 +143,14 @@ class ExpertDashboardController extends Controller
         if ($type === "video") {
             $video = new Video();
             $video->element_id = $element->id;
-            $video->url = "https://vimeo.com";
+            $video->url = "";
             $video->save();
+            return redirect()->route('expert.dashboard.new-course-element', ['course_id' => $course_id, 'section_id' => $chapter_id, 'element_id' => $element->id, 'video_id' => $video->id, 'step' => '2']);
         } elseif ($type === "task") {
+            $task = new Task();
+            $task->element_id = $element->id;
+            return redirect()->route('expert.dashboard.new-course-element', ['course_id' => $course_id, 'section_id' => $chapter_id, 'element_id' => $element->id, 'task_id' => $task->id, 'step' => '2']);
         };
-        return redirect()->route('expert.dashboard.new-course-element', ['course_id' => $course_id, 'section_id' => $chapter_id, 'element_id' => $element->id, 'video_id' => $video->id, 'step' => '2']);
     }
 
     public function createNewElementVideo(Request $request)
