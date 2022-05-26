@@ -21,8 +21,8 @@
             <a href="{{route('dashboard.finished', $user->id)}}"><p>Finished</p></a>
         </div>
         <div class="py-5 max-w-7xl mx-auto sm:px-6 lg:px-8 flex flex-row">
-            @foreach($activeCourses as $activeCourse)
-                <x-Course :course="$activeCourse" class="basis-1/3"/>
+            @foreach($finishedCourses as $finishedCourse)
+                <x-Course :course="$finishedCourse" class="basis-1/3"/>
             @endforeach
         </div>
 </x-app-layout>

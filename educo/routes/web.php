@@ -27,8 +27,8 @@ Route::group([
     //USER DASHBOARD
     Route::get('/dashboard', [UserDashboardController::class, 'getAll'])->name('dashboard');
     Route::get('/dashboard/active/{id}', [UserDashboardController::class, 'getActive'])->name('dashboard.active');
-    Route::get('/dashboard/obligated', [UserDashboardController::class, 'getObligated'])->name('dashboard.obligated');
-    Route::get('/dashboard/finished', [UserDashboardController::class, 'getFinished'])->name('dashboard.finished');
+    Route::get('/dashboard/obligated/{id}', [UserDashboardController::class, 'getObligated'])->name('dashboard.obligated');
+    Route::get('/dashboard/finished/{id}', [UserDashboardController::class, 'getFinished'])->name('dashboard.finished');
 
     //EXPERT DASHBOARD
     Route::get('/expert/dashboard',[ExpertDashboardController::class, 'index'])->name('expert.dashboard.index');

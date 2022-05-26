@@ -46,11 +46,28 @@ class UserDashboardController extends Controller
 
     public function getObligated()
     {
-        return view('pages.user.dashboard.obligated', ['courses' => Course::all()]);
+        return view('pages.user.obligatedDashboard', ['courses' => Course::all()]);
     }
 
     public function getFinished()
     {
-        return view('pages.user.dashboard.finished', ['courses' => Course::all()]);
+        $user = Auth::user();
+        $participations = Participation::where('user_id', $user->id)->get();
+        $finishedCourses = [];
+
+        foreach ( $participations as $participation){
+            $course = Course::where('id', $participation->course_id)->first();
+            $totalChapters = $course->number_of_chapters;
+            if($participation->total_completed === $totalChapters){
+                $finishedCourses[] = $course;
+            }
+        }
+
+        $data = [
+            'user' => $user,
+            'finishedCourses' => $finishedCourses
+        ];
+
+        return view('pages.user.finishedDashboard', $data);
     }
 }
