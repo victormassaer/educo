@@ -16,7 +16,7 @@
     </div>
         <div class="py-3 max-w-3xl mx-auto flex flex-row justify-around">
             <a href="/dashboard"><p>All courses</p></a>
-            <a href="{{route('dashboard.active', $user->id)}}"><p>Active</p></a>
+            <a href="{{route('dashboard.active', $user->id)}}"><p class="font-semibold">Active</p></a>
             <a href="{{route('dashboard.obligated', $user->id)}}"><p>Obligated</p></a>
             <a href="{{route('dashboard.finished', $user->id)}}"><p>Finished</p></a>
         </div>
