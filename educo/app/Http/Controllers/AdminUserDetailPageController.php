@@ -70,4 +70,36 @@ class AdminUserDetailPageController extends Controller
         ];
         return view('pages.companyAdmin.userDetailPage', $data);
     }
+
+    public function allActivity($id){
+        $user = User::where('id', $id)->first();
+        $company = Company::where('id', $user->company_id)->firstOrFail();
+        $profile = Profile::where('id', $user->profile_id)->firstOrFail();
+
+        $participations = $user->participation;
+
+        $courses = [];
+        $chapters = [];
+        foreach($participations as $participation){
+            $course = Course::where('id', $participation->course_id)->first();
+            $courses[] = $course;
+            $chapters[] = $course->chapters;
+        }
+
+        foreach($participations as $participation){
+            $course = Course::where('id', $participation->course_id)->first();
+            $totalChapters = $course->number_of_chapters;
+
+        }
+
+        $data = [
+            'company' => $company,
+            'profile' => $profile,
+            'chapters' => $chapters,
+            'courses' => $courses,
+            'user' => $user,
+        ];
+
+        return view('pages.companyAdmin.allUserActivity', $data);
+    }
 }

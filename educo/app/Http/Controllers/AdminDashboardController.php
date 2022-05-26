@@ -14,6 +14,7 @@ class AdminDashboardController extends Controller
     public function index(){
         $user = Auth::user();
         $employees = User::where('company_id', $user->company_id)->get();
+        $company = Company::where('id', $user->company_id)->first();
         $participationsPerUser = [];
         $allParticipations = [];
         $activeParticipations = [];
@@ -45,6 +46,7 @@ class AdminDashboardController extends Controller
             }
         }
         $data = [
+            'company' => $company,
             'employees' => $employees,
             'inactiveEmployees' => $inactiveEmployees,
             'activeEmployees' => $activeEmployees,

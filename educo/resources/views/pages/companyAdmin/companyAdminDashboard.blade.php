@@ -3,7 +3,8 @@
     </x-slot>
 
     <section class="px-44">
-        <h1 class="text-3xl font-bold text-primary-blue my-5">dashboard</h1>
+        <h1 class="text-3xl font-bold text-primary-blue">Dashboard</h1>
+        <h2 class="font-bold text-2xl text-tertiary my-5">{{$company->name}}</h2>
         <div class="mb-5">
             <h2 class="font-bold text-2xl text-primary-blue">Active Employees</h2>
             @foreach($activeEmployees as $employee)

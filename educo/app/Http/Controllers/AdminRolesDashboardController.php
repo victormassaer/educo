@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Company;
 use App\Models\Profile;
 use App\Models\ProfileHasSkill;
 use App\Models\Skill;
@@ -13,6 +14,7 @@ class AdminRolesDashboardController extends Controller
     public function index(){
         $user = Auth::user();
         $profiles = Profile::where('company_id', $user->company_id)->get();
+        $company = Company::where('id', $user->company_id)->first();
         $skillsPerProfile= [];
         foreach($profiles as $profile){
             $profileHasSkills = ProfileHasSkill::where('profile_id', $profile->id)->get();
@@ -24,6 +26,7 @@ class AdminRolesDashboardController extends Controller
             $skills = [];
         }
         $data = [
+            'company' => $company,
             'profiles' => $profiles
         ];
 
