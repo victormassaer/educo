@@ -46,7 +46,25 @@ class UserDashboardController extends Controller
 
     public function getObligated()
     {
-        return view('pages.user.obligatedDashboard', ['courses' => Course::all()]);
+        $user = Auth::user();
+        $mandatoryParticipations = Participation::where([
+            ['user_id', '=', $user->id],
+            ['mandatory', '=', 1]
+        ])->get();
+
+        $mandatoryCourses = [];
+
+        foreach($mandatoryParticipations as $participation){
+            $course = Course::where('id', $participation->course_id)->first();
+            $mandatoryCourses[] = $course;
+        }
+
+        $data = [
+            'user' => $user,
+            'mandatoryCourses' => $mandatoryCourses,
+        ];
+
+        return view('pages.user.obligatedDashboard', $data);
     }
 
     public function getFinished()
