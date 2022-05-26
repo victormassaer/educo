@@ -9,7 +9,7 @@
             <h2 class="font-bold text-2xl text-primary-blue">Active Employees</h2>
             @foreach($activeEmployees as $employee)
                 <a href="{{route('admin.userDetail.index', $employee->id)}}">
-                    <div class="bg-white inline-block mr-4 rounded p-4 text-center my-5 w-56 h-52">
+                    <div class="bg-white inline-block mr-4 rounded p-4 text-center my-5 w-56 h-52 shadow-md">
                         <img src="https://placekitten.com/100/100" class="rounded-full ml-11 mb-5" alt="profile picture">
                         <p class="font-bold">{{$employee->name}}</p>
                         <p>{{$employee->profile->title}}</p>
@@ -22,7 +22,7 @@
             <h2 class="font-bold text-2xl text-primary-blue">Inactive Employees</h2>
             @foreach($inactiveEmployees as $employee)
                 <a href="{{route('admin.userDetail.index', $employee->id)}}">
-                    <div class="bg-white inline-block mr-4 rounded p-4 text-center my-5 w-56 h-52">
+                    <div class="bg-white inline-block mr-4 rounded p-4 text-center my-5 w-56 h-52 shadow-md">
                         <img src="https://placekitten.com/100/100" class="rounded-full ml-11 mb-5" alt="profile picture">
                         <p class="font-bold">{{$employee->name}}</p>
                         <p>{{$employee->profile->title}}</p>
@@ -30,7 +30,7 @@
                 </a>
             @endforeach
 
-            <div class="bg-white inline-block mr-4 rounded p-4 text-center mb-5 w-56 h-52">
+            <div class="bg-white inline-block mr-4 rounded p-4 text-center mb-5 w-56 h-52 shadow-md">
                 <svg id="Laag_1" data-name="Laag 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1316.74 655.26"><defs>
                         <style>.cls-1{fill:#f1877a;}.cls-2{fill:#305299;}</style>
                     </defs>
