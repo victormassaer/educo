@@ -15,14 +15,14 @@
         </div>
     </div>
         <div class="py-3 max-w-3xl mx-auto flex flex-row justify-around">
-            <a href="/dashboard"><p class="font-semibold">All courses</p></a>
+            <a href="/dashboard"><p>All courses</p></a>
             <a href="{{route('dashboard.active', $user->id)}}"><p>Active</p></a>
             <a href="/dashboard/obligated"><p>Obligated</p></a>
             <a href="/dashboard/finished"><p>Finished</p></a>
         </div>
         <div class="py-5 max-w-7xl mx-auto sm:px-6 lg:px-8 flex flex-row">
-            @foreach($courses as $course)
-                <x-Course :course="$course" class="basis-1/3"/>
+            @foreach($activeCourses as $activeCourse)
+                <x-Course :course="$activeCourse" class="basis-1/3"/>
             @endforeach
         </div>
 </x-app-layout>
