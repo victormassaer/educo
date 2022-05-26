@@ -13,6 +13,12 @@ module.exports = {
                 sans: ['Nunito', ...defaultTheme.fontFamily.sans],
             },
         },
+        maxWidth: {
+            '288': '288px',
+        },
+        maxHeight: {
+            '177': '177px',
+        }
     },
 
     plugins: [require('@tailwindcss/forms')],
