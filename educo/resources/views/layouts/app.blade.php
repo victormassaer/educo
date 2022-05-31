@@ -23,6 +23,8 @@
         <!-- Sidebar -->
         @if (auth()->user()->role_id === 2)
             @include('layouts.sidebar-expert')
+        @elseif(auth()->user()->role_id === 3)
+            @include('layouts.sidebar-admin')
         @else
             @include('layouts.sidebar-user')
         @endif

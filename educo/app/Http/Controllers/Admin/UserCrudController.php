@@ -43,6 +43,7 @@ class UserCrudController extends CrudController {
         foreach($profiles as $pr){
             $profileSelect[] = $pr->title;
         }
+        dd($profileSelect);
         //$this->crud->setValidation(TagRequest::class);
 
         // TODO: remove setFromDb() and manually define Fields
