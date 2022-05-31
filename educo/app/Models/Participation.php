@@ -21,6 +21,6 @@ class Participation extends Model
     }
 
     public function course() {
-        return $this->belongsTo(Course::class);
+        return $this->hasOne(Course::class);
     }
 }

@@ -167,6 +167,7 @@ return [
         /*
          * Package Service Providers...
          */
+        Vimeo\Laravel\VimeoServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -192,6 +193,7 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'ExampleClass' => App\Example\ExampleClass::class,
+        'Vimeo' => Vimeo\Laravel\Facades\Vimeo::class,
     ])->toArray(),
 
 ];

@@ -11,8 +11,22 @@ class Element extends Model
 
     protected $fillable = [
         'chapter_id',
+        'title',
+        'description',
         'type',
         'task_id',
         'video_id'
     ];
+
+    public $timestamps = false;
+
+    public function chapter()
+    {
+        return $this->belongsTo(Chapter::class);
+    }
+
+    public function video()
+    {
+        return $this->hasOne(Video::class);
+    }
 }
