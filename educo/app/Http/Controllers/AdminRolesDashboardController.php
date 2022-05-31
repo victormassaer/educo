@@ -32,4 +32,15 @@ class AdminRolesDashboardController extends Controller
 
         return view('pages.companyAdmin.rolesDashboard', $data);
     }
+
+    public function detail($id){
+        $user = Auth::user();
+        $company = Company::where('id', $user->company_id)->first();
+        $profile = Profile::where('id', $id)->first();
+        $data = [
+            'company' => $company,
+            'profile' => $profile,
+        ];
+        return view('pages.companyAdmin.rolesDetail', $data);
+    }
 }
