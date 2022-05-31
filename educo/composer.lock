@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "494d0e0b257252cebf0f5461a612dba3",
+    "content-hash": "e319de1fd03d3376f2acaad3c44146d7",
     "packages": [
         {
             "name": "ankitpokhrel/tus-php",
@@ -77,16 +77,16 @@
         },
         {
             "name": "backpack/crud",
-            "version": "5.0.18",
+            "version": "5.0.19",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Laravel-Backpack/CRUD.git",
-                "reference": "06ea421e44c353604ba56669e1fd3ac7a18981df"
+                "reference": "a71715d51a0bd2827d535deb407761ee9252d044"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Laravel-Backpack/CRUD/zipball/06ea421e44c353604ba56669e1fd3ac7a18981df",
-                "reference": "06ea421e44c353604ba56669e1fd3ac7a18981df",
+                "url": "https://api.github.com/repos/Laravel-Backpack/CRUD/zipball/a71715d51a0bd2827d535deb407761ee9252d044",
+                "reference": "a71715d51a0bd2827d535deb407761ee9252d044",
                 "shasum": ""
             },
             "require": {
@@ -165,9 +165,9 @@
             ],
             "support": {
                 "issues": "https://github.com/Laravel-Backpack/CRUD/issues",
-                "source": "https://github.com/Laravel-Backpack/CRUD/tree/5.0.18"
+                "source": "https://github.com/Laravel-Backpack/CRUD/tree/5.0.19"
             },
-            "time": "2022-05-16T14:57:25+00:00"
+            "time": "2022-05-26T12:03:44+00:00"
         },
         {
             "name": "brick/math",

@@ -8,6 +8,7 @@ use App\Http\Controllers\ExpertDashboardController;
 use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\UserDetailController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserDashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,7 +34,10 @@ Route::group([
     'middleware' => ['auth']
 ], function(){
     //USER DASHBOARD
-    Route::get('/dashboard', function () {return view('pages.user.dashboard');})->name('dashboard');
+        Route::get('/dashboard', [UserDashboardController::class, 'getAll'])->name('dashboard');
+        Route::get('/dashboard/active/{id}', [UserDashboardController::class, 'getActive'])->name('dashboard.active');
+        Route::get('/dashboard/obligated/{id}', [UserDashboardController::class, 'getObligated'])->name('dashboard.obligated');
+        Route::get('/dashboard/finished/{id}', [UserDashboardController::class, 'getFinished'])->name('dashboard.finished');
 
         //EXPERT DASHBOARD
         Route::get('/expert/dashboard', [ExpertDashboardController::class, 'index'])->name('expert.dashboard.index');
