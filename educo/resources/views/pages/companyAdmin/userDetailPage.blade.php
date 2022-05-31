@@ -9,7 +9,8 @@
             <div class="py-5 grid grid-cols-2 grid-rows-1 bg-white justify-items-center rounded shadow-md">
                 <div class="mt-50 text-center">
                     <img src="https://placekitten.com/150/150" class="rounded" alt="profile picture">
-                    <h2 class="text-xl">{{ $user->name}}</h2>
+                    <h2 class="text-xl font-bold text-primary">{{ $user->name}}</h2>
+                    <h3>{{$user->profile->title}}</h3>
                 </div>
                 <div class="justify-self-start">
                     <div><span class="font-bold">email: </span>{{ $user->email }}</div>
@@ -49,7 +50,7 @@
 
         <div class="my-5 mt-10">
             <h2 class="font-bold text-2xl text-primary-blue mb-4">Recent Activity</h2>
-            <h3 class="text-xl">chapters</h3>
+            <h3 class="text-xl font-bold text-tertiary">chapters</h3>
             @if(count($chapters) === 0)
                 <p class="font-bold italic text-xl">Nothing to see here...</p>
             @endif
