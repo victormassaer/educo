@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Chapter;
 use App\Models\Course;
 use App\Models\Element;
+use App\Models\Question;
 use App\Models\Video;
 use App\Models\Task;
 use Illuminate\Http\Request;
@@ -66,6 +67,7 @@ class ExpertDashboardController extends Controller
     {
         $step = $request->step;
         $course_id = $request->course_id;
+        $task_id = $request->task_id;
         $course = null;
         if (isset($course_id)) {
             $course = Course::find($course_id);
@@ -75,6 +77,11 @@ class ExpertDashboardController extends Controller
         if (isset($section_id)) {
             $chapter = Chapter::find($section_id);
         }
+        if (isset($task_id)) {
+            $task = Task::with('element', 'questions')->find($task_id);
+            $data['task'] = $task;
+        }
+
 
         if ($step === '3') {
             $video = Vimeo::request($request->video_path, ['per_page' => 1], 'GET');
@@ -149,6 +156,7 @@ class ExpertDashboardController extends Controller
         } elseif ($type === "task") {
             $task = new Task();
             $task->element_id = $element->id;
+            $task->save();
             return redirect()->route('expert.dashboard.new-course-element', ['course_id' => $course_id, 'section_id' => $chapter_id, 'element_id' => $element->id, 'task_id' => $task->id, 'step' => '2']);
         };
     }
@@ -170,5 +178,19 @@ class ExpertDashboardController extends Controller
         $video->url = $uri;
         $video->save();
         return redirect()->route('expert.dashboard.new-course-element', ['course_id' => $course_id, 'element_id' => $element_id, 'section_id' => $section_id, 'step' => '3', 'video_path' => $uri]);
+    }
+    public function createNewElementTask(Request $request)
+    {
+
+        $bodyContent = $request->getContent();
+        $content = json_decode($bodyContent, true);
+        $question = new Question();
+        $question->task_id = $content['task_id'];
+        $question->question = $content['question'];
+        $question->options = serialize($content['values']);
+        $question->answer = $content["answer"];
+        $question->save();
+
+        return $content;
     }
 }

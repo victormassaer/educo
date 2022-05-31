@@ -29,4 +29,8 @@ class Element extends Model
     {
         return $this->hasOne(Video::class);
     }
+    public function task()
+    {
+        return $this->hasOne(Task::class);
+    }
 }

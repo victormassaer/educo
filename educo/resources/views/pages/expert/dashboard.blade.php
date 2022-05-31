@@ -16,7 +16,6 @@
                 </a>
             </div>
             <div class="grid gap-4 grid-cols-4">
-
                 @if (count($courses) === 0)
                     <p>No courses yet</p>
                 @endif
