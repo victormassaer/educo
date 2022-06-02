@@ -6,11 +6,6 @@
             </a>
         </x-slot>
 
-        <div>
-            <a href="{{route('login')}}">login as client</a>
-            <a href="#">register your company</a>
-        </div>
-
         <!-- Session Status -->
         <x-auth-session-status class="mb-4" :status="session('status')" />
 

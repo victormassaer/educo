@@ -15,7 +15,6 @@
                 <div class="justify-self-start">
                     <div><span class="font-bold">email: </span>{{ $user->email }}</div>
                     <div><span class="font-bold">company: </span>{{$company->name}}</div>
-                    <div><span class="font-bold">profile: </span>{{$profile->title}}</div>
                     <div><span class="font-bold">gender: </span>{{ $user->gender }}</div>
                     <div><span class="font-bold">age: </span>{{ $user->age }}</div>
                     <div><span class="font-bold">country: </span>{{ $user->country }}</div>
@@ -73,7 +72,9 @@
                 @endforeach
                 @endif
             @endforeach
-            <a href="{{route('admin.userDetail.allActivity', $user->id)}}" class="px-3 py-2 bg-tertiary rounded text-white font-bold">View all</a>
+            @if(count($chapters) != 0)
+                <a href="{{route('admin.userDetail.allActivity', $user->id)}}" class="px-3 py-2 bg-tertiary rounded text-white font-bold">View all</a>
+            @endif
         </div>
 
         <div class="my-5 mt-10">

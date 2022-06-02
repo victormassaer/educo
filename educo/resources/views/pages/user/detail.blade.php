@@ -9,12 +9,12 @@
             <div class="py-5 grid grid-cols-2 grid-rows-1 bg-white justify-items-center rounded">
                 <div class="mt-50 text-center">
                     <img src="https://placekitten.com/150/150" class="rounded" alt="profile picture">
-                    <h2 class="text-xl">{{ Auth::user()->name}}</h2>
+                    <h2 class="text-xl font-bold text-primary">{{ Auth::user()->name}}</h2>
+                    <h3>{{ Auth::user()->profile->title}}</h3>
                 </div>
                 <div class="justify-self-start">
                     <div><span class="font-bold">email: </span>{{ Auth::user()->email }}</div>
-                    <div><span class="font-bold">company: </span>{{Auth::user()->name}}</div>
-                    <div><span class="font-bold">profile: </span>{{Auth::user()->title}}</div>
+                    <div><span class="font-bold">company: </span>{{ $company->name }}</div>
                     <div><span class="font-bold">gender: </span>{{ Auth::user()->gender }}</div>
                     <div><span class="font-bold">age: </span>{{ Auth::user()->age }}</div>
                     <div><span class="font-bold">country: </span>{{ Auth::user()->country }}</div>

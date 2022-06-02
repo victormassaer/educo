@@ -43,7 +43,11 @@ class UserCrudController extends CrudController {
         foreach($profiles as $pr){
             $profileSelect[] = $pr->title;
         }
-        dd($profileSelect);
+
+        $array = $profileSelect;
+        array_unshift($array,"");
+        unset($array[0]);
+
         //$this->crud->setValidation(TagRequest::class);
 
         // TODO: remove setFromDb() and manually define Fields
@@ -61,13 +65,14 @@ class UserCrudController extends CrudController {
         $this->crud->addField([
             'name' => 'profile_id',
             'type' => 'select_from_array',
-            'options' => $profileSelect,
+            'options' => $array,
             'label' => 'Profile'
         ]);
         $this->crud->addField([
             'name' => 'password',
             'type' => 'password',
-            'label' => 'Password'
+            'label' => 'Password',
+            'value' => backpack_user()->password
         ]);
         $this->crud->addField([
             'name' => 'company_id',

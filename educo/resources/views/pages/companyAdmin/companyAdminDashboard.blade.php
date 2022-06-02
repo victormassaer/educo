@@ -25,7 +25,7 @@
 
         <div class="mb-5">
             <h2 class="font-bold text-2xl text-primary-blue">Inactive Employees</h2>
-            <div class="flex">
+            <div class="flex flex-row flex-wrap">
                 @foreach($inactiveEmployees as $employee)
                     <a href="{{route('admin.userDetail.index', $employee->id)}}">
                         <div class="bg-white inline-block mr-4 rounded p-4 text-center my-5 w-56 h-60 shadow-md">
@@ -34,8 +34,12 @@
                             <p>{{$employee->profile->title}}</p>
                             <p class="font-bold mt-1">Last activity:</p>
                             @php
+                            if(App\Models\Participation::where('user_id', $employee->id)->first()){
                                 $participation = App\Models\Participation::where('user_id', $employee->id)->orderBy('updated_at', 'DESC')->first();
                                 echo('<p>' . $participation->updated_at->isoFormat('D/M') . '</p>');
+                            }else{
+                                echo('<p class="italic">No activity yet...</p>');
+                            }
                             @endphp
                         </div>
                     </a>

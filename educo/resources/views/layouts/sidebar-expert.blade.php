@@ -5,8 +5,9 @@
                 <x-svg.navicons.logo-word />
             </div>
             <div class="flex gap-4 flex-col items-center justify-center mx-4 m-5 my-12">
-                <img class="rounded-full h-16 w-16 object-cover" src="https://picsum.photos/id/237/200/300"
-                    alt="user-image">
+                <a href="{{route('user.detail.index')}}">
+                    <img class="rounded-full h-16 w-16 object-cover" src="https://picsum.photos/id/237/200/300" alt="user-image">
+                </a>
             </div>
             <div class="flex-auto overflow-hidden">
                 <ul class="mx-5">
