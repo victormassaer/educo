@@ -13,9 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('profile_has_skill', function (Blueprint $table) {
-            $table->timestamps();
-        });
+        Schema::rename('profile_has_skill', 'profile_has_skills');
     }
 
     /**
@@ -25,8 +23,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('profile_has_skills', function (Blueprint $table) {
-            //
-        });
+        //
     }
 };
