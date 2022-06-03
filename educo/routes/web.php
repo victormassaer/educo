@@ -66,6 +66,8 @@ Route::group([
         Route::get('/companyAdmin/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard.index');
         Route::get('/companyAdmin/userDetail/{id}/index', [AdminUserDetailPageController::class, 'index'])->name('admin.userDetail.index');
         Route::get('/companyAdmin/userDetail/{id}/allActivity', [AdminUserDetailPageController::class, 'allActivity'])->name('admin.userDetail.allActivity');
+        Route::get('/companyAdmin/userDetail/{id}/allMandatoryCourses', [AdminUserDetailPageController::class, 'allMandatoryCourses'])->name('admin.userDetail.allMandatoryCourses');
+        Route::get('/companyAdmin/userDetail/{id}/allPersonalCourses', [AdminUserDetailPageController::class, 'allPersonalCourses'])->name('admin.userDetail.allPersonalCourses');
         Route::get('/companyAdmin/profiles', [AdminRolesDashboardController::class, 'index'])->name('admin.profiles.index');
         Route::get('/companyAdmin/profiles/{id}/detail', [AdminRolesDashboardController::class, 'detail'])->name('admin.profiles.detail');
         Route::get('/companyAdmin/employees/index', [AdminAllEmployeesDashboardController::class, 'index'])->name('admin.employees.index');

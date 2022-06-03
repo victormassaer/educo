@@ -3,6 +3,7 @@
         <h1>{{$course->title}}</h1>
         <h3><span>Created by: </span>{{$expert->name}}</h3>
         <div>
+            <p>{{$course->description}}</p>
             <h2>Course structure</h2>
             <div>
                 @foreach($chapters as $chapter)
