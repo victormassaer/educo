@@ -12,9 +12,11 @@
                     @endforeach
                 @endforeach
             </div>
+            @if(!$participation)
             <a href="{{route('course.participation', $course->id)}}">
                 start this course
             </a>
+            @endif
         </div>
     </section>
 </x-app-layout>

@@ -17,11 +17,18 @@ class CourseController extends Controller
         $course = Course::where('id', $id)->first();
         $expert = User::where('id', $course->instructor_id)->first();
 
+        $participation = Participation::where([
+            ['course_id', '=', $id],
+            ['user_id', '=', Auth::user()->id],
+        ])->first();
+
         $chapters = Chapter::where('course_id', $id)->get();
+        $skills = //HIER DE SKILLS VAN DE COURSE UIT MODEL COURSEHASSKILL EN DB TABLE
         $data = [
             'course' => $course,
             'expert' => $expert,
             'chapters' => $chapters,
+            'participation' => $participation
         ];
         return view('pages.course.detail', $data);
     }
