@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminAllEmployeesDashboardController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\AdminRolesDashboardController;
 use App\Http\Controllers\AdminUserDetailPageController;
+use App\Http\Controllers\CourseController;
 use App\Http\Controllers\ExpertDashboardController;
 use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\UserDetailController;
@@ -66,6 +67,10 @@ Route::group([
         Route::get('/companyAdmin/profiles', [AdminRolesDashboardController::class, 'index'])->name('admin.profiles.index');
         Route::get('/companyAdmin/profiles/{id}/detail', [AdminRolesDashboardController::class, 'detail'])->name('admin.profiles.detail');
         Route::get('/companyAdmin/employees/index', [AdminAllEmployeesDashboardController::class, 'index'])->name('admin.employees.index');
+
+        //COURSES
+        Route::get('/course/detail/{id}', [CourseController::class, 'detail'])->name('course.detail');
+        Route::get('/course/participate/{id}', [CourseController::class, 'participate'])->name('course.participation');
         }
 );
 
