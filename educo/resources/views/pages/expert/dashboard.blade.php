@@ -31,7 +31,8 @@
                                 Stats
                             </button>
                             <button
-                                class="whitespace-nowrap flex-1 py-2 px-4 border-2 rounded-md border-secundary text-secundary cursor-pointer">
+                                onclick="window.location='{{ url('expert/edit-course/?course_id=' . $course->id . '') }}'"
+                                class="whitespace-nowrap flex-1 py-2 px-4 border-2 rounded-md border-secondary text-secondary cursor-pointer">
                                 Edit course
                             </button>
                         </div>

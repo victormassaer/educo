@@ -5,8 +5,8 @@
         </h2>
     </x-slot>
     @php
-        $course_id = $course->id;
-        $section_id = $chapter->id;
+        $course_id = request()->course_id;
+        $section_id = request()->section_id;
         $step = request()->step;
         if (!isset($step)) {
             $step = '1';
@@ -14,25 +14,20 @@
         $element_id = request()->element_id;
     @endphp
     <div>
-        <h1 class="text-5xl font-bold text-primary mb-6">New Element</h1>
+        <h1 class="text-5xl font-bold text-primary mb-6">Edit Element</h1>
         @if ($step === '1')
             <h3 class="text-3xl font-bold text-primary mb-6">Details</h3>
-            <form action="/expert/edit-course/edit-section/new-element/create" method="POST"
+            <form action="/expert/course/section/element/update/{{ $element->id }}" method="POST"
                 class="flex flex-col max-w-screen-sm gap-2 items-start">
-
                 @csrf
                 <label class="mt-4" for="title">Title</label>
                 <input type="hidden" name="course_id" id="course_id" value={{ $course_id }}>
                 <input type="hidden" name="chapter_id" id="chapter_id" value={{ $section_id }}>
-                <input class="rounded-md w-3/5" type="text" name="title" id="title" placeholder="title">
+                <input class="rounded-md w-3/5" type="text" name="title" value={{ $element->title }} id="title"
+                    placeholder="title">
                 <label class="mt-4" for="description">Description</label>
                 <textarea class="rounded-md max-h-96" name="description" id="description" cols="70" rows="10"
-                    placeholder="description"></textarea>
-                <label class="mt-4" for="">Type</label>
-                <select class="rounded-md w-3/5" name="type" id="type">
-                    <option value="video">Video</option>
-                    <option value="task">Task</option>
-                </select>
+                    placeholder="description">{{ $element->description }}</textarea>
                 <button type="submit"
                     class="mt-4 whitespace-nowrap py-2 px-4 border-2 rounded-md border-tertiary text-tertiary cursor-pointer">
                     Next step
@@ -41,24 +36,37 @@
         @elseif($step === '2')
             @php
                 $type = null;
-                if (request()->video_id) {
+                $video_id = request()->video_id;
+                $element_id = request()->element_id;
+                if (isset($video_id)) {
                     $type = 'video';
                 } elseif (request()->task_id) {
                     $type = 'task';
                 }
             @endphp
             @if ($type === 'video')
-                <form action="/expert/new-course/new-section/new-element/video/create" enctype="multipart/form-data"
-                    method="POST" class="flex flex-col max-w-screen-sm gap-2 items-start">
+                <iframe src={{ $video_element['body']['player_embed_url'] }} class="max-w-4xl h-96" frameborder="0"
+                    webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+                <form action="/expert/course/section/element/video/update/{{ $video_id }}"
+                    enctype="multipart/form-data" method="POST" class="flex flex-col max-w-screen-sm gap-2 items-start">
                     @csrf
-                    <label class="mt-4" for="video">Upload video</label>
+
+                    <label class="mt-4" for="video">Upload new video</label>
+                    <input type="hidden" id="course_id" name="course_id" value={{ $course_id }}>
                     <input type="hidden" id="element_id" name="element_id" value={{ $element_id }}>
+                    <input type="hidden" id="section_id" name="section_id" value={{ $section_id }}>
                     <input type="file" id="video" name="video" accept=".mp4">
                     <button type="submit"
                         class="mt-4 whitespace-nowrap py-2 px-4 border-2 rounded-md border-tertiary text-tertiary cursor-pointer">
                         Upload
                     </button>
                 </form>
+                <button
+                    onclick="window.location='{{ url('expert/edit-course/edit-section/edit-element?course_id=' . $course_id . '&section_id=' . $section_id . '&element_id=' . $element_id . '&video_id=' . $video_id . '&step=3') }}'"
+                    class="mt-4 whitespace-nowrap py-2 px-4 border-2 rounded-md border-tertiary text-tertiary cursor-pointer">
+                    Next Step
+                </button>
+                <script src="https://player.vimeo.com/api/player.js"></script>
             @elseif($type === 'task')
                 <h3 class="text-3xl font-bold text-primary mb-6">Task</h3>
                 <h3 class="text-3xl font-bold text-primary mb-6">Questions</h3>
@@ -169,7 +177,7 @@
                 }
 
                 const csrf = document.querySelector('meta[name="csrf-token"]').content;
-                const url = 'http://localhost/expert/edit-course/edit-section/new-element/task/create';
+                const url = 'http://localhost/expert/new-course/new-section/new-element/task/create';
 
                 const response = await fetch(url, {
                     method: "POST",
