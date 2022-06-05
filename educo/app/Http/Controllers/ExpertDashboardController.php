@@ -46,10 +46,25 @@ class ExpertDashboardController extends Controller
         $course_id = $request->course_id;
         $course = null;
         if (isset($course_id)) {
-            $course = Course::with('chapters', 'chapters.elements')->find($course_id);
+            $course = Course::with(array('chapters' => function ($query) {
+                $query->orderBy('order', 'ASC');
+            }, 'chapters.elements'))->find($course_id);
         }
         $data["course"] = $course;
         return view('pages.expert.edit-course', $data);
+    }
+
+    public function editCourseOrder(Request $request)
+    {
+        $bodyContent = $request->getContent();
+        $content = json_decode($bodyContent, true);
+        $order = $content['order'];
+        foreach ($order as $key => $item) {
+            $chapter = Chapter::find($item);
+            $chapter->order = $key;
+            $chapter->save();
+        }
+        return $content;
     }
 
     public function newCourseSection(Request $request)
@@ -57,7 +72,7 @@ class ExpertDashboardController extends Controller
         $course_id = $request->course_id;
         $course = null;
         if (isset($course_id)) {
-            $course = Course::find($course_id);
+            $course = Course::with('chapters')->find($course_id);
         }
         $section_id = $request->section_id;
         $chapter = null;
@@ -65,6 +80,7 @@ class ExpertDashboardController extends Controller
             $chapter = new Chapter();
             $chapter->title = "";
             $chapter->course_id = $course_id;
+            $chapter->order = count($course->chapters);
             $chapter->save();
         } else {
             $chapter = Chapter::with('elements', 'elements.video')->find($section_id);

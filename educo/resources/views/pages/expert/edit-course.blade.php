@@ -42,36 +42,105 @@
         @elseif($step === '2')
             <div class="flex justify-between items-center mb-4">
                 <h3 class="text-3xl font-bold text-primary mb-6">Sections</h3>
-                <a href='edit-course/new-section?course_id={{ $course_id }}'
-                    class="p-2 bg-primary rounded-2xl w-12 h-12 cursor-pointer">
-                    <x-svg.icons.plus class="stroke-white w-8 h-8" />
-                </a>
+                <div class="flex gap-2">
+                    <div id="changeOrder" class="p-2 bg-primary rounded-2xl w-12 h-12 cursor-pointer">
+                        <x-svg.icons.order class="stroke-white w-8 h-8" />
+                    </div>
+                    <div id="saveOrder"
+                        class="py-2 px-4 bg-primary text-white rounded-2xl h-12 cursor-pointer flex justify-center items-center hidden">
+                        Save
+                    </div>
+                    <a href='edit-course/new-section?course_id={{ $course_id }}'
+                        class="p-2 bg-primary rounded-2xl w-12 h-12 cursor-pointer">
+                        <x-svg.icons.plus class="stroke-white w-8 h-8" />
+                    </a>
+                </div>
             </div>
             @if (count($course->chapters) === 0)
                 <p>No sections yet</p>
             @endif
-            @foreach ($course->chapters as $chapter)
-                <div class="mb-4 bg-white rounded-md p-4">
-                    <div class="flex justify-between">
-                        <h4 class="text-xl font-bold mb-2">Section {{ $loop->index + 1 }}: {{ $chapter->title }}
-                        </h4>
-                        <x-svg.icons.edit
-                            onclick="window.location='{{ url('expert/edit-course/edit-section/?course_id=' . $course->id . '&section_id=') . $chapter->id }}'"
-                            class="stroke-primary w-8 h-8 cursor-pointer" />
-                    </div>
-                    <div>
-                        @foreach ($chapter->elements as $element)
-                            <div class="bg-gray-200 p-2 rounded-md m-2">
-                                <h4 class="text-xl font-semibold">{{ $element->type }}: {{ $element->title }}</h1>
+            <div id="listwithHandle" class="list-group">
+                @foreach ($course->chapters as $chapter)
+                    <div class="mb-4 bg-white rounded-md p-4 list-group-item" id="{{ $chapter->id }}">
+                        <div class="flex justify-between">
+                            <div class="flex gap-4">
+                                <x-svg.icons.grab class="stroke-primary w-8 h-8 cursor-move move-handle hidden" />
+                                <h4 class="text-xl font-bold mb-2">
+                                    {{ $chapter->title }}
+                                </h4>
                             </div>
-                        @endforeach
+                            <x-svg.icons.edit
+                                onclick="window.location='{{ url('expert/edit-course/edit-section/?course_id=' . $course->id . '&section_id=' . $chapter->id) }}'"
+                                class="stroke-primary w-8 h-8 cursor-pointer" />
+                        </div>
+                        <div>
+                            @foreach ($chapter->elements as $element)
+                                <div class="bg-gray-200 p-2 rounded-md m-2">
+                                    <h4 class="text-xl font-semibold">{{ $element->type }}: {{ $element->title }}
+                                    </h4>
+                                </div>
+                            @endforeach
+                        </div>
                     </div>
-                </div>
-            @endforeach
+                @endforeach
+            </div>
             <button onclick="window.location='{{ url('expert/dashboard') }}'"
                 class="mt-4 whitespace-nowrap py-2 px-4 border-2 rounded-md border-tertiary text-tertiary cursor-pointer">
                 Save
             </button>
+            <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+            <script>
+                const changeOrderButton = document.querySelector("#changeOrder");
+                const saveOrderButton = document.querySelector("#saveOrder");
+                const listWithHandle = document.querySelector("#listwithHandle");
+
+                changeOrderButton.addEventListener("click", () => {
+                    changeOrderButton.classList.add("hidden");
+                    saveOrderButton.classList.remove("hidden");
+                    document.querySelectorAll(".move-handle").forEach((handle) => handle.classList.remove("hidden"));
+                });
+
+                saveOrderButton.addEventListener("click", async () => {
+                    changeOrderButton.classList.remove("hidden");
+                    saveOrderButton.classList.add("hidden");
+                    document.querySelectorAll(".move-handle").forEach((handle) => handle.classList.add("hidden"));
+
+                    const order = localStorage.getItem("order").split(",");
+                    const csrf = document.querySelector('meta[name="csrf-token"]').content;
+                    const url = `http://localhost/expert/edit-course/order/{{ $course_id }}`;
+                    const response = await fetch(url, {
+                        method: "POST",
+                        mode: 'same-origin',
+                        headers: {
+                            'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content,
+                        },
+                        body: JSON.stringify({
+                            order
+                        })
+                    })
+
+                    console.log(response)
+
+                });
+
+                Sortable.create(listWithHandle, {
+                    handle: '.move-handle',
+                    animation: 150,
+                    dataIdAttr: 'id',
+                    onEnd: (evt) => {},
+                    store: {
+                        /**
+                         * Save the order of elements. Called onEnd (when the item is dropped).
+                         * @param {Sortable}  sortable
+                         */
+                        set: function(sortable) {
+                            var order = sortable.toArray();
+                            console.log(order);
+                            localStorage.setItem("order", order);
+                        }
+                    }
+                });
+            </script>
         @endif
     </div>
 </x-app-layout>
