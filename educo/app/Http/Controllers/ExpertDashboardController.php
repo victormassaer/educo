@@ -148,7 +148,9 @@ class ExpertDashboardController extends Controller
             $course = $chapter->course;
         }
         if (isset($task_id)) {
-            $task = Task::with('element', 'questions')->find($task_id);
+            $task = Task::with(array('element', 'questions' => function ($query) {
+                $query->orderBy('order', 'ASC');
+            }))->find($task_id);
             $element = $task->element;
         }
         if (isset($video_id)) {
@@ -186,7 +188,9 @@ class ExpertDashboardController extends Controller
             $chapter = Chapter::find($section_id);
         }
         if (isset($task_id)) {
-            $task = Task::with('element', 'questions')->find($task_id);
+            $task = Task::with(array('element', 'questions' => function ($query) {
+                $query->orderBy('order', 'ASC');
+            }))->find($task_id);
             $data['task'] = $task;
         }
         if (isset($video_id)) {
@@ -289,7 +293,7 @@ class ExpertDashboardController extends Controller
             $task->save();
             $element->task_id = $task->id;
             $element->save();
-            return redirect()->route('expert.dashboard.new-course-element', ['course_id' => $course_id, 'section_id' => $chapter_id, 'element_id' => $element->id, 'task_id' => $task->id, 'step' => '2']);
+            return redirect()->route('expert.dashboard.edit-course-element', ['course_id' => $course_id, 'section_id' => $chapter_id, 'element_id' => $element->id, 'task_id' => $task->id, 'step' => '2']);
         };
     }
     public function updateCourseElement(Request $request, $element_id)
@@ -346,13 +350,28 @@ class ExpertDashboardController extends Controller
 
         $bodyContent = $request->getContent();
         $content = json_decode($bodyContent, true);
+        $task = Task::with('questions')->find($content['task_id']);
         $question = new Question();
         $question->task_id = $content['task_id'];
+        $question->order = count($task->questions);
         $question->question = $content['question'];
         $question->options = serialize($content['values']);
         $question->answer = $content["answer"];
         $question->save();
 
+        return $content;
+    }
+
+    public function updateTaskOrder(Request $request)
+    {
+        $bodyContent = $request->getContent();
+        $content = json_decode($bodyContent, true);
+        $order = $content['order'];
+        foreach ($order as $key => $item) {
+            $chapter = Question::find($item);
+            $chapter->order = $key;
+            $chapter->save();
+        }
         return $content;
     }
 }

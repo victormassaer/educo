@@ -65,6 +65,7 @@ Route::group(
             Route::post('/expert/new-course/new-section/new-element/video/create', [ExpertDashboardController::class, 'createNewElementVideo'])->name('expert.dashboard.create-new-element-video');
             Route::post('/expert/course/section/element/video/update/{video_id}', [ExpertDashboardController::class, 'updateElementVideo'])->name('expert.dashboard.update-element-video');
             Route::post('/expert/edit-course/edit-section/new-element/task/create', [ExpertDashboardController::class, 'createNewElementTask'])->name('expert.dashboard.create-new-element-task');
+            Route::post('/expert/course/section/element/task/order/update/{task_id}', [ExpertDashboardController::class, 'updateTaskOrder'])->name('expert.dashboard.update-task=order');
 
             //EXPERT DASHBOARD
             Route::get('/expert/dashboard', [ExpertDashboardController::class, 'index'])->name('expert.dashboard.index');
