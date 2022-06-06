@@ -9,12 +9,12 @@
             <div class="py-5 grid grid-cols-2 grid-rows-1 bg-white justify-items-center rounded">
                 <div class="mt-50 text-center">
                     <img src="https://placekitten.com/150/150" class="rounded" alt="profile picture">
-                    <h2 class="text-xl">{{ Auth::user()->name}}</h2>
+                    <h2 class="text-xl font-bold text-primary">{{ Auth::user()->name}}</h2>
+                    <h3>{{ Auth::user()->profile->title}}</h3>
                 </div>
                 <div class="justify-self-start">
                     <div><span class="font-bold">email: </span>{{ Auth::user()->email }}</div>
-                    <div><span class="font-bold">company: </span>{{Auth::user()->name}}</div>
-                    <div><span class="font-bold">profile: </span>{{Auth::user()->title}}</div>
+                    <div><span class="font-bold">company: </span>{{ $company->name }}</div>
                     <div><span class="font-bold">gender: </span>{{ Auth::user()->gender }}</div>
                     <div><span class="font-bold">age: </span>{{ Auth::user()->age }}</div>
                     <div><span class="font-bold">country: </span>{{ Auth::user()->country }}</div>
@@ -26,7 +26,8 @@
                 @if(count($activeCourses) === 0)
                     <div>Nothing to see here...</div>
                 @endif
-                @foreach($activeCourses as $course)
+                @foreach($activeCourses as $key => $course)
+                    @if($key <= 1)
                     <div class="flex flex-cols bg-white rounded mb-4 p-4">
                         <h3 class="mr-4"><span class="font-bold">Course: </span>{{$course->title}}</h3>
                         <p class="mr-4"><span class="font-bold">Chapters: </span>{{$course->number_of_chapters}}</p>
@@ -41,6 +42,7 @@
                             }
                         @endphp
                     </div>
+                    @endif
                 @endforeach
             </div>
         </div>
@@ -57,21 +59,23 @@
                 <p class="font-bold italic text-xl">Nothing to see here...</p>
             @endif
             @foreach($chapters as $key => $chapter)
+                @if($key <= 3)
                 @foreach($chapter as $c)
                     <div class="bg-white my-2 rounded p-4 flex w-8/12">
                         @php
                             $course = App\Models\Course::where('id', $c->course->id)->first();
+                            $participation = App\models\Participation::where([['user_id', '=', auth()->user()->id],['course_id', '=', $c->course_id]])->first();
+                            echo('<p class="mr-4 font-bold text-xl">'.  $participation->updated_at->isoFormat('D/M') . ' |</p>');
                             echo('<p class="mr-4">' . '<span class="font-bold">Course: </span>' .  $course->title . '</p>');
                         @endphp
                         <p class="mr-4"><span class="font-bold">Title:</span> {{$c->title}}</p>
 
                         @php
-                            $participation = App\models\Participation::where([['user_id', '=', auth()->user()->id],['course_id', '=', $c->course_id]])->first();
-                            $course = App\Models\Course::where('id', $c->course->id)->first();
                             echo('<p class="mr-4">' . '<span class="font-bold">Chapter: </span>' .  $participation->total_completed . '/' . $course->number_of_chapters. '</p>');
                         @endphp
                     </div>
                 @endforeach
+                @endif
             @endforeach
         </div>
 

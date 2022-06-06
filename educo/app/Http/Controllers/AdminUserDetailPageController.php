@@ -70,4 +70,95 @@ class AdminUserDetailPageController extends Controller
         ];
         return view('pages.companyAdmin.userDetailPage', $data);
     }
+
+    public function allActivity($id){
+        $user = User::where('id', $id)->first();
+        $company = Company::where('id', $user->company_id)->firstOrFail();
+        $profile = Profile::where('id', $user->profile_id)->firstOrFail();
+
+        $participations = $user->participation;
+
+        $courses = [];
+        $chapters = [];
+        foreach($participations as $participation){
+            $course = Course::where('id', $participation->course_id)->first();
+            $courses[] = $course;
+            $chapters[] = $course->chapters;
+        }
+
+        foreach($participations as $participation){
+            $course = Course::where('id', $participation->course_id)->first();
+            $totalChapters = $course->number_of_chapters;
+
+        }
+
+        $data = [
+            'company' => $company,
+            'profile' => $profile,
+            'chapters' => $chapters,
+            'courses' => $courses,
+            'user' => $user,
+        ];
+
+        return view('pages.companyAdmin.allUserActivity', $data);
+    }
+
+    public function allMandatoryCourses($id){
+        $user = User::where('id', $id)->first();
+
+        $participations = $user->participation;
+        $mandatoryParticipations = Participation::where([
+            ['user_id', '=', $user->id],
+            ['mandatory', '=', 1]
+        ])->get();
+
+        $courses = [];
+        $mandatoryCourses = [];
+        foreach($participations as $participation){
+            $course = Course::where('id', $participation->course_id)->first();
+            $courses[] = $course;
+            $chapters[] = $course->chapters;
+        }
+
+        foreach($mandatoryParticipations as $participation){
+            $course = Course::where('id', $participation->course_id)->first();
+            $mandatoryCourses[] = $course;
+        }
+
+        $data = [
+            'courses' => $courses,
+            'mandatoryCourses' => $mandatoryCourses,
+            'user' => $user,
+        ];
+        return view('pages.companyAdmin.allMandatoryCourses', $data);
+    }
+
+    public function allPersonalCourses($id){
+        $user = User::where('id', $id)->first();
+
+        $participations = $user->participation;
+        $personalParticipations = Participation::where([
+            ['user_id', '=', $user->id],
+            ['mandatory', '=', 0]
+        ])->get();
+
+        $courses = [];
+        $personalCourses = [];
+        foreach($participations as $participation){
+            $course = Course::where('id', $participation->course_id)->first();
+            $courses[] = $course;
+            $chapters[] = $course->chapters;
+        }
+
+        foreach($personalParticipations as $participation){
+            $course = Course::where('id', $participation->course_id)->first();
+            $personalCourses[] = $course;
+        }
+
+        $data = [
+            'personalCourses' => $personalCourses,
+            'user' => $user,
+        ];
+        return view('pages.companyAdmin.allPersonalCourses', $data);
+    }
 }

@@ -72,15 +72,22 @@ class UserDetailController extends Controller
     }
 
     public function editInfoIndex(){
-        return view('pages.user.editInfo');
+    $company = Company::where('id', Auth::user()->company_id)->first();
+        $data = [
+            'company' => $company,
+        ];
+        return view('pages.user.editInfo', $data);
     }
 
     public function editInfoStore(Request $request){
         $user = Auth::user();
         $user->name = $request->name;
         $user->email = $request->email;
+        $user->age = $request->age;
+        $user->country = $request->country;
+        $user->degree = $request->degree;
         $user->update();
-        return view('pages.user.detail');
+        return $this->index();
     }
 
     public function completeInfoIndex(){

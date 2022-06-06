@@ -48,7 +48,9 @@ class ExpertDashboardController extends Controller
         if (isset($course_id)) {
             $course = Course::with(array('chapters' => function ($query) {
                 $query->orderBy('order', 'ASC');
-            }, 'chapters.elements'))->find($course_id);
+            }, 'chapters.elements' => function ($query) {
+                $query->orderBy('order', 'ASC');
+            }))->find($course_id);
         }
         $data["course"] = $course;
         return view('pages.expert.edit-course', $data);
@@ -85,7 +87,11 @@ class ExpertDashboardController extends Controller
         $course_id = $request->course_id;
         $course = null;
         if (isset($course_id)) {
-            $course = Course::with('chapters')->find($course_id);
+            $course = Course::with(array(
+                'chapters' => function ($query) {
+                    $query->orderBy('order', 'ASC');
+                }
+            ))->find($course_id);
         }
         $section_id = $request->section_id;
         $chapter = null;
@@ -96,7 +102,11 @@ class ExpertDashboardController extends Controller
             $chapter->order = count($course->chapters);
             $chapter->save();
         } else {
-            $chapter = Chapter::with('elements', 'elements.video')->find($section_id);
+            $chapter = Chapter::with(array(
+                'elements' => function ($query) {
+                    $query->orderBy('order', 'ASC');
+                }, 'elements.video'
+            ))->find($section_id);
         }
         $data["course"] = $course;
         $data['chapter'] = $chapter;
@@ -110,7 +120,11 @@ class ExpertDashboardController extends Controller
             $course = Course::find($course_id);
         }
         $section_id = $request->section_id;
-        $chapter = Chapter::with('elements', 'elements.video')->find($section_id);
+        $chapter = Chapter::with(array(
+            'elements' => function ($query) {
+                $query->orderBy('order', 'ASC');
+            }, 'elements.video'
+        ))->find($section_id);
         $data['chapter'] = $chapter;
         $data["course"] = $course;
         $data['edit'] = true;

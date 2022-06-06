@@ -19,6 +19,12 @@ module.exports = {
                 tertiary: "#69B3DB",
             },
         },
+        maxWidth: {
+            288: "288px",
+        },
+        maxHeight: {
+            177: "177px",
+        },
     },
 
     plugins: [require("@tailwindcss/forms")],
