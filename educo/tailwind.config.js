@@ -14,17 +14,17 @@ module.exports = {
             },
             colors: {
                 primary: "#325299",
-               "primary-blue" : "#325299",
+                "primary-blue": "#325299",
                 secondary: "#FF8979",
                 tertiary: "#69B3DB",
             },
         },
         maxWidth: {
-            '288': '288px',
+            288: "288px",
         },
         maxHeight: {
-            '177': '177px',
-        }
+            177: "177px",
+        },
     },
 
     plugins: [require("@tailwindcss/forms")],

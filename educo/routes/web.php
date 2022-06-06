@@ -32,9 +32,11 @@ Route::get('/linkstorage', function () {
 });
 
 
-Route::group([
-    'middleware' => ['auth']
-], function(){
+Route::group(
+    [
+        'middleware' => ['auth']
+    ],
+    function () {
         //USER DASHBOARD
         Route::get('/dashboard', [UserDashboardController::class, 'getAll'])->name('dashboard');
         Route::get('/dashboard/active/{id}', [UserDashboardController::class, 'getActive'])->name('dashboard.active');
@@ -43,32 +45,41 @@ Route::group([
 
         Route::group([
             'middleware' => ['checkExpert']
-        ], function(){
+        ], function () {
             //EXPERT DASHBOARD
             Route::get('/expert/dashboard', [ExpertDashboardController::class, 'index'])->name('expert.dashboard.index');
             Route::get('/expert/new-course', [ExpertDashboardController::class, 'newCourse'])->name('expert.dashboard.new-course');
             Route::post('/expert/new-course/create', [ExpertDashboardController::class, 'createNewCourse'])->name('expert.dashboard.create-new-course');
-            Route::get('/expert/new-course/new-section', [ExpertDashboardController::class, 'newCourseSection'])->name('expert.dashboard.new-course-section');
-            Route::post('/expert/new-course/new-section/create', [ExpertDashboardController::class, 'createNewCourseSection'])->name('expert.dashboard.create-new-course-section');
-            Route::post('/expert/new-course/new-section/update/{section_id}', [ExpertDashboardController::class, 'updateNewCourseSection'])->name('expert.dashboard.update-new-course-section');
-            Route::get('/expert/new-course/new-section/new-element', [ExpertDashboardController::class, 'newCourseElement'])->name('expert.dashboard.new-course-element');
-            Route::post('/expert/new-course/new-section/new-element/create', [ExpertDashboardController::class, 'createNewCourseElement'])->name('expert.dashboard.create-new-course-element');
+            Route::get('/expert/edit-course', [ExpertDashboardController::class, 'editCourse'])->name('expert.dashboard.edit-course');
+            Route::post('/expert/course/order/update/{course_id}', [ExpertDashboardController::class, 'updateCourseOrder'])->name('expert.dashboard.update-course-order');
+            Route::post('/expert/course/update/{course_id}', [ExpertDashboardController::class, 'updateCourse'])->name('expert.dashboard.update-course');
+            Route::get('/expert/edit-course/new-section', [ExpertDashboardController::class, 'newCourseSection'])->name('expert.dashboard.new-course-section');
+            Route::post('/expert/edit-course/new-section/create', [ExpertDashboardController::class, 'createNewCourseSection'])->name('expert.dashboard.create-new-course-section');
+            Route::get('/expert/edit-course/edit-section', [ExpertDashboardController::class, 'editCourseSection'])->name('expert.dashboard.edit-course-section');
+            Route::post('/expert/course/section/update/{section_id}', [ExpertDashboardController::class, 'updateCourseSection'])->name('expert.dashboard.update-course-section');
+            Route::post('/expert/course/section/order/update/{section_id}', [ExpertDashboardController::class, 'updateCourseSectionOrder'])->name('expert.dashboard.update-course-section-order');
+            Route::get('/expert/edit-course/edit-section/new-element', [ExpertDashboardController::class, 'newCourseElement'])->name('expert.dashboard.new-course-element');
+            Route::get('/expert/edit-course/edit-section/edit-element', [ExpertDashboardController::class, 'editCourseElement'])->name('expert.dashboard.edit-course-element');
+            Route::post('/expert/edit-course/edit-section/new-element/create', [ExpertDashboardController::class, 'createNewCourseElement'])->name('expert.dashboard.create-new-course-element');
+            Route::post('/expert/course/section/element/update/{element_id}', [ExpertDashboardController::class, 'updateCourseElement'])->name('expert.dashboard.update-course-element');
             Route::post('/expert/new-course/new-section/new-element/video/create', [ExpertDashboardController::class, 'createNewElementVideo'])->name('expert.dashboard.create-new-element-video');
+            Route::post('/expert/course/section/element/video/update/{video_id}', [ExpertDashboardController::class, 'updateElementVideo'])->name('expert.dashboard.update-element-video');
+            Route::post('/expert/edit-course/edit-section/new-element/task/create', [ExpertDashboardController::class, 'createNewElementTask'])->name('expert.dashboard.create-new-element-task');
 
             //EXPERT DASHBOARD
             Route::get('/expert/dashboard', [ExpertDashboardController::class, 'index'])->name('expert.dashboard.index');
-            Route::get('/expert/detail/{id}',[ExpertDetailController::class, 'index'])->name('expert.detail.index');
+            Route::get('/expert/detail/{id}', [ExpertDetailController::class, 'index'])->name('expert.detail.index');
         });
 
         //USER DETAIL PAGE
-        Route::get('/user/detail',[UserDetailController::class, 'index'])->name('user.detail.index');
-        Route::get('/user/detail/edit',[UserDetailController::class, 'editInfoIndex'])->name('user.detail.edit.index');
-        Route::post('/user/detail/edit',[UserDetailController::class, 'editInfoStore'])->name('user.detail.edit.store');
-        Route::get('/user/detail/complete',[UserDetailController::class, 'completeInfoStore'])->name('user.detail.complete.index');
+        Route::get('/user/detail', [UserDetailController::class, 'index'])->name('user.detail.index');
+        Route::get('/user/detail/edit', [UserDetailController::class, 'editInfoIndex'])->name('user.detail.edit.index');
+        Route::post('/user/detail/edit', [UserDetailController::class, 'editInfoStore'])->name('user.detail.edit.store');
+        Route::get('/user/detail/complete', [UserDetailController::class, 'completeInfoStore'])->name('user.detail.complete.index');
 
         Route::group([
             'middleware' => ['checkRole']
-        ], function(){
+        ], function () {
             //ADMIN DASHBOARD
             Route::get('/companyAdmin/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard.index');
             Route::get('/companyAdmin/userDetail/{id}/index', [AdminUserDetailPageController::class, 'index'])->name('admin.userDetail.index');
@@ -84,7 +95,7 @@ Route::group([
         Route::get('/course/detail/{id}', [CourseController::class, 'detail'])->name('course.detail');
         Route::get('/course/participate/{id}', [CourseController::class, 'participate'])->name('course.participation');
         Route::get('/course/next/{elementId}/{chapterId}', [CourseController::class, 'nextElement'])->name('course.nextElement');
-        }
+    }
 );
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
