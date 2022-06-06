@@ -14,8 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('chapters', function (Blueprint $table) {
-            $table->dateTime('updated_at');
-            $table->dateTime('created_at');
+            $table->timestamps();
         });
     }
 
