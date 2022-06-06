@@ -26,15 +26,27 @@
 
             <div class="flex justify-between items-center mt-4 mb-4 w-full">
                 <h3 class="text-3xl font-bold text-primary mb-6">Content</h3>
-                <a href='/expert/edit-course/edit-section/new-element?course_id={{ $course_id }}&section_id={{ $section_id }}&edit=true'
-                    class="p-2 bg-primary rounded-2xl w-12 h-12 cursor-pointer">
-                    <x-svg.icons.plus class="stroke-white w-8 h-8" />
-                </a>
+                <div class="flex gap-2">
+                    <div id="changeOrder" class="p-2 bg-primary rounded-2xl w-12 h-12 cursor-pointer">
+                        <x-svg.icons.order class="stroke-white w-8 h-8" />
+                    </div>
+                    <div id="saveOrder"
+                        class="py-2 px-4 bg-primary text-white rounded-2xl h-12 cursor-pointer flex justify-center items-center hidden">
+                        Save
+                    </div>
+                    <a href='/expert/edit-course/edit-section/new-element?course_id={{ $course_id }}&section_id={{ $section_id }}&edit=true'
+                        class="p-2 bg-primary rounded-2xl w-12 h-12 cursor-pointer">
+                        <x-svg.icons.plus class="stroke-white w-8 h-8" />
+                    </a>
+                </div>
             </div>
-            <div class="flex flex-col gap-4">
+            <div class="flex flex-col gap-4 list-group" id="listwithHandle">
                 @foreach ($chapter->elements as $element)
-                    <div class="flex justify-between bg-white rounded-md p-6">
-                        <h4 class="text-xl font-semibold">{{ $element->type }}: {{ $element->title }}</h4>
+                    <div class="flex justify-between bg-white rounded-md p-6 list-group-item" id="{{ $element->id }}">
+                        <div class="flex gap-4">
+                            <x-svg.icons.grab class="stroke-primary w-8 h-8 cursor-move move-handle hidden" />
+                            <h4 class="text-xl font-semibold">{{ $element->type }}: {{ $element->title }}</h4>
+                        </div>
                         <x-svg.icons.edit
                             onclick="window.location='{{ url('expert/edit-course/edit-section/edit-element/?course_id=' . $course->id . '&section_id=' . $chapter->id . '&element_id=' . $element->id) }}'"
                             class="stroke-primary w-8 h-8 cursor-pointer" />
@@ -47,4 +59,57 @@
             </button>
         </form>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+    <script>
+        const changeOrderButton = document.querySelector("#changeOrder");
+        const saveOrderButton = document.querySelector("#saveOrder");
+        const listWithHandle = document.querySelector("#listwithHandle");
+
+        changeOrderButton.addEventListener("click", () => {
+            changeOrderButton.classList.add("hidden");
+            saveOrderButton.classList.remove("hidden");
+            document.querySelectorAll(".move-handle").forEach((handle) => handle.classList.remove("hidden"));
+        });
+
+        saveOrderButton.addEventListener("click", async () => {
+            changeOrderButton.classList.remove("hidden");
+            saveOrderButton.classList.add("hidden");
+            document.querySelectorAll(".move-handle").forEach((handle) => handle.classList.add("hidden"));
+
+            const order = localStorage.getItem("order-element").split(",");
+            const csrf = document.querySelector('meta[name="csrf-token"]').content;
+            const url = `http://localhost/expert/course/section/order/update/{{ $section_id }}`;
+            const response = await fetch(url, {
+                method: "POST",
+                mode: 'same-origin',
+                headers: {
+                    'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content,
+                },
+                body: JSON.stringify({
+                    order
+                })
+            })
+
+            console.log(response)
+
+        });
+
+        Sortable.create(listWithHandle, {
+            handle: '.move-handle',
+            animation: 150,
+            dataIdAttr: 'id',
+            onEnd: (evt) => {},
+            store: {
+                /**
+                 * Save the order of elements. Called onEnd (when the item is dropped).
+                 * @param {Sortable}  sortable
+                 */
+                set: function(sortable) {
+                    var order = sortable.toArray();
+                    console.log(order);
+                    localStorage.setItem("order-element", order);
+                }
+            }
+        });
+    </script>
 </x-app-layout>

@@ -54,13 +54,26 @@ class ExpertDashboardController extends Controller
         return view('pages.expert.edit-course', $data);
     }
 
-    public function editCourseOrder(Request $request)
+    public function updateCourseOrder(Request $request)
     {
         $bodyContent = $request->getContent();
         $content = json_decode($bodyContent, true);
         $order = $content['order'];
         foreach ($order as $key => $item) {
             $chapter = Chapter::find($item);
+            $chapter->order = $key;
+            $chapter->save();
+        }
+        return $content;
+    }
+
+    public function updateCourseSectionOrder(Request $request)
+    {
+        $bodyContent = $request->getContent();
+        $content = json_decode($bodyContent, true);
+        $order = $content['order'];
+        foreach ($order as $key => $item) {
+            $chapter = Element::find($item);
             $chapter->order = $key;
             $chapter->save();
         }
@@ -237,8 +250,10 @@ class ExpertDashboardController extends Controller
     {
         $course_id = $request->input('course_id');
         $chapter_id = $request->input('chapter_id');
+        $chapter = Chapter::with('elements')->find($chapter_id);
         $type = $request->input('type');
         $element = new Element();
+        $element->order = count($chapter->elements);
         $element->chapter_id = $chapter_id;
         $element->title = $request->input('title');
         $element->description = $request->input('description');

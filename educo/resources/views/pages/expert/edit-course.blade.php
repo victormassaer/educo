@@ -105,9 +105,9 @@
                     saveOrderButton.classList.add("hidden");
                     document.querySelectorAll(".move-handle").forEach((handle) => handle.classList.add("hidden"));
 
-                    const order = localStorage.getItem("order").split(",");
+                    const order = localStorage.getItem("order-section").split(",");
                     const csrf = document.querySelector('meta[name="csrf-token"]').content;
-                    const url = `http://localhost/expert/edit-course/order/{{ $course_id }}`;
+                    const url = `http://localhost/expert/course/order/update/{{ $course_id }}`;
                     const response = await fetch(url, {
                         method: "POST",
                         mode: 'same-origin',
@@ -136,7 +136,7 @@
                         set: function(sortable) {
                             var order = sortable.toArray();
                             console.log(order);
-                            localStorage.setItem("order", order);
+                            localStorage.setItem("order-section", order);
                         }
                     }
                 });

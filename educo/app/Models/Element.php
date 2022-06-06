@@ -15,7 +15,8 @@ class Element extends Model
         'description',
         'type',
         'task_id',
-        'video_id'
+        'video_id',
+        'order'
     ];
 
     public $timestamps = false;
