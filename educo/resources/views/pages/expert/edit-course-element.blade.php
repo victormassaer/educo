@@ -28,10 +28,17 @@
                 <label class="mt-4" for="description">Description</label>
                 <textarea class="rounded-md max-h-96" name="description" id="description" cols="70" rows="10"
                     placeholder="description">{{ $element->description }}</textarea>
-                <button type="submit"
-                    class="mt-4 whitespace-nowrap py-2 px-4 border-2 rounded-md border-tertiary text-tertiary cursor-pointer">
-                    Next step
-                </button>
+                <div class="flex gap-2">
+                    <button type="submit"
+                        class="mt-4 whitespace-nowrap py-2 px-4 border-2 rounded-md border-tertiary text-tertiary cursor-pointer">
+                        Next step
+                    </button>
+                    <button type="button"
+                        onclick="window.location='{{ url('expert/edit-course/edit-section?course_id=' . $course_id . '&section_id=' . $section_id) }}'"
+                        class="mt-4 whitespace-nowrap py-2 px-4 border-2 rounded-md border-secondary text-secondary cursor-pointer">
+                        Cancel
+                    </button>
+                </div>
             </form>
         @elseif($step === '2')
             @php
@@ -85,9 +92,24 @@
                     @if (count($task->questions) !== 0)
                         @foreach ($task->questions as $question)
                             <div class="bg-white rounded-md p-6 list-group-item" id="{{ $question->id }}">
-                                <div class="flex gap-4 mb-2">
-                                    <x-svg.icons.grab class="stroke-primary w-8 h-8 cursor-move move-handle hidden" />
-                                    <h4 class="text-xl font-semibold">{{ $question->question }}</h4>
+                                <div class="flex justify-between">
+                                    <div class="flex gap-4 mb-2">
+                                        <x-svg.icons.grab
+                                            class="stroke-primary w-8 h-8 cursor-move move-handle hidden" />
+                                        <h4 class="text-xl font-semibold">{{ $question->question }}</h4>
+                                    </div>
+                                    <form
+                                        action="/expert/course/section/element/task/question/delete/{{ $question->id }}"
+                                        method="POST">
+                                        @csrf
+                                        <input type="hidden" name="course_id" value="{{ $course_id }}">
+                                        <input type="hidden" name="section_id" value="{{ $section_id }}">
+                                        <input type="hidden" name="element_id" value="{{ $element_id }}">
+                                        <input type="hidden" name="task_id" value="{{ $task->id }}">
+                                        <button type="submit">
+                                            <x-svg.icons.trash class="stroke-red-500 w-8 h-8 cursor-pointer" />
+                                        </button>
+                                    </form>
                                 </div>
                                 <div class="flex flex-col gap-2 ">
                                     @foreach (unserialize($question->options) as $option)

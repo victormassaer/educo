@@ -33,10 +33,17 @@
                     <option value="video">Video</option>
                     <option value="task">Task</option>
                 </select>
-                <button type="submit"
-                    class="mt-4 whitespace-nowrap py-2 px-4 border-2 rounded-md border-tertiary text-tertiary cursor-pointer">
-                    Next step
-                </button>
+                <div class="flex gap-2">
+                    <button type="submit"
+                        class="mt-4 whitespace-nowrap py-2 px-4 border-2 rounded-md border-tertiary text-tertiary cursor-pointer">
+                        Next step
+                    </button>
+                    <button type="button"
+                        onclick="window.location='{{ url('expert/edit-course/edit-section?course_id=' . $course_id . '&section_id=' . $section_id) }}'"
+                        class="mt-4 whitespace-nowrap py-2 px-4 border-2 rounded-md border-secondary text-secondary cursor-pointer">
+                        Cancel
+                    </button>
+                </div>
             </form>
         @elseif($step === '2')
             <form action="/expert/new-course/new-section/new-element/video/create" enctype="multipart/form-data"
@@ -45,10 +52,18 @@
                 <label class="mt-4" for="video">Upload video</label>
                 <input type="hidden" id="element_id" name="element_id" value={{ $element_id }}>
                 <input type="file" id="video" name="video" accept=".mp4">
-                <button type="submit"
-                    class="mt-4 whitespace-nowrap py-2 px-4 border-2 rounded-md border-tertiary text-tertiary cursor-pointer">
-                    Upload
-                </button>
+                <div class="flex gap-2">
+                    <button type="submit"
+                        class="mt-4 whitespace-nowrap py-2 px-4 border-2 rounded-md border-tertiary text-tertiary cursor-pointer">
+                        Upload
+                    </button>
+                    <button type="button"
+                        onclick="window.location='{{ url('expert/edit-course/edit-section/new-element?course_id=' . $course_id . '&section_id=' . $section_id . '&element_id=' . $element_id) }}'"
+                        class="mt-4 whitespace-nowrap py-2 px-4 border-2 rounded-md border-secondary text-secondary cursor-pointer">
+                        Back
+                    </button>
+                </div>
+
             </form>
         @elseif($step === '3')
             <div class="max-w-3xl">

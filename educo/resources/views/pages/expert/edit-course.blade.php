@@ -33,10 +33,16 @@
                 </select>
                 <label class="mt-4" for="thumbnail">New Thumbnail</label>
                 <input type="file" id="thumbnail" name="thumbnail">
-                <button type="submit"
-                    class="mt-4 whitespace-nowrap py-2 px-4 border-2 rounded-md border-tertiary text-tertiary cursor-pointer">
-                    Next step
-                </button>
+                <div class="flex gap-2">
+                    <button type="submit"
+                        class="mt-4 whitespace-nowrap py-2 px-4 border-2 rounded-md border-tertiary text-tertiary cursor-pointer">
+                        Next step
+                    </button>
+                    <button type="button" onclick="window.location='{{ url('expert/dashboard') }}'"
+                        class="mt-4 whitespace-nowrap py-2 px-4 border-2 rounded-md border-secondary text-secondary cursor-pointer">
+                        Cancel
+                    </button>
+                </div>
             </form>
             {{-- STEP 2 --}}
         @elseif($step === '2')
@@ -69,9 +75,18 @@
                                     {{ $chapter->title }}
                                 </h4>
                             </div>
-                            <x-svg.icons.edit
-                                onclick="window.location='{{ url('expert/edit-course/edit-section/?course_id=' . $course->id . '&section_id=' . $chapter->id) }}'"
-                                class="stroke-primary w-8 h-8 cursor-pointer" />
+                            <div class="flex gap-2">
+                                <x-svg.icons.edit
+                                    onclick="window.location='{{ url('expert/edit-course/edit-section/?course_id=' . $course->id . '&section_id=' . $chapter->id) }}'"
+                                    class="stroke-primary w-8 h-8 cursor-pointer" />
+                                <form action="/expert/course/section/delete/{{ $chapter->id }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" name="course_id" value="{{ $course_id }}">
+                                    <button type="submit">
+                                        <x-svg.icons.trash class="stroke-red-500 w-8 h-8 cursor-pointer" />
+                                    </button>
+                                </form>
+                            </div>
                         </div>
                         <div>
                             @foreach ($chapter->elements as $element)
@@ -87,6 +102,10 @@
             <button onclick="window.location='{{ url('expert/dashboard') }}'"
                 class="mt-4 whitespace-nowrap py-2 px-4 border-2 rounded-md border-tertiary text-tertiary cursor-pointer">
                 Save
+            </button>
+            <button onclick="window.location='{{ url('expert/edit-course?course_id=' . $course_id . '&step=1') }}'"
+                class="mt-4 whitespace-nowrap py-2 px-4 border-2 rounded-md border-secondary text-secondary cursor-pointer">
+                Back
             </button>
             <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
             <script>
@@ -118,9 +137,6 @@
                             order
                         })
                     })
-
-                    console.log(response)
-
                 });
 
                 Sortable.create(listWithHandle, {
