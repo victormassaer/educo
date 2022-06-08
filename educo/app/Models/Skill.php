@@ -14,4 +14,8 @@ class Skill extends Model
         'title',
         'description'
     ];
+
+    public function getCourses(){
+        return $this->belongsToMany(Course::class);
+    }
 }

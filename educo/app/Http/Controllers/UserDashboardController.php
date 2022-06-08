@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Course;
+use App\Models\CourseHasSkill;
 use App\Models\Participation;
+use App\Models\Skill;
 use App\Models\User;
+use App\Models\UserHasSkill;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
@@ -87,5 +90,46 @@ class UserDashboardController extends Controller
         ];
 
         return view('pages.user.finishedDashboard', $data);
+    }
+
+    public function getRecommended()
+    {
+        $user = Auth::user();
+        $user_id = $user->id;
+
+        $getSkills = UserHasSkill::where('user_id', $user_id)->get();
+        $skills = [];
+
+        $coursePerSkill = [];
+        $allCourses = [];
+
+        $courseScores = [];
+
+        foreach ($getSkills as $skill) {
+            $skills [] = $skill;
+        }
+
+        foreach ($skills as $skill) {
+            $coursePerSkill[] = CourseHasSkill::where('skill_id', $skill->id)->get('course_id');
+        }
+        foreach ($coursePerSkill as $course) {
+            foreach($course as $c) {
+                $allCourses[]= $c;
+            }
+        }
+        foreach ($allCourses as $course) {
+            $tmp = array_keys($allCourses, $course);
+            $cnt = count($tmp);
+            $courseScores [] = [ $cnt, $course ];
+            $courseScoresUnique = array_unique($courseScores, SORT_REGULAR);
+            asort($courseScoresUnique);
+        }
+
+        $recommendedCourses = array_reverse($courseScoresUnique);
+
+        dd($recommendedCourses);
+
+        return view('pages.user.recommendedDashboard');
+
     }
 }
