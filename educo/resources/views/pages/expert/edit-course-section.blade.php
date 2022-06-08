@@ -14,7 +14,8 @@
     @endphp
     <div>
         <h1 class="text-5xl font-bold text-primary mb-6">{{ $editpage === true ? 'Edit' : 'New' }} Section</h1>
-        <form action="/expert/course/section/update/{{ $section_id }}" method="POST" class=" items-start">
+        <form id="update-section" action="/expert/course/section/update/{{ $section_id }}" method="POST"
+            class="items-start">
             @csrf
             <input type="hidden" name="course_id" value={{ $course_id }}>
             <div class=" flex flex-col gap-2 max-w-screen-sm">
@@ -23,41 +24,56 @@
                     value='{{ $chapter->title }}'>
             </div>
 
-
-            <div class="flex justify-between items-center mt-4 mb-4 w-full">
-                <h3 class="text-3xl font-bold text-primary mb-6">Content</h3>
-                <div class="flex gap-2">
-                    <div id="changeOrder" class="p-2 bg-primary rounded-2xl w-12 h-12 cursor-pointer">
-                        <x-svg.icons.order class="stroke-white w-8 h-8" />
-                    </div>
-                    <div id="saveOrder"
-                        class="py-2 px-4 bg-primary text-white rounded-2xl h-12 cursor-pointer flex justify-center items-center hidden">
-                        Save
-                    </div>
-                    <a href='/expert/edit-course/edit-section/new-element?course_id={{ $course_id }}&section_id={{ $section_id }}&edit=true'
-                        class="p-2 bg-primary rounded-2xl w-12 h-12 cursor-pointer">
-                        <x-svg.icons.plus class="stroke-white w-8 h-8" />
-                    </a>
+        </form>
+        <div class="flex justify-between items-center mt-4 mb-4 w-full">
+            <h3 class="text-3xl font-bold text-primary mb-6">Content</h3>
+            <div class="flex gap-2">
+                <div id="changeOrder" class="p-2 bg-primary rounded-2xl w-12 h-12 cursor-pointer">
+                    <x-svg.icons.order class="stroke-white w-8 h-8" />
                 </div>
+                <div id="saveOrder"
+                    class="py-2 px-4 bg-primary text-white rounded-2xl h-12 cursor-pointer flex justify-center items-center hidden">
+                    Save
+                </div>
+                <a href='/expert/edit-course/edit-section/new-element?course_id={{ $course_id }}&section_id={{ $section_id }}&edit=true'
+                    class="p-2 bg-primary rounded-2xl w-12 h-12 cursor-pointer">
+                    <x-svg.icons.plus class="stroke-white w-8 h-8" />
+                </a>
             </div>
-            <div class="flex flex-col gap-4 list-group" id="listwithHandle">
-                @foreach ($chapter->elements as $element)
-                    <div class="flex justify-between bg-white rounded-md p-6 list-group-item" id="{{ $element->id }}">
-                        <div class="flex gap-4">
-                            <x-svg.icons.grab class="stroke-primary w-8 h-8 cursor-move move-handle hidden" />
-                            <h4 class="text-xl font-semibold">{{ $element->type }}: {{ $element->title }}</h4>
-                        </div>
+        </div>
+        <div class="flex flex-col gap-4 list-group" id="listwithHandle">
+            @foreach ($chapter->elements as $element)
+                <div class="flex justify-between bg-white rounded-md p-6 list-group-item" id="{{ $element->id }}">
+                    <div class="flex gap-4">
+                        <x-svg.icons.grab class="stroke-primary w-8 h-8 cursor-move move-handle hidden" />
+                        <h4 class="text-xl font-semibold">{{ $element->type }}: {{ $element->title }}</h4>
+                    </div>
+                    <div class="flex gap-2">
                         <x-svg.icons.edit
                             onclick="window.location='{{ url('expert/edit-course/edit-section/edit-element/?course_id=' . $course->id . '&section_id=' . $chapter->id . '&element_id=' . $element->id) }}'"
                             class="stroke-primary w-8 h-8 cursor-pointer" />
+                        <form action="/expert/course/section/element/delete/{{ $element->id }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="course_id" value="{{ $course_id }}">
+                            <input type="hidden" name="section_id" value="{{ $section_id }}">
+                            <button type="submit">
+                                <x-svg.icons.trash class="stroke-red-500 w-8 h-8 cursor-pointer" />
+                            </button>
+                        </form>
                     </div>
-                @endforeach
-            </div>
-            <button type="submit"
-                class="mt-4 whitespace-nowrap py-2 px-4 border-2 rounded-md border-tertiary text-tertiary cursor-pointer">
-                Save section
-            </button>
-        </form>
+                </div>
+            @endforeach
+        </div>
+        <button type="submit" form="update-section"
+            class="mt-4 whitespace-nowrap py-2 px-4 border-2 rounded-md border-tertiary text-tertiary cursor-pointer">
+            Save section
+        </button>
+        <button type="button"
+            onclick="window.location='{{ url('expert/edit-course?course_id=' . $course_id . '&step=2') }}'"
+            class="mt-4 whitespace-nowrap py-2 px-4 border-2 rounded-md border-secondary text-secondary cursor-pointer">
+            Back
+        </button>
+
     </div>
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
     <script>
@@ -89,9 +105,6 @@
                     order
                 })
             })
-
-            console.log(response)
-
         });
 
         Sortable.create(listWithHandle, {

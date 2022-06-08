@@ -26,10 +26,16 @@
             </select>
             <label class="mt-4" for="thumbnail">Thumbnail</label>
             <input type="file" id="thumbnail" name="thumbnail">
-            <button type="submit"
-                class="mt-4 whitespace-nowrap py-2 px-4 border-2 rounded-md border-tertiary text-tertiary cursor-pointer">
-                Save
-            </button>
+            <div class="flex gap-2">
+                <button type="submit"
+                    class="mt-4 whitespace-nowrap py-2 px-4 border-2 rounded-md border-tertiary text-tertiary cursor-pointer">
+                    Save
+                </button>
+                <button type="button" onclick="window.location='{{ url('expert/dashboard') }}'"
+                    class="mt-4 whitespace-nowrap py-2 px-4 border-2 rounded-md border-secondary text-secondary cursor-pointer">
+                    Cancel
+                </button>
+            </div>
         </form>
     </div>
 </x-app-layout>

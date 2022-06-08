@@ -33,89 +33,38 @@
                     <option value="video">Video</option>
                     <option value="task">Task</option>
                 </select>
-                <button type="submit"
-                    class="mt-4 whitespace-nowrap py-2 px-4 border-2 rounded-md border-tertiary text-tertiary cursor-pointer">
-                    Next step
-                </button>
+                <div class="flex gap-2">
+                    <button type="submit"
+                        class="mt-4 whitespace-nowrap py-2 px-4 border-2 rounded-md border-tertiary text-tertiary cursor-pointer">
+                        Next step
+                    </button>
+                    <button type="button"
+                        onclick="window.location='{{ url('expert/edit-course/edit-section?course_id=' . $course_id . '&section_id=' . $section_id) }}'"
+                        class="mt-4 whitespace-nowrap py-2 px-4 border-2 rounded-md border-secondary text-secondary cursor-pointer">
+                        Cancel
+                    </button>
+                </div>
             </form>
         @elseif($step === '2')
-            @php
-                $type = null;
-                if (request()->video_id) {
-                    $type = 'video';
-                } elseif (request()->task_id) {
-                    $type = 'task';
-                }
-            @endphp
-            @if ($type === 'video')
-                <form action="/expert/new-course/new-section/new-element/video/create" enctype="multipart/form-data"
-                    method="POST" class="flex flex-col max-w-screen-sm gap-2 items-start">
-                    @csrf
-                    <label class="mt-4" for="video">Upload video</label>
-                    <input type="hidden" id="element_id" name="element_id" value={{ $element_id }}>
-                    <input type="file" id="video" name="video" accept=".mp4">
+            <form action="/expert/new-course/new-section/new-element/video/create" enctype="multipart/form-data"
+                method="POST" class="flex flex-col max-w-screen-sm gap-2 items-start">
+                @csrf
+                <label class="mt-4" for="video">Upload video</label>
+                <input type="hidden" id="element_id" name="element_id" value={{ $element_id }}>
+                <input type="file" id="video" name="video" accept=".mp4">
+                <div class="flex gap-2">
                     <button type="submit"
                         class="mt-4 whitespace-nowrap py-2 px-4 border-2 rounded-md border-tertiary text-tertiary cursor-pointer">
                         Upload
                     </button>
-                </form>
-            @elseif($type === 'task')
-                <h3 class="text-3xl font-bold text-primary mb-6">Task</h3>
-                <h3 class="text-3xl font-bold text-primary mb-6">Questions</h3>
-                <div id="questionsList" class="flex flex-col gap-4">
-                    @if (count($task->questions) !== 0)
-                        @foreach ($task->questions as $question)
-                            <div class="bg-white rounded-md p-6">
-                                <h4 class="text-xl font-semibold">{{ $question->question }}</h4>
-                                <div class="flex flex-col gap-2 ">
-                                    @foreach (unserialize($question->options) as $option)
-                                        <div class="flex gap-2 items-center bg-gray-200 rounded-md p-2">
-                                            @if ($loop->index === $question->answer)
-                                                <x-svg.icons.check class="w-7 h-7 stroke-green-500" />
-                                            @endif
-                                            {{ $option }}
-                                        </div>
-                                    @endforeach
-                                </div>
-                            </div>
-                        @endforeach
-                    @else
-                        <h4 class="text-xl font-bold mb-6">No Questions yet</h4>
-                    @endif
-
-                </div>
-                <div>
-                    <h3 class="text-2xl font-bold text-primary mb-2 mt-4">Add question</h3>
-                    <div class="flex flex-col max-w-screen-sm gap-2 items-start">
-                        <label class="mt-2" for="question">Question</label>
-                        <input required type="text" id="question" name="question">
-                        <label class="mt-2" for="">Options</label>
-                        <div class="options flex flex-col gap-2">
-                            <div class=" flex gap-4 items-center text-2xl">
-                                <label for="">1:</label><input required type="text" id="option1" name="option1">
-                            </div>
-                            <div class="flex gap-4 items-center text-2xl">
-                                <label for="">2:</label><input required type="text" id="option2" name="option2">
-                            </div>
-                        </div>
-                        <p id="addOptionButton" class="bg-white rounded-md cursor-pointer  mt-2">
-                            <x-svg.icons.plus class="w-10 h-10 p-1 stroke-primary" />
-                        </p>
-                        <label class="mt-2" for="question">Answer (number)</label>
-                        <input id="answer" type="number">
-                        <p id="errorMessage" class="text-red-600 my-2"></p>
-                        <button id="submitQuestionButton"
-                            class="mt-2 whitespace-nowrap py-2 px-4 border-2 rounded-md border-tertiary text-tertiary cursor-pointer">
-                            Add Question
-                        </button>
-                    </div>
-                    <button
-                        onclick="window.location='{{ url('expert/edit-course/edit-section?course_id=' . $course_id . '&section_id=' . $section_id) }}'"
-                        class=" mt-8 whitespace-nowrap py-2 px-4 border-2 rounded-md border-tertiary text-tertiary cursor-pointer">
-                        Save task
+                    <button type="button"
+                        onclick="window.location='{{ url('expert/edit-course/edit-section/new-element?course_id=' . $course_id . '&section_id=' . $section_id . '&element_id=' . $element_id) }}'"
+                        class="mt-4 whitespace-nowrap py-2 px-4 border-2 rounded-md border-secondary text-secondary cursor-pointer">
+                        Back
                     </button>
                 </div>
-            @endif
+
+            </form>
         @elseif($step === '3')
             <div class="max-w-3xl">
                 <iframe src={{ $video_element['body']['player_embed_url'] }} class="max-w-4xl h-96" frameborder="0"
@@ -130,62 +79,5 @@
                 </button>
             </div>
         @endif
-        <script>
-            const options = document.querySelector('.options');
-            const addOptionButton = document.querySelector('#addOptionButton');
-            const submitQuestionButton = document.querySelector('#submitQuestionButton');
-
-            addOptionButton.addEventListener('click', addOption);
-            submitQuestionButton.addEventListener('click', submitQuestion);
-
-            function addOption() {
-                const count = options.childElementCount;
-                const wrapper = document.createElement("div");
-                wrapper.setAttribute('class', 'flex gap-4 items-center text-2xl')
-
-                wrapper.innerHTML =
-                    `<label for="">${count +1}:</label><input required type="text" id="option${count +1}" name="${count +1}">`
-                options.appendChild(wrapper);
-            }
-
-            async function submitQuestion(e) {
-                e.preventDefault();
-                const question = document.querySelector("#question");
-                const answer = document.querySelector("#answer");
-                const questionValue = question.value
-                const answerValue = answer.value
-
-                const children = options.children;
-                if (answerValue <= 0 || answerValue > children.length) {
-                    document.querySelector("#errorMessage").innerHTML = "Please provide a correct answer"
-                }
-                const values = [];
-                for (let i = 0; i < children.length; i++) {
-                    const input = children[i];
-                    if (input.children[1].value !== "") {
-                        values.push(input.children[1].value);
-
-                    }
-                }
-
-                const csrf = document.querySelector('meta[name="csrf-token"]').content;
-                const url = 'http://localhost/expert/edit-course/edit-section/new-element/task/create';
-
-                const response = await fetch(url, {
-                    method: "POST",
-                    mode: 'same-origin',
-                    headers: {
-                        'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content,
-                    },
-                    body: JSON.stringify({
-                        task_id: {{ request()->task_id }},
-                        question: questionValue,
-                        answer: answerValue - 1,
-                        values
-                    })
-                })
-                location.reload();
-            }
-        </script>
     </div>
 </x-app-layout>

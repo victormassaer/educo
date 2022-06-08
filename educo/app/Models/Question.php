@@ -13,7 +13,8 @@ class Question extends Model
         'question',
         'options',
         'answer',
-        'task_id'
+        'task_id',
+        'order'
     ];
 
     public function task()

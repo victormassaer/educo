@@ -28,10 +28,17 @@
                 <label class="mt-4" for="description">Description</label>
                 <textarea class="rounded-md max-h-96" name="description" id="description" cols="70" rows="10"
                     placeholder="description">{{ $element->description }}</textarea>
-                <button type="submit"
-                    class="mt-4 whitespace-nowrap py-2 px-4 border-2 rounded-md border-tertiary text-tertiary cursor-pointer">
-                    Next step
-                </button>
+                <div class="flex gap-2">
+                    <button type="submit"
+                        class="mt-4 whitespace-nowrap py-2 px-4 border-2 rounded-md border-tertiary text-tertiary cursor-pointer">
+                        Next step
+                    </button>
+                    <button type="button"
+                        onclick="window.location='{{ url('expert/edit-course/edit-section?course_id=' . $course_id . '&section_id=' . $section_id) }}'"
+                        class="mt-4 whitespace-nowrap py-2 px-4 border-2 rounded-md border-secondary text-secondary cursor-pointer">
+                        Cancel
+                    </button>
+                </div>
             </form>
         @elseif($step === '2')
             @php
@@ -69,12 +76,41 @@
                 <script src="https://player.vimeo.com/api/player.js"></script>
             @elseif($type === 'task')
                 <h3 class="text-3xl font-bold text-primary mb-6">Task</h3>
-                <h3 class="text-3xl font-bold text-primary mb-6">Questions</h3>
-                <div id="questionsList" class="flex flex-col gap-4">
+                <div class="flex justify-between">
+                    <h3 class="text-3xl font-bold text-primary mb-6">Questions</h3>
+                    <div class="flex gap2">
+                        <div id="changeOrder" class="p-2 bg-primary rounded-2xl w-12 h-12 cursor-pointer">
+                            <x-svg.icons.order class="stroke-white w-8 h-8" />
+                        </div>
+                        <div id="saveOrder"
+                            class="py-2 px-4 bg-primary text-white rounded-2xl h-12 cursor-pointer flex justify-center items-center hidden">
+                            Save
+                        </div>
+                    </div>
+                </div>
+                <div id="questionsList" class="flex flex-col gap-4 list-group">
                     @if (count($task->questions) !== 0)
                         @foreach ($task->questions as $question)
-                            <div class="bg-white rounded-md p-6">
-                                <h4 class="text-xl font-semibold">{{ $question->question }}</h4>
+                            <div class="bg-white rounded-md p-6 list-group-item" id="{{ $question->id }}">
+                                <div class="flex justify-between">
+                                    <div class="flex gap-4 mb-2">
+                                        <x-svg.icons.grab
+                                            class="stroke-primary w-8 h-8 cursor-move move-handle hidden" />
+                                        <h4 class="text-xl font-semibold">{{ $question->question }}</h4>
+                                    </div>
+                                    <form
+                                        action="/expert/course/section/element/task/question/delete/{{ $question->id }}"
+                                        method="POST">
+                                        @csrf
+                                        <input type="hidden" name="course_id" value="{{ $course_id }}">
+                                        <input type="hidden" name="section_id" value="{{ $section_id }}">
+                                        <input type="hidden" name="element_id" value="{{ $element_id }}">
+                                        <input type="hidden" name="task_id" value="{{ $task->id }}">
+                                        <button type="submit">
+                                            <x-svg.icons.trash class="stroke-red-500 w-8 h-8 cursor-pointer" />
+                                        </button>
+                                    </form>
+                                </div>
                                 <div class="flex flex-col gap-2 ">
                                     @foreach (unserialize($question->options) as $option)
                                         <div class="flex gap-2 items-center bg-gray-200 rounded-md p-2">
@@ -123,6 +159,60 @@
                         Save task
                     </button>
                 </div>
+                <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+                <script>
+                    const changeOrderButton = document.querySelector("#changeOrder");
+                    const saveOrderButton = document.querySelector("#saveOrder");
+                    const listWithHandle = document.querySelector("#questionsList");
+
+                    changeOrderButton.addEventListener("click", () => {
+                        changeOrderButton.classList.add("hidden");
+                        saveOrderButton.classList.remove("hidden");
+                        document.querySelectorAll(".move-handle").forEach((handle) => handle.classList.remove("hidden"));
+                    });
+
+                    saveOrderButton.addEventListener("click", async () => {
+                        changeOrderButton.classList.remove("hidden");
+                        saveOrderButton.classList.add("hidden");
+                        document.querySelectorAll(".move-handle").forEach((handle) => handle.classList.add("hidden"));
+
+                        const order = localStorage.getItem("order-questions").split(",");
+                        const csrf = document.querySelector('meta[name="csrf-token"]').content;
+                        const url =
+                            `http://localhost/expert/course/section/element/task/order/update/{{ request()->task_id }}`;
+                        const response = await fetch(url, {
+                            method: "POST",
+                            mode: 'same-origin',
+                            headers: {
+                                'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content,
+                            },
+                            body: JSON.stringify({
+                                order
+                            })
+                        })
+
+                        console.log(response)
+
+                    });
+
+                    Sortable.create(listWithHandle, {
+                        handle: '.move-handle',
+                        animation: 150,
+                        dataIdAttr: 'id',
+                        onEnd: (evt) => {},
+                        store: {
+                            /**
+                             * Save the order of elements. Called onEnd (when the item is dropped).
+                             * @param {Sortable}  sortable
+                             */
+                            set: function(sortable) {
+                                var order = sortable.toArray();
+                                console.log(order);
+                                localStorage.setItem("order-questions", order);
+                            }
+                        }
+                    });
+                </script>
             @endif
         @elseif($step === '3')
             <div class="max-w-3xl">
@@ -177,7 +267,7 @@
                 }
 
                 const csrf = document.querySelector('meta[name="csrf-token"]').content;
-                const url = 'http://localhost/expert/new-course/new-section/new-element/task/create';
+                const url = 'http://localhost/expert/edit-course/edit-section/new-element/task/create';
 
                 const response = await fetch(url, {
                     method: "POST",
