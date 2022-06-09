@@ -24,41 +24,52 @@ class CourseController extends Controller
             ['user_id', '=', Auth::user()->id],
         ])->first();
 
-        $chapters = Chapter::where('course_id', $id)->get();
-        /*$unfinishedChapters = Chapter::where([
-            ['course_id', '=', $id],
-            ['chapter_finished', '!=', 1],
-        ])->get();*/
-        //$skills = //HIER DE SKILLS VAN DE COURSE UIT MODEL COURSEHASSKILL EN DB TABLE
-        $activeChapter = Chapter::where([
-            ['course_id', '=', $id],
-            ['order', '=', $participation->total_completed],
-        ])->first();
-        $elements = Element::where('chapter_id', $activeChapter->id)->get();
-        /*$unfinishedElements = Element::where([
-            ['chapter_id', '=', $activeChapter->id],
-            ['element_finished', '!=', 1],
-        ])->get();*/
-        $activeElement =Element::where([
-            ['chapter_id', '=', $activeChapter->id],
-            ['order', '=', $participation->finished_element],
-        ])->first();
+        if($participation){
+            $chapters = Chapter::where('course_id', $id)->get();
+            /*$unfinishedChapters = Chapter::where([
+                ['course_id', '=', $id],
+                ['chapter_finished', '!=', 1],
+            ])->get();*/
+            //$skills = //HIER DE SKILLS VAN DE COURSE UIT MODEL COURSEHASSKILL EN DB TABLE
+            $activeChapter = Chapter::where([
+                ['course_id', '=', $id],
+                ['order', '=', $participation->total_completed],
+            ])->first();
+            if($activeChapter){
+                $elements = Element::where('chapter_id', $activeChapter->id)->get();
+                $activeElement =Element::where([
+                    ['chapter_id', '=', $activeChapter->id],
+                    ['order', '=', $participation->finished_element],
+                ])->first();
+            }else{
+                $activeElement = [];
+            }
+            /*$unfinishedElements = Element::where([
+                ['chapter_id', '=', $activeChapter->id],
+                ['element_finished', '!=', 1],
+            ])->get();*/
 
-        /*if($completedElement != count($elements)){
-            $activeElement = $elements[$completedElement];
-            $nextElement = $elements[$completedElement+1];
-            $finished = false;
-        }elseif($completedChapter != count($chapters)){
-            $activeElement = 1;
-            $nextElement = 1;
-            $nextChapter = $chapters[$completedChapter+1];
-            $finished = false;
+            /*if($completedElement != count($elements)){
+                $activeElement = $elements[$completedElement];
+                $nextElement = $elements[$completedElement+1];
+                $finished = false;
+            }elseif($completedChapter != count($chapters)){
+                $activeElement = 1;
+                $nextElement = 1;
+                $nextChapter = $chapters[$completedChapter+1];
+                $finished = false;
+            }else{
+                $activeElement = 1;
+                $nextElement = 0;
+                $nextChapter = $chapters[$completedChapter];
+                $finished = true;
+            }*/
         }else{
-            $activeElement = 1;
-            $nextElement = 0;
-            $nextChapter = $chapters[$completedChapter];
-            $finished = true;
-        }*/
+            $chapters = [];
+            $activeChapter = [];
+            $activeElement = [];
+        }
+
 
         $data = [
             'course' => $course,
