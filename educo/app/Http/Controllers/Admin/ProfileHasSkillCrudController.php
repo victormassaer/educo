@@ -81,7 +81,7 @@ class ProfileHasSkillCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
-        $profiles = Profile::all();
+        $profiles = Profile::where('company_id', backpack_user()->company_id)->get();
         $profileSelect = [];
         foreach($profiles as $pr){
             $profileSelect[] = $pr->title;

@@ -16,20 +16,5 @@ class MandatoryCourse extends Model
         'company_id',
     ];
 
-    public function course()
-    {
-        return $this->hasMany(Course::class);
-    }
-
-    public function company()
-    {
-        return $this->hasMany(Company::class);
-    }
-
-    public function profile()
-    {
-        return $this->hasMany(Profile::class);
-    }
-
 
 }

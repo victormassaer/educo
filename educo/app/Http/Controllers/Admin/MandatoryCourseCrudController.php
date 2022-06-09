@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\MandatoryCourseRequest;
+use App\Models\Course;
+use App\Models\Profile;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
@@ -58,11 +60,53 @@ class MandatoryCourseCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
+        $profiles = Course::all();
+        $profileSelect = [];
+        foreach($profiles as $pr){
+            $profileSelect[] = $pr->title;
+        }
+
+        $coursesArray = $profileSelect;
+        array_unshift($coursesArray,"");
+        unset($coursesArray[0]);
+
+        $profiles = Profile::all();
+        $profileSelect = [];
+        foreach($profiles as $pr){
+            $profileSelect[] = $pr->title;
+        }
+
+        $profilesArray = $profileSelect;
+        array_unshift($profilesArray,"");
+        unset($profilesArray[0]);
+
         CRUD::setValidation(MandatoryCourseRequest::class);
 
-        CRUD::field('course_id');
-        CRUD::field('profile_id');
-        CRUD::field('company_id');
+        $this->crud->addField([
+            'name' => 'course_id',
+            'type' => 'select_from_array',
+            'options' => $coursesArray,
+            'label' => 'Course'
+        ]);
+
+        $this->crud->addField([
+            'name' => 'profile_id',
+            'type' => 'select_from_array',
+            'options' => $profilesArray,
+            'label' => 'Profile'
+        ]);
+
+        $this->crud->addField([
+            'name' => 'company_id',
+            'type' => 'text',
+            'label' => 'Company_id',
+            'value' => backpack_user()->company_id,
+            'attributes' => [
+                'readonly' => 'readonly'
+            ]
+        ]);
+
+
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:
