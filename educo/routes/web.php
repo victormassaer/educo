@@ -7,6 +7,7 @@ use App\Http\Controllers\AdminUserDetailPageController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\ExpertDashboardController;
 use App\Http\Controllers\ExpertDetailController;
+use App\Http\Controllers\ExpertListController;
 use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\UserDetailController;
 use Illuminate\Support\Facades\Route;
@@ -78,7 +79,6 @@ Route::group(
 
             //EXPERT DASHBOARD
             Route::get('/expert/dashboard', [ExpertDashboardController::class, 'index'])->name('expert.dashboard.index');
-            Route::get('/expert/detail/{id}', [ExpertDetailController::class, 'index'])->name('expert.detail.index');
         });
 
         //USER DETAIL PAGE
@@ -86,6 +86,9 @@ Route::group(
         Route::get('/user/detail/edit', [UserDetailController::class, 'editInfoIndex'])->name('user.detail.edit.index');
         Route::post('/user/detail/edit', [UserDetailController::class, 'editInfoStore'])->name('user.detail.edit.store');
         Route::get('/user/detail/complete', [UserDetailController::class, 'completeInfoStore'])->name('user.detail.complete.index');
+
+        Route::get('/expert/detail/{id}', [ExpertDetailController::class, 'index'])->name('expert.detail.index');
+        Route::get('/expert/list', [ExpertListController::class, 'index'])->name('expert.list.index');
 
         Route::group([
             'middleware' => ['checkRole']
