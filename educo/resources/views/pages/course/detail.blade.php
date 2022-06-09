@@ -20,11 +20,19 @@
                 </a>
             </div>
         @else
+
             <div>
                 <h2><span>Current chapter: </span>{{$activeChapter->title}}</h2>
                 <h3><span>Current: </span>{{$activeElement->title}}</h3>
                 <p>{{$activeElement->description}}</p>
             </div>
+
+        @if($activeElement->type == 'task')
+            <div>
+
+            </div>
+        @endif
+
             <div>
                 <a href="{{route('next.step.course', [$activeElement->id, $activeChapter->id])}}">next step</a>
             </div>

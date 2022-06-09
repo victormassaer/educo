@@ -26,10 +26,6 @@ class CourseController extends Controller
 
         if($participation){
             $chapters = Chapter::where('course_id', $id)->get();
-            /*$unfinishedChapters = Chapter::where([
-                ['course_id', '=', $id],
-                ['chapter_finished', '!=', 1],
-            ])->get();*/
             //$skills = //HIER DE SKILLS VAN DE COURSE UIT MODEL COURSEHASSKILL EN DB TABLE
             $activeChapter = Chapter::where([
                 ['course_id', '=', $id],
@@ -44,32 +40,11 @@ class CourseController extends Controller
             }else{
                 $activeElement = [];
             }
-            /*$unfinishedElements = Element::where([
-                ['chapter_id', '=', $activeChapter->id],
-                ['element_finished', '!=', 1],
-            ])->get();*/
-
-            /*if($completedElement != count($elements)){
-                $activeElement = $elements[$completedElement];
-                $nextElement = $elements[$completedElement+1];
-                $finished = false;
-            }elseif($completedChapter != count($chapters)){
-                $activeElement = 1;
-                $nextElement = 1;
-                $nextChapter = $chapters[$completedChapter+1];
-                $finished = false;
-            }else{
-                $activeElement = 1;
-                $nextElement = 0;
-                $nextChapter = $chapters[$completedChapter];
-                $finished = true;
-            }*/
         }else{
             $chapters = [];
             $activeChapter = [];
             $activeElement = [];
         }
-
 
         $data = [
             'course' => $course,
@@ -78,11 +53,14 @@ class CourseController extends Controller
             'participation' => $participation,
             'activeChapter' => $activeChapter,
             'activeElement' => $activeElement,
-            /*'nextElement' => $nextElement,
-            'nextChapter' => $nextChapter,
-            'finished' => $finished*/
         ];
-        return view('pages.course.detail', $data);
+
+        if($participation->total_completed != $course->number_of_chapters){
+            return view('pages.course.detail', $data);
+        }else{
+            return view('pages.course.finished', $data);
+        }
+
     }
 
     public function participate($id){
@@ -110,13 +88,13 @@ class CourseController extends Controller
     }
 
     public function nextStep($elementId, $chapterId){
-
         $elements = Element::where('chapter_id', $chapterId)->get();
         $currentElement = Element::where('id', $elementId)->first();
 
         $currentChapter = Chapter::where('id', $chapterId)->first();
         $chapters = Chapter::where('course_id', $currentChapter->course_id)->get();
-
+        $course = Course::where('id', $currentChapter->course_id)->first();
+        $expert = User::where('id', $course->instructor_id)->first();
         $participation = Participation::where([
             ['course_id', '=', $currentChapter->course_id],
             ['user_id', '=', Auth::user()->id],
@@ -126,11 +104,12 @@ class CourseController extends Controller
             $nextElement = Element::where([
                 ['chapter_id', '=', $chapterId],
                 ['order', '=', $currentElement->order+1],
-            ])->get();
+            ])->first();
             $participation->finished_element = $nextElement->order;
             $participation->update();
-            dd('volgende element');
-        }elseif(count($chapters) != $currentChapter->order){
+
+            return $this->detail($course->id);
+        }elseif(count($chapters) != $currentChapter->order+1){
             $nextChapter = Chapter::where([
                 ['course_id', '=', $currentChapter->course_id],
                 ['order', '=', $currentChapter->order+1],
@@ -139,11 +118,11 @@ class CourseController extends Controller
             $participation->total_completed = $nextChapter->order;
             $participation->updated_at = now();
             $participation->update();
-            dd($nextChapter);
+            return $this->detail($course->id);
             //VOLGEND CHAPTER INLADEN
         }else{
-           $participation->finished_element = $participation->finished_element + 1;
-           $participation->total_completed = $participation->total_completed + 1;
+           $participation->finished_element = $currentElement->order;
+           $participation->total_completed = $course->number_of_chapters;
            $participation->updated_at = now();
            $participation->update();
 
@@ -156,7 +135,7 @@ class CourseController extends Controller
             $data = [
                 'course' => Course::where('id', $currentChapter->course_id)->first(),
             ];
-            return view('pages.course.finished', $data);
+            return $this->detail($course->id);
         }
     }
 
