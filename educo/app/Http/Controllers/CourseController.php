@@ -54,10 +54,11 @@ class CourseController extends Controller
             'activeChapter' => $activeChapter,
             'activeElement' => $activeElement,
         ];
-
-        if($participation->total_completed != $course->number_of_chapters){
-            return view('pages.course.detail', $data);
-        }else{
+        if($participation){
+            if($participation->total_completed != $course->number_of_chapters){
+                return view('pages.course.detail', $data);
+            }
+       }else{
             return view('pages.course.finished', $data);
         }
 
