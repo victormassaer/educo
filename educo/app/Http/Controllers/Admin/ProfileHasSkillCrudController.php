@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\ProfileHasSkillRequest;
+use App\Models\Profile;
+use App\Models\Skill;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
@@ -26,9 +28,12 @@ class ProfileHasSkillCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(\App\Models\ProfileHasSkill::class);
+        $user = backpack_user();
+        CRUD::setModel(\App\Models\ProfileHasSkills::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/profile-has-skill');
         CRUD::setEntityNameStrings('profile has skill', 'profile has skills');
+
+        $this->crud->addClause('where', 'company_id', '=', $user->company_id);
     }
 
     /**
@@ -41,8 +46,26 @@ class ProfileHasSkillCrudController extends CrudController
     {
         CRUD::column('profile_id');
         CRUD::column('skill_id');
-        CRUD::column('company_id');
+        /*CRUD::column([
+            // any type of relationship
+            'name'         => 'skills', // name of relationship method in the model
+            'type'         => 'relationship',
+            'label'        => 'Profile', // Table column heading
+            // OPTIONAL
+            // 'entity'    => 'tags', // the method that defines the relationship in your Model
+            // 'attribute' => 'name', // foreign key attribute that is shown to user
+            // 'model'     => App\Models\Category::class, // foreign key model
+        ],);*/
 
+        /*$this->crud->addColumn([
+            'label'     => 'profile', // Table column heading
+            'type'      => 'number',
+            'name'      => 'user_id',
+            'key'=>'profile_id',
+           'entity'    => 'profile', // the method that defines the relationship in your Model
+           'attribute' => 'email', // foreign key attribute that is shown to user
+           'model'     => Profile::class, // foreign key model
+        ]);*/
         /**
          * Columns can be defined using the fluent syntax or array syntax:
          * - CRUD::column('price')->type('number');
@@ -58,10 +81,41 @@ class ProfileHasSkillCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
+        $profiles = Profile::all();
+        $profileSelect = [];
+        foreach($profiles as $pr){
+            $profileSelect[] = $pr->title;
+        }
+        $profileArray = $profileSelect;
+        array_unshift($profileArray,"");
+        unset($profileArray[0]);
+
+
+        $skills = Skill::all();
+        $skillSelect = [];
+        foreach($skills as $skill){
+            $skillSelect[] = $skill->title;
+        }
+        $skillArray = $skillSelect;
+        array_unshift($skillArray,"");
+        unset($skillArray[0]);
+
         CRUD::setValidation(ProfileHasSkillRequest::class);
 
-        CRUD::field('profile_id');
-        CRUD::field('skill_id');
+        CRUD::addField([
+            'name' => 'profile_id',
+            'type' => 'select_from_array',
+            'options' => $profileArray,
+            'label' => 'Profile'
+        ]);
+
+        CRUD::addField([
+            'name' => 'skill_id',
+            'type' => 'select_from_array',
+            'options' => $skillArray,
+            'label' => 'Skill'
+        ]);
+
         CRUD::addField([
             'name' => 'company_id',
             'type' => 'text',

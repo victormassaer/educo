@@ -21,6 +21,7 @@ class AdminDashboardController extends Controller
         $inactiveParticipations = [];
         $activeEmployees = [];
         $inactiveEmployees = [];
+        $participationsUserId = [];
         foreach($employees as $employee){
             $participationsPerUser[] = Participation::where('user_id', $employee->id)->get();
         }
@@ -43,6 +44,14 @@ class AdminDashboardController extends Controller
                 if(!in_array($inactiveUser, $inactiveEmployees) && !in_array($inactiveUser, $activeEmployees)){
                     $inactiveEmployees[] = $inactiveUser;
                 }
+            }
+        }
+        foreach($allParticipations as $participation){
+            $participationsUserId[] = $participation->user_id;
+        }
+        foreach($employees as $employee){
+            if(!in_array($employee->id, $participationsUserId)){
+                $inactiveEmployees[] = $employee;
             }
         }
         $data = [

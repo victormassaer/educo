@@ -45,7 +45,7 @@ class AuthenticatedSessionController extends Controller
     public function storeExpert(LoginExpertRequest $request)
     {
         $expert = User::where('email', $request->email)->firstOrFail();
-        if($expert['role_id'] === 1){
+        if($expert['role_id'] === 2){
             $request->authenticate();
 
             $request->session()->regenerate();

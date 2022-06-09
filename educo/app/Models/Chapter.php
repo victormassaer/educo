@@ -12,6 +12,7 @@ class Chapter extends Model
     protected $fillable = [
         'title',
         'course_id',
+        'order'
     ];
 
     public $timestamps = false;

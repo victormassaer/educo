@@ -36,4 +36,10 @@ class Course extends Model
     public function participation() {
         return $this->belongsTo(Participation::class);
     }
+
+    public function mandatoryCourse() {
+        return $this->belongsTo(MandatoryCourse::class);
+    }
+
+
 }
