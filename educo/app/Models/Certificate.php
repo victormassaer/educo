@@ -13,14 +13,11 @@ class Certificate extends Model
         'img',
         'title',
         'skill_id',
-        'date_acquired'
+        'date_acquired', //eig moeten we nog aparte table aanmaken 'user_has_certificate'
     ];
 
     public function skill() {
         return $this->belongsTo(Skill::class);
     }
 
-    public function user(){
-        return $this->belongsTo(User::class);
-    }
 }
