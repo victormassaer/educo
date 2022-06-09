@@ -104,7 +104,7 @@ Route::group(
         //COURSES
         Route::get('/course/detail/{id}', [CourseController::class, 'detail'])->name('course.detail');
         Route::get('/course/participate/{id}', [CourseController::class, 'participate'])->name('course.participation');
-        Route::get('/course/next/{elementId}/{chapterId}', [CourseController::class, 'nextElement'])->name('course.nextElement');
+        Route::get('/course/next/{elementId}/{chapterId}', [CourseController::class, 'nextStep'])->name('next.step.course');
     }
 );
 

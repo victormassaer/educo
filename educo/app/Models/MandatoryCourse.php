@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class MandatoryCourse extends Model
 {
+    use \Backpack\CRUD\app\Models\Traits\CrudTrait;
     use HasFactory;
 
     protected $fillable = [
@@ -17,17 +18,17 @@ class MandatoryCourse extends Model
 
     public function course()
     {
-        return $this->hasOne(Course::class);
+        return $this->hasMany(Course::class);
     }
 
     public function company()
     {
-        return $this->hasOne(Company::class);
+        return $this->hasMany(Company::class);
     }
 
     public function profile()
     {
-        return $this->hasOne(Profile::class);
+        return $this->hasMany(Profile::class);
     }
 
 

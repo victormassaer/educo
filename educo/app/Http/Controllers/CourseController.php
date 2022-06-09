@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Certificate;
 use App\Models\Chapter;
 use App\Models\Company;
 use App\Models\Course;
+use App\Models\Element;
 use App\Models\MandatoryCourse;
 use App\Models\Participation;
 use App\Models\User;
@@ -23,12 +25,51 @@ class CourseController extends Controller
         ])->first();
 
         $chapters = Chapter::where('course_id', $id)->get();
-        $skills = //HIER DE SKILLS VAN DE COURSE UIT MODEL COURSEHASSKILL EN DB TABLE
+        /*$unfinishedChapters = Chapter::where([
+            ['course_id', '=', $id],
+            ['chapter_finished', '!=', 1],
+        ])->get();*/
+        //$skills = //HIER DE SKILLS VAN DE COURSE UIT MODEL COURSEHASSKILL EN DB TABLE
+        $activeChapter = Chapter::where([
+            ['course_id', '=', $id],
+            ['order', '=', $participation->total_completed],
+        ])->first();
+        $elements = Element::where('chapter_id', $activeChapter->id)->get();
+        /*$unfinishedElements = Element::where([
+            ['chapter_id', '=', $activeChapter->id],
+            ['element_finished', '!=', 1],
+        ])->get();*/
+        $activeElement =Element::where([
+            ['chapter_id', '=', $activeChapter->id],
+            ['order', '=', $participation->finished_element],
+        ])->first();
+
+        /*if($completedElement != count($elements)){
+            $activeElement = $elements[$completedElement];
+            $nextElement = $elements[$completedElement+1];
+            $finished = false;
+        }elseif($completedChapter != count($chapters)){
+            $activeElement = 1;
+            $nextElement = 1;
+            $nextChapter = $chapters[$completedChapter+1];
+            $finished = false;
+        }else{
+            $activeElement = 1;
+            $nextElement = 0;
+            $nextChapter = $chapters[$completedChapter];
+            $finished = true;
+        }*/
+
         $data = [
             'course' => $course,
             'expert' => $expert,
             'chapters' => $chapters,
-            'participation' => $participation
+            'participation' => $participation,
+            'activeChapter' => $activeChapter,
+            'activeElement' => $activeElement,
+            /*'nextElement' => $nextElement,
+            'nextChapter' => $nextChapter,
+            'finished' => $finished*/
         ];
         return view('pages.course.detail', $data);
     }
@@ -56,4 +97,56 @@ class CourseController extends Controller
 
         return redirect()->route('dashboard');
     }
+
+    public function nextStep($elementId, $chapterId){
+
+        $elements = Element::where('chapter_id', $chapterId)->get();
+        $currentElement = Element::where('id', $elementId)->first();
+
+        $currentChapter = Chapter::where('id', $chapterId)->first();
+        $chapters = Chapter::where('course_id', $currentChapter->course_id)->get();
+
+        $participation = Participation::where([
+            ['course_id', '=', $currentChapter->course_id],
+            ['user_id', '=', Auth::user()->id],
+        ])->first();
+
+        if(count($elements) != $currentElement->order+1){
+            $nextElement = Element::where([
+                ['chapter_id', '=', $chapterId],
+                ['order', '=', $currentElement->order+1],
+            ])->get();
+            $participation->finished_element = $nextElement->order;
+            $participation->update();
+            dd('volgende element');
+        }elseif(count($chapters) != $currentChapter->order){
+            $nextChapter = Chapter::where([
+                ['course_id', '=', $currentChapter->course_id],
+                ['order', '=', $currentChapter->order+1],
+            ])->first();
+            $participation->finished_element = 0;
+            $participation->total_completed = $nextChapter->order;
+            $participation->updated_at = now();
+            $participation->update();
+            dd($nextChapter);
+            //VOLGEND CHAPTER INLADEN
+        }else{
+           $participation->finished_element = $participation->finished_element + 1;
+           $participation->total_completed = $participation->total_completed + 1;
+           $participation->updated_at = now();
+           $participation->update();
+
+           $certificate = new Certificate();
+           $certificate->user_id = Auth::user()->id;
+           $certificate->date_acquired = now();
+           $certificate->skill_id = now(); //HIER NOG SKILLS OPHALEN UIT COURSE HAS SKILLS TABLE!
+           $certificate->title = now(); //VANWAAR KOMT TITEL?
+
+            $data = [
+                'course' => Course::where('id', $currentChapter->course_id)->first(),
+            ];
+            return view('pages.course.finished', $data);
+        }
+    }
+
 }

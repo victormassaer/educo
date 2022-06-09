@@ -83,6 +83,16 @@ class UserCrudController extends CrudController {
                 'readonly' => 'readonly'
             ]
         ]);
+
+        $this->crud->addField([
+        'name' => 'role_id',
+        'type' => 'hidden',
+        'label' => 'Company_id',
+        'value' => 1,
+        'attributes' => [
+            'readonly' => 'readonly'
+        ]
+    ]);
     }
 
     protected function setupUpdateOperation()

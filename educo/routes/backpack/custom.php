@@ -20,4 +20,5 @@ Route::group([
     Route::crud('skill', 'SkillCrudController');
     Route::crud('profile', 'ProfileCrudController');
     Route::crud('profile-has-skill', 'ProfileHasSkillCrudController');
+    Route::crud('mandatory-course', 'MandatoryCourseCrudController');
 }); // this should be the absolute last line of this file
