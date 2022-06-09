@@ -34,7 +34,7 @@
                         </a>
                     </li>
                     <li class="flex justify-center flex-col my-3">
-                        <a href="/experts">
+                        <a href="/expert/list">
                             <div class="w-full flex items-center p-3 rounded-2xl">
                                 <x-svg.navicons.teach class="stroke-white" />
                             </div>
