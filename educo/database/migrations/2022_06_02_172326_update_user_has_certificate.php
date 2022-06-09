@@ -13,12 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('certificates', function (Blueprint $table) {
-            $table->id();
-            $table->integer('skill_id');
-            $table->string('img');
-            $table->dateTime('date_acquired');
-        });
+        Schema::rename('user_has_certificate', 'user_has_certificates');
     }
 
     /**
@@ -28,6 +23,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('certificates');
+        //
     }
 };
