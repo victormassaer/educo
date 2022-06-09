@@ -112,11 +112,13 @@ class UserDashboardController extends Controller
         foreach ($skills as $skill) {
             $coursePerSkill[] = CourseHasSkill::where('skill_id', $skill->id)->get('course_id');
         }
+
         foreach ($coursePerSkill as $course) {
             foreach($course as $c) {
                 $allCourses[]= $c;
             }
         }
+
         foreach ($allCourses as $course) {
             $tmp = array_keys($allCourses, $course);
             $cnt = count($tmp);
@@ -125,11 +127,19 @@ class UserDashboardController extends Controller
             asort($courseScoresUnique);
         }
 
-        $recommendedCourses = array_reverse($courseScoresUnique);
+        $recommendedCourseIds = array_reverse($courseScoresUnique);
 
-        dd($recommendedCourses);
+        foreach ($recommendedCourseIds as $recommendedCourseId) {
+            $course_id = array_slice($recommendedCourseId, 1);
+            $id = $course_id[0]->course_id;
+            $recommendedCourses [] = Course::where('id', $id)->first();
+        }
 
-        return view('pages.user.recommendedDashboard');
+        $data = [
+            'user' => $user,
+            'recommendedCourses' => $recommendedCourses
+        ];
 
+        return view('pages.user.recommendedDashboard', $data);
     }
 }
