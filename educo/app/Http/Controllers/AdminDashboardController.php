@@ -57,8 +57,8 @@ class AdminDashboardController extends Controller
         $data = [
             'company' => $company,
             'employees' => $employees,
-            'inactiveEmployees' => $inactiveEmployees,
-            'activeEmployees' => $activeEmployees,
+            'inactiveEmployees' => array_unique($inactiveEmployees),
+            'activeEmployees' =>  array_unique($activeEmployees),
         ];
 
         return view('pages.companyAdmin.companyAdminDashboard', $data);
