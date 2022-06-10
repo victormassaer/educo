@@ -94,7 +94,7 @@
 
             const order = localStorage.getItem("order-element").split(",");
             const csrf = document.querySelector('meta[name="csrf-token"]').content;
-            const url = `http://localhost/expert/course/section/order/update/{{ $section_id }}`;
+            const url = "{{ url('/expert/course/section/order/update/' . $section_id) }}";
             const response = await fetch(url, {
                 method: "POST",
                 mode: 'same-origin',
