@@ -23,8 +23,7 @@
                 <input class="rounded-md w-3/5" type="text" name="title" value="{{ $course->title }}" id="title"
                     placeholder="title">
                 <label class="mt-4" for="description">Description</label>
-                <textarea class="rounded-md max-h-96" name="description" id="description" cols="70" rows="10"
-                    placeholder="description">{{ $course->description }}</textarea>
+                <textarea class="rounded-md max-h-96" name="description" id="description" cols="70" rows="10" placeholder="description">{{ $course->description }}</textarea>
                 <label class="mt-4" for="difficulty">Difficulty</label>
                 <select class="rounded-md w-3/5" name="difficulty" id="difficulty">
                     <option {{ $course->difficulty === 'easy' ? 'selected' : null }}>easy</option>
@@ -126,7 +125,8 @@
 
                     const order = localStorage.getItem("order-section").split(",");
                     const csrf = document.querySelector('meta[name="csrf-token"]').content;
-                    const url = `http://localhost/expert/course/order/update/{{ $course_id }}`;
+                    const url = "{{ url('/expert/course/order/update/' . $course_id) }}";
+
                     const response = await fetch(url, {
                         method: "POST",
                         mode: 'same-origin',

@@ -26,8 +26,7 @@
                 <input class="rounded-md w-3/5" type="text" name="title" value={{ $element->title }} id="title"
                     placeholder="title">
                 <label class="mt-4" for="description">Description</label>
-                <textarea class="rounded-md max-h-96" name="description" id="description" cols="70" rows="10"
-                    placeholder="description">{{ $element->description }}</textarea>
+                <textarea class="rounded-md max-h-96" name="description" id="description" cols="70" rows="10" placeholder="description">{{ $element->description }}</textarea>
                 <div class="flex gap-2">
                     <button type="submit"
                         class="mt-4 whitespace-nowrap py-2 px-4 border-2 rounded-md border-tertiary text-tertiary cursor-pointer">
@@ -178,8 +177,7 @@
 
                         const order = localStorage.getItem("order-questions").split(",");
                         const csrf = document.querySelector('meta[name="csrf-token"]').content;
-                        const url =
-                            `http://localhost/expert/course/section/element/task/order/update/{{ request()->task_id }}`;
+                        const url = "{{ url('expert/course/section/element/task/order/update/' . request()->task_id) }}";
                         const response = await fetch(url, {
                             method: "POST",
                             mode: 'same-origin',
@@ -267,7 +265,7 @@
                 }
 
                 const csrf = document.querySelector('meta[name="csrf-token"]').content;
-                const url = 'http://localhost/expert/edit-course/edit-section/new-element/task/create';
+                const url = "{{ url('/expert/edit-course/edit-section/new-element/task/create') }}";
 
                 const response = await fetch(url, {
                     method: "POST",
