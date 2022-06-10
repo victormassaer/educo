@@ -30,7 +30,7 @@
         @if($activeElement->type == 'task')
             <div>
                 @php
-                    $task = \App\models\Task::with(array('element', 'questions' => function ($query) {
+                    $task = \App\Models\Task::with(array('element', 'questions' => function ($query) {
                     $query->orderBy('order', 'ASC');
                     }))->find($activeElement->task_id);
                     $questions = $task->questions;
