@@ -6,9 +6,11 @@ use App\Models\Certificate;
 use App\Models\Chapter;
 use App\Models\Company;
 use App\Models\Course;
+use App\Models\CourseHasSkill;
 use App\Models\Element;
 use App\Models\MandatoryCourse;
 use App\Models\Participation;
+use App\Models\Skill;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,11 +20,18 @@ class CourseController extends Controller
     public function detail($id){
         $course = Course::where('id', $id)->first();
         $expert = User::where('id', $course->instructor_id)->first();
-
+        $courseHasSkills = CourseHasSkill::where('course_id', $id)->get();
         $participation = Participation::where([
             ['course_id', '=', $id],
             ['user_id', '=', Auth::user()->id],
         ])->first();
+        $skills = [];
+
+        foreach($courseHasSkills as $courseHasSkill){
+            $skill = Skill::where('id', $courseHasSkill->skill_id)->first();
+            $skills[] = $skill;
+        }
+
         if($participation){
             $chapters = Chapter::where('course_id', $id)->get();
             //$skills = //HIER DE SKILLS VAN DE COURSE UIT MODEL COURSEHASSKILL EN DB TABLE
@@ -52,11 +61,12 @@ class CourseController extends Controller
             'participation' => $participation,
             'activeChapter' => $activeChapter,
             'activeElement' => $activeElement,
+            'skills' => $skills,
         ];
 
         if($participation){
             if($participation->total_completed === $course->number_of_chapters && $participation->total_completed != 0){
-                return view('pages.course.finished', $data);
+                return $this->finished($data);
             }
             return view('pages.course.detail', $data);
 
@@ -103,6 +113,13 @@ class CourseController extends Controller
             ['user_id', '=', Auth::user()->id],
         ])->first();
 
+        $courseHasSkills = CourseHasSkill::where('course_id', $course->id)->get();
+        $skills = [];
+        foreach($courseHasSkills as $courseHasSkill){
+            $skill = Skill::where('id', $courseHasSkill->skill_id)->first();
+            $skills[] = $skill;
+        }
+
         if(count($elements) != $currentElement->order+1){
             $nextElement = Element::where([
                 ['chapter_id', '=', $chapterId],
@@ -129,21 +146,39 @@ class CourseController extends Controller
            $participation->updated_at = now();
            $participation->update();
 
-           $certificate = new Certificate();
-           $certificate->user_id = Auth::user()->id;
-           $certificate->date_acquired = now();
-           $certificate->skill_id = now(); //HIER NOG SKILLS OPHALEN UIT COURSE HAS SKILLS TABLE!
-           $certificate->title = now(); //VANWAAR KOMT TITEL?
-
-            $data = [
-                'course' => Course::where('id', $currentChapter->course_id)->first(),
-            ];
+           $certificates = [];
+           foreach($skills as $skill){
+               if(!Certificate::where([
+                   ['user_id', '=', auth()->user()->id],
+                   ['skill_id', '=', $skill->id],
+               ])->first()){
+                   $certificate = new Certificate();
+                   $certificate->user_id = Auth::user()->id;
+                   $certificate->date_acquired = now();
+                   $certificate->skill_id = $skill->id; //HIER NOG SKILLS OPHALEN UIT COURSE HAS SKILLS TABLE!
+                   $certificate->title = $skill->title; //VANWAAR KOMT TITEL?
+                   $certificate->course_id = $course->id; //VANWAAR KOMT TITEL?
+                   $certificate->save();
+                   $certificates[] = $certificate;
+               }
+           }
             return $this->detail($course->id);
         }
     }
 
-    public function checkTask($element){
+    public function finished($data){
+        $certificates = [];
+        $c = Certificate::where('course_id', $data['course']->id)->get();
+        foreach($c as $certificate){
+            $certificates[] = $certificate;
+        }
+        $course = $data['course'];
+        $data1 = [
+            'course' => $course,
+            'certificates' => $certificates,
+        ];
 
+        return view('pages.course.finished', $data1);
     }
 
 }
