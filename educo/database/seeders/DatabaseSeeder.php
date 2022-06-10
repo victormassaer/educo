@@ -24,5 +24,6 @@ class DatabaseSeeder extends Seeder
         \App\Models\Skill::factory(30)->create();
         \App\Models\UserHasSkill::factory(21)->create();
         \App\Models\UserHasCertificate::factory(12)->create();
+        \App\Models\MandatoryCourse::factory(15)->create();
     }
 }
