@@ -23,7 +23,6 @@ class CourseController extends Controller
             ['course_id', '=', $id],
             ['user_id', '=', Auth::user()->id],
         ])->first();
-
         if($participation){
             $chapters = Chapter::where('course_id', $id)->get();
             //$skills = //HIER DE SKILLS VAN DE COURSE UIT MODEL COURSEHASSKILL EN DB TABLE
@@ -54,14 +53,17 @@ class CourseController extends Controller
             'activeChapter' => $activeChapter,
             'activeElement' => $activeElement,
         ];
-        if($participation){
-            if($participation->total_completed != $course->number_of_chapters){
-                return view('pages.course.detail', $data);
-            }
-       }else{
-            return view('pages.course.finished', $data);
-        }
 
+        if($participation){
+            if($participation->total_completed === $course->number_of_chapters && $participation->total_completed != 0){
+                return view('pages.course.finished', $data);
+            }
+            return view('pages.course.detail', $data);
+
+        }else{
+            return view('pages.course.detail', $data);
+
+        }
     }
 
     public function participate($id){
@@ -108,7 +110,7 @@ class CourseController extends Controller
             ])->first();
             $participation->finished_element = $nextElement->order;
             $participation->update();
-
+            $this->checkTask($nextElement->id);
             return $this->detail($course->id);
         }elseif(count($chapters) != $currentChapter->order+1){
             $nextChapter = Chapter::where([
@@ -138,6 +140,10 @@ class CourseController extends Controller
             ];
             return $this->detail($course->id);
         }
+    }
+
+    public function checkTask($element){
+
     }
 
 }
