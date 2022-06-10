@@ -13,7 +13,8 @@ class Participation extends Model
         'user_id',
         'course_id',
         'start_time',
-        'total_completed'
+        'total_completed',
+        'mandatory'
     ];
 
     public function participant() {

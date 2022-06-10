@@ -18,12 +18,12 @@ class CourseFactory extends Factory
     {
         return [
             'title' => $this->faker->word(),
-            'img' => $this->faker->imageUrl($width = 288, $height = 177),
+            'img' => 'images/course_thumbnails/php_course_thumbnail.png',
             'instructor_id' => $this->faker->randomDigit(),
             'duration' => $this->faker->numberBetween($min = 6, $max = 20),
-            'number_of_chapters' => $this->faker->numberBetween($min = 3, $max = 20),
-            'description' => $this->faker->numberBetween($min = 3, $max = 20),
-            'difficulty' => $this->faker->numberBetween($min = 3, $max = 20),
+            'number_of_chapters' => 10,
+            'description' => $this->faker->realText(200, 2),
+            'difficulty' => $this->faker->shuffle('easy, medium, hard'),
         ];
     }
 }

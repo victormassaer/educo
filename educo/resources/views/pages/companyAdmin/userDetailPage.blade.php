@@ -28,20 +28,22 @@
                 @endif
                 @foreach($activeCourses as $key => $course)
                     @if($key <= 1)
-                    <div class="flex flex-cols bg-white rounded mb-4 p-4 shadow-md">
-                        <h3 class="mr-4"><span class="font-bold">Course: </span>{{$course->title}}</h3>
-                        <p class="mr-4"><span class="font-bold">Chapters: </span>{{$course->number_of_chapters}}</p>
-                        @php
-                            $participation = App\models\Participation::where([['user_id', '=', auth()->user()->id],['course_id', '=', $course->id]])->first();
-                            $completed = $participation->total_completed;
-                            echo('<p class="mr-4">' . '<span class="font-bold">Total completed: </span>' .  $completed . '</p>');
-                            if($participation->mandatory === 1){
-                                echo('<p class=" text-fuchsia-400 font-bold">#</p>');
-                            }else{
-                                echo('<p class=" text-green-400 font-bold">#</p>');
-                            }
-                        @endphp
-                    </div>
+                        <a href="{{route('course.detail', $course->id)}}">
+                            <div class="flex flex-cols bg-white rounded mb-4 p-4 shadow-md">
+                                <h3 class="mr-4"><span class="font-bold">Course: </span>{{$course->title}}</h3>
+                                <p class="mr-4"><span class="font-bold">Chapters: </span>{{$course->number_of_chapters}}</p>
+                                @php
+                                    $participation = App\models\Participation::where([['user_id', '=', auth()->user()->id],['course_id', '=', $course->id]])->first();
+                                    $completed = $participation->total_completed;
+                                    echo('<p class="mr-4">' . '<span class="font-bold">Total completed: </span>' .  $completed . '</p>');
+                                    if($participation->mandatory === 1){
+                                        echo('<p class=" text-fuchsia-400 font-bold">#</p>');
+                                    }else{
+                                        echo('<p class=" text-green-400 font-bold">#</p>');
+                                    }
+                                @endphp
+                            </div>
+                        </a>
                     @endif
                 @endforeach
             </div>
@@ -55,20 +57,22 @@
             @endif
             @foreach($chapters as $key => $chapter)
                 @if($key <= 3)
-                @foreach($chapter as $c)
-                    <div class="bg-white my-2 rounded p-4 flex w-8/12 shadow-md">
-                        @php
-                            $course = App\Models\Course::where('id', $c->course->id)->first();
-                            $participation = App\models\Participation::where([['user_id', '=', auth()->user()->id],['course_id', '=', $c->course_id]])->first();
-                            echo('<p class="mr-4 font-bold text-xl">'.  $participation->updated_at->isoFormat('D/M') . ' |</p>');
-                            echo('<p class="mr-4">' . '<span class="font-bold">Course: </span>' .  $course->title . '</p>');
-                        @endphp
-                        <p class="mr-4"><span class="font-bold">Title:</span> {{$c->title}}</p>
+                @foreach($chapter as $key2 => $c)
+                    @if($key2 <= 2)
+                        <div class="bg-white my-2 rounded p-4 flex w-8/12 shadow-md">
+                            @php
+                                $course = App\Models\Course::where('id', $c->course->id)->first();
+                                $participation = App\models\Participation::where([['user_id', '=', auth()->user()->id],['course_id', '=', $c->course_id]])->first();
+                                echo('<p class="mr-4 font-bold text-xl">'.  $participation->updated_at->isoFormat('D/M') . ' |</p>');
+                                echo('<p class="mr-4">' . '<span class="font-bold">Course: </span>' .  $course->title . '</p>');
+                            @endphp
+                            <p class="mr-4"><span class="font-bold">Title:</span> {{$c->title}}</p>
 
-                        @php
-                            echo('<p class="mr-4">' . '<span class="font-bold">Chapter: </span>' .  $participation->total_completed . '/' . $course->number_of_chapters. '</p>');
-                        @endphp
-                    </div>
+                            @php
+                                echo('<p class="mr-4">' . '<span class="font-bold">Chapter: </span>' .  $participation->total_completed . '/' . $course->number_of_chapters. '</p>');
+                            @endphp
+                        </div>
+                    @endif
                 @endforeach
                 @endif
             @endforeach
@@ -97,17 +101,22 @@
             @if(count($mandatoryCourses) === 0)
                 <p class="font-bold italic text-xl">Nothing to see here...</p>
             @endif
-            @foreach($mandatoryCourses as $course)
-                <div class="flex flex-cols bg-white rounded mb-4 p-4 w-8/12 shadow-md">
-                    <h3 class="mr-4"><span class="font-bold">Course: </span>{{$course->title}}</h3>
-                    <p class="mr-4"><span class="font-bold">Chapters: </span>{{$course->number_of_chapters}}</p>
-                    @php
-                        $participation = App\models\Participation::where([['user_id', '=', auth()->user()->id],['course_id', '=', $course->id]])->first();
-                        $completed = $participation->total_completed;
-                        echo('<p class="mr-4">' . '<span class="font-bold">Total completed: </span>' .  $completed . '</p>');
-                    @endphp
-                </div>
+            @foreach($mandatoryCourses as $key => $course)
+                @if($key <= 2)
+                    <div class="flex flex-cols bg-white rounded mb-4 p-4 w-8/12 shadow-md">
+                        <h3 class="mr-4"><span class="font-bold">Course: </span>{{$course->title}}</h3>
+                        <p class="mr-4"><span class="font-bold">Chapters: </span>{{$course->number_of_chapters}}</p>
+                        @php
+                            $participation = App\models\Participation::where([['user_id', '=', auth()->user()->id],['course_id', '=', $course->id]])->first();
+                            $completed = $participation->total_completed;
+                            echo('<p class="mr-4">' . '<span class="font-bold">Total completed: </span>' .  $completed . '</p>');
+                        @endphp
+                    </div>
+                @endif
             @endforeach
+            @if(count($mandatoryCourses) != 0)
+                <a href="{{route('admin.userDetail.allMandatoryCourses', $user->id)}}" class="px-3 py-2 bg-tertiary rounded text-white font-bold">View all</a>
+            @endif
         </div>
 
         <div class="my-5 mt-10">
@@ -115,17 +124,22 @@
             @if(count($personalCourses) === 0)
                 <p class="font-bold italic text-xl">Nothing to see here...</p>
             @endif
-            @foreach($personalCourses as $course)
-                <div class="flex flex-cols bg-white rounded mb-4 p-4 w-8/12 shadow-md">
-                    <h3 class="mr-4"><span class="font-bold">Course: </span>{{$course->title}}</h3>
-                    <p class="mr-4"><span class="font-bold">Chapters: </span>{{$course->number_of_chapters}}</p>
-                    @php
-                        $participation = App\models\Participation::where([['user_id', '=', auth()->user()->id],['course_id', '=', $course->id]])->first();
-                        $completed = $participation->total_completed;
-                        echo('<p class="mr-4">' . '<span class="font-bold">Total completed: </span>' .  $completed . '</p>');
-                    @endphp
-                </div>
+            @foreach($personalCourses as $key => $course)
+                @if($key <= 2)
+                    <div class="flex flex-cols bg-white rounded mb-4 p-4 w-8/12 shadow-md">
+                        <h3 class="mr-4"><span class="font-bold">Course: </span>{{$course->title}}</h3>
+                        <p class="mr-4"><span class="font-bold">Chapters: </span>{{$course->number_of_chapters}}</p>
+                        @php
+                            $participation = App\models\Participation::where([['user_id', '=', auth()->user()->id],['course_id', '=', $course->id]])->first();
+                            $completed = $participation->total_completed;
+                            echo('<p class="mr-4">' . '<span class="font-bold">Total completed: </span>' .  $completed . '</p>');
+                        @endphp
+                    </div>
+                @endif
             @endforeach
+            @if(count($personalCourses) != 0)
+                <a href="{{route('admin.userDetail.allPersonalCourses', $user->id)}}" class="px-3 py-2 bg-tertiary rounded text-white font-bold">View all</a>
+            @endif
         </div>
     </section>
 </x-app-layout>

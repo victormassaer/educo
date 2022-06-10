@@ -46,6 +46,16 @@ class ProfileHasSkillCrudController extends CrudController
     {
         CRUD::column('profile_id');
         CRUD::column('skill_id');
+        /*CRUD::column([
+            // any type of relationship
+            'name'         => 'skills', // name of relationship method in the model
+            'type'         => 'relationship',
+            'label'        => 'Profile', // Table column heading
+            // OPTIONAL
+            // 'entity'    => 'tags', // the method that defines the relationship in your Model
+            // 'attribute' => 'name', // foreign key attribute that is shown to user
+            // 'model'     => App\Models\Category::class, // foreign key model
+        ],);*/
 
         /*$this->crud->addColumn([
             'label'     => 'profile', // Table column heading
@@ -71,7 +81,7 @@ class ProfileHasSkillCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
-        $profiles = Profile::all();
+        $profiles = Profile::where('company_id', backpack_user()->company_id)->get();
         $profileSelect = [];
         foreach($profiles as $pr){
             $profileSelect[] = $pr->title;

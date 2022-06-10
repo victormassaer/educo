@@ -15,7 +15,8 @@ class Element extends Model
         'description',
         'type',
         'task_id',
-        'video_id'
+        'video_id',
+        'order'
     ];
 
     public $timestamps = false;
@@ -28,5 +29,9 @@ class Element extends Model
     public function video()
     {
         return $this->hasOne(Video::class);
+    }
+    public function task()
+    {
+        return $this->hasOne(Task::class);
     }
 }

@@ -68,12 +68,14 @@ class UserCrudController extends CrudController {
             'options' => $array,
             'label' => 'Profile'
         ]);
+
         $this->crud->addField([
             'name' => 'password',
             'type' => 'password',
             'label' => 'Password',
             'value' => backpack_user()->password
         ]);
+
         $this->crud->addField([
             'name' => 'company_id',
             'type' => 'text',
@@ -83,10 +85,69 @@ class UserCrudController extends CrudController {
                 'readonly' => 'readonly'
             ]
         ]);
+
+        $this->crud->addField([
+        'name' => 'role_id',
+        'type' => 'hidden',
+        'label' => 'Company_id',
+        'value' => 1,
+        'attributes' => [
+            'readonly' => 'readonly'
+        ]
+    ]);
     }
 
     protected function setupUpdateOperation()
     {
-        $this->setupCreateOperation();
+        $profiles = Profile::all();
+        $profileSelect = [];
+        foreach($profiles as $pr){
+            $profileSelect[] = $pr->title;
+        }
+
+        $array = $profileSelect;
+        array_unshift($array,"");
+        unset($array[0]);
+
+        //$this->crud->setValidation(TagRequest::class);
+
+        // TODO: remove setFromDb() and manually define Fields
+        //$this->crud->setFromDb();
+        $this->crud->addField([
+            'name' => 'name',
+            'type' => 'text',
+            'label' => "Name"
+        ]);
+        $this->crud->addField([
+            'name' => 'email',
+            'type' => 'email',
+            'label' => 'Email',
+        ]);
+        $this->crud->addField([
+            'name' => 'profile_id',
+            'type' => 'select_from_array',
+            'options' => $array,
+            'label' => 'Profile'
+        ]);
+
+        $this->crud->addField([
+            'name' => 'company_id',
+            'type' => 'text',
+            'label' => 'Company_id',
+            'value' => backpack_user()->company_id,
+            'attributes' => [
+                'readonly' => 'readonly'
+            ]
+        ]);
+
+        $this->crud->addField([
+            'name' => 'role_id',
+            'type' => 'hidden',
+            'label' => 'Company_id',
+            'value' => 1,
+            'attributes' => [
+                'readonly' => 'readonly'
+            ]
+        ]);
     }
 }

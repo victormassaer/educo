@@ -15,7 +15,6 @@ return new class extends Migration
     {
         Schema::create('certificates', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id');
             $table->integer('skill_id');
             $table->string('img');
             $table->dateTime('date_acquired');
