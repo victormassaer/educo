@@ -59,7 +59,7 @@
                 @if($key <= 3)
                 @foreach($chapter as $key2 => $c)
                     @if($key2 <= 2)
-                        <div class="bg-white my-2 rounded p-4 flex w-8/12 shadow-md">
+                        <div class="bg-white my-2 mb-4 rounded p-4 flex w-8/12 shadow-md">
                             @php
                                 $course = App\Models\Course::where('id', $c->course->id)->first();
                                 $participation = App\Models\Participation::where([['user_id', '=', $user->id],['course_id', '=', $c->course_id]])->first();
@@ -88,9 +88,9 @@
             @endif
             @foreach($certificates as $certificate)
                 <div class="inline-block mr-5 text-center bg-white rounded p-6 shadow-md">
-                    <img src="https://placekitten.com/120/120" class="rounded" alt="certicate image">
+                    <img src="{{asset('images/logo2color.png')}}" class="rounded w-28 border-solid border-8px border-secondary" alt="certicate image">
                     <p class="font-bold">{{$certificate->title}}</p>
-                    <span>Acquired at: </span>
+                    <span>Acquired at: </span>s
                     <p>{{\Carbon\Carbon::parse($certificate->date_acquired)->format('j F, Y')}}</p>
                 </div>
             @endforeach

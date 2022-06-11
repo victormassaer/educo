@@ -1001,6 +1001,12 @@ select {
 .w-1\/6 {
   width: 16.666667%;
 }
+.w-32 {
+  width: 8rem;
+}
+.w-28 {
+  width: 7rem;
+}
 .max-w-288 {
   max-width: 288px;
 }
