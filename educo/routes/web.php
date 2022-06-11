@@ -16,6 +16,7 @@ use App\Http\Controllers\UserDashboardController;
 use App\Http\Controllers\ExpertCourseController;
 use App\Http\Controllers\ExpertSectionController;
 use App\Http\Controllers\ExpertElementController;
+use App\Http\Controllers\UserCompetencyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,6 +49,8 @@ Route::group(
         Route::get('/dashboard/finished/{id}', [UserDashboardController::class, 'getFinished'])->name('dashboard.finished');
         Route::get('/dashboard/recommended/{id}', [UserDashboardController::class, 'getRecommended'])->name('dashboard.recommended');
 
+
+        Route::get('/competention-profile', [UserCompetencyController::class, 'index'])->name('dashboard.competency');
 
         Route::group([
             'middleware' => ['checkExpert']
