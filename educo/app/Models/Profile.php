@@ -20,7 +20,12 @@ class Profile extends Model
         return $this->hasMany(User::class);
     }
 
-    public function skills() {
+    public function profileHasSkills() {
+        return $this->belongsToMany(ProfileHasSkills::class);
+    }
+
+    public function skills(){
         return $this->belongsToMany(Skill::class, 'profile_has_skills');
     }
+
 }

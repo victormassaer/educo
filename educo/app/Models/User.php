@@ -52,24 +52,38 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function skills() {
+    public function skills()
+    {
         //userhasskill table aanmaken
         return $this->hasMany(Skill::class);
     }
-
-    public function certificate() {
-        return $this->hasMany(Certificate::class);
+    public function userHasSkills()
+    {
+        //userhasskill table aanmaken
+        return $this->hasMany(userHasSkill::class);
     }
 
-    public function profile() {
+    public function certificate()
+    {
+        return $this->hasMany(Certificate::class);
+    }
+    public function userHasCertificate()
+    {
+        return $this->hasMany(UserHasCertificate::class);
+    }
+
+    public function profile()
+    {
         return $this->belongsTo(Profile::class);
     }
 
-    public function participation() {
+    public function participation()
+    {
         return $this->hasMany(Participation::class);
     }
 
-    public function setPasswordAttribute($value) {
+    public function setPasswordAttribute($value)
+    {
         $this->attributes['password'] = Hash::make($value);
     }
 }

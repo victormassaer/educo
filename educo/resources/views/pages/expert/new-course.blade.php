@@ -14,18 +14,27 @@
             class="flex flex-col max-w-screen-sm gap-2 items-start">
             @csrf
             <label class="mt-4" for="title">Title</label>
-            <input class="rounded-md w-3/5" type="text" name="title" id="title" placeholder="title">
+            <input class="rounded-md w-2/5" type="text" name="title" id="title" placeholder="title">
             <label class="mt-4" for="description">Description</label>
-            <textarea class="rounded-md max-h-96" name="description" id="description" cols="70" rows="10"
-                placeholder="description"></textarea>
+            <textarea class="rounded-md max-h-96" name="description" id="description" cols="70" rows="10" placeholder="description"></textarea>
             <label class="mt-4" for="difficulty">Difficulty</label>
-            <select class="rounded-md w-3/5" name="difficulty" id="difficulty">
+            <select class="rounded-md w-2/5" name="difficulty" id="difficulty">
                 <option>easy</option>
                 <option>medium</option>
                 <option>hard</option>
             </select>
             <label class="mt-4" for="thumbnail">Thumbnail</label>
             <input type="file" id="thumbnail" name="thumbnail">
+            <label class="mt-4" for="skills">Add existing skill (CTRL/Command to select multiple)</label>
+            <select class="rounded-md w-1/5" name="skills" id="skills" name="skills" multiple>
+                @foreach ($skills as $skill)
+                    <option value="{{ $skill->id }}">{{ $skill->title }}</option>
+                @endforeach
+            </select>
+            <input type="hidden" id="skillIds" name="skillIds">
+            <label class="mt-4" for="new_skills">Add new skills (separate with comma ex. skill1,
+                skill2)</label>
+            <input class="rounded-md w-2/5" type="text" name="new_skills" id="new_skills" placeholder="new skills">
             <div class="flex gap-2">
                 <button type="submit"
                     class="mt-4 whitespace-nowrap py-2 px-4 border-2 rounded-md border-tertiary text-tertiary cursor-pointer">
@@ -38,4 +47,19 @@
             </div>
         </form>
     </div>
+    <script>
+        const skillIdsInput = document.querySelector('#skillIds');
+        document.querySelector('#skills').addEventListener('change', (e) => {
+            const options = Array.from(e.target.options);
+            const skillIds = [];
+            options.filter((option) => {
+                if (option.selected === true) {
+                    skillIds.push(option.value);
+                    return true;
+                }
+                return false;
+            });
+            skillIdsInput.value = skillIds;
+        })
+    </script>
 </x-app-layout>

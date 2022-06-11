@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminAllEmployeesDashboardController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\AdminRolesDashboardController;
 use App\Http\Controllers\AdminUserDetailPageController;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\ExpertDashboardController;
 use App\Http\Controllers\ExpertDetailController;
@@ -15,6 +16,7 @@ use App\Http\Controllers\UserDashboardController;
 use App\Http\Controllers\ExpertCourseController;
 use App\Http\Controllers\ExpertSectionController;
 use App\Http\Controllers\ExpertElementController;
+use App\Http\Controllers\UserCompetencyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,9 +29,8 @@ use App\Http\Controllers\ExpertElementController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [AuthenticatedSessionController::class, 'create'])
+    ->name('login');
 
 Route::get('/linkstorage', function () {
     Artisan::call('storage:link');
@@ -48,6 +49,8 @@ Route::group(
         Route::get('/dashboard/finished/{id}', [UserDashboardController::class, 'getFinished'])->name('dashboard.finished');
         Route::get('/dashboard/recommended/{id}', [UserDashboardController::class, 'getRecommended'])->name('dashboard.recommended');
 
+
+        Route::get('/competention-profile', [UserCompetencyController::class, 'index'])->name('dashboard.competency');
 
         Route::group([
             'middleware' => ['checkExpert']

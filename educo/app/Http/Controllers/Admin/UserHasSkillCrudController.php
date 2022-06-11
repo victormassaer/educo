@@ -2,18 +2,19 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\ProfileHasSkillRequest;
+use App\Http\Requests\UserHasSkillRequest;
 use App\Models\Profile;
 use App\Models\Skill;
+use App\Models\User;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
- * Class ProfileHasSkillCrudController
+ * Class UserHasSkillCrudController
  * @package App\Http\Controllers\Admin
  * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
  */
-class ProfileHasSkillCrudController extends CrudController
+class UserHasSkillCrudController extends CrudController
 {
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
@@ -28,12 +29,9 @@ class ProfileHasSkillCrudController extends CrudController
      */
     public function setup()
     {
-        $user = backpack_user();
-        CRUD::setModel(\App\Models\ProfileHasSkills::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/profile-has-skill');
-        CRUD::setEntityNameStrings('profile has skill', 'profile has skills');
-
-        $this->crud->addClause('where', 'company_id', '=', $user->company_id);
+        CRUD::setModel(\App\Models\UserHasSkill::class);
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/user-has-skill');
+        CRUD::setEntityNameStrings('user has skill', 'user has skills');
     }
 
     /**
@@ -44,28 +42,9 @@ class ProfileHasSkillCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        CRUD::column('profile_id');
+        CRUD::column('user_id');
         CRUD::column('skill_id');
-        /*CRUD::column([
-            // any type of relationship
-            'name'         => 'skills', // name of relationship method in the model
-            'type'         => 'relationship',
-            'label'        => 'Profile', // Table column heading
-            // OPTIONAL
-            // 'entity'    => 'tags', // the method that defines the relationship in your Model
-            // 'attribute' => 'name', // foreign key attribute that is shown to user
-            // 'model'     => App\Models\Category::class, // foreign key model
-        ],);*/
 
-        /*$this->crud->addColumn([
-            'label'     => 'profile', // Table column heading
-            'type'      => 'number',
-            'name'      => 'user_id',
-            'key'=>'profile_id',
-           'entity'    => 'profile', // the method that defines the relationship in your Model
-           'attribute' => 'email', // foreign key attribute that is shown to user
-           'model'     => Profile::class, // foreign key model
-        ]);*/
         /**
          * Columns can be defined using the fluent syntax or array syntax:
          * - CRUD::column('price')->type('number');
@@ -81,11 +60,10 @@ class ProfileHasSkillCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
-        $profiles = Profile::where('company_id', backpack_user()->company_id)->get();
-        $profileSelect = [];
-        foreach($profiles as $key => $pr){
-            $profileSelect[$pr->id] = $pr->title;
-
+        $users = User::where('company_id', backpack_user()->company_id)->get();
+        $userSelect = [];
+        foreach($users as $user){
+            $userSelect[$user->id] = $user->name;
         }
 
         $skills = Skill::all();
@@ -93,13 +71,14 @@ class ProfileHasSkillCrudController extends CrudController
         foreach($skills as $skill){
             $skillSelect[$skill->id] = $skill->title;
         }
-        CRUD::setValidation(ProfileHasSkillRequest::class);
+
+        CRUD::setValidation(UserHasSkillRequest::class);
 
         CRUD::addField([
-            'name' => 'profile_id',
+            'name' => 'user_id',
             'type' => 'select_from_array',
-            'options' => $profileSelect,
-            'label' => 'Profile'
+            'options' => $userSelect,
+            'label' => 'User'
         ]);
 
         CRUD::addField([
@@ -107,16 +86,6 @@ class ProfileHasSkillCrudController extends CrudController
             'type' => 'select_from_array',
             'options' => $skillSelect,
             'label' => 'Skill'
-        ]);
-
-        CRUD::addField([
-            'name' => 'company_id',
-            'type' => 'text',
-            'label' => 'Company_id',
-            'value' => backpack_user()->company_id,
-            'attributes' => [
-                'readonly' => 'readonly'
-            ]
         ]);
 
         /**

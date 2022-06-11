@@ -14,11 +14,13 @@ class UserHasCertificate extends Model
         'certificate_id',
     ];
 
-    public function user() {
-        return $this->hasOne(User::class);
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 
-    public function certificate() {
-        return $this->hasOne(Certificate::class);
+    public function certificate()
+    {
+        return $this->belongsTo(Certificate::class);
     }
 }

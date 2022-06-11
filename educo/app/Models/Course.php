@@ -32,13 +32,18 @@ class Course extends Model
         return $this->hasMany(Chapter::class);
     }
 
-    public function participation() {
+    public function courseHasSkills()
+    {
+        return $this->hasMany(CourseHasSkill::class);
+    }
+
+    public function participation()
+    {
         return $this->belongsTo(Participation::class);
     }
 
-    public function mandatoryCourse() {
+    public function mandatoryCourse()
+    {
         return $this->belongsTo(MandatoryCourse::class);
     }
-
-
 }
