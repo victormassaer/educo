@@ -15,7 +15,7 @@
                     <h3 class="mr-4"><span class="font-bold">Course: </span>{{$course->title}}</h3>
                     <p class="mr-4"><span class="font-bold">Chapters: </span>{{$course->number_of_chapters}}</p>
                     @php
-                        $participation = App\models\Participation::where([['user_id', '=', auth()->user()->id],['course_id', '=', $course->id]])->first();
+                        $participation = App\models\Participation::where([['user_id', '=', $user->id],['course_id', '=', $course->id]])->first();
                         $completed = $participation->total_completed;
                         echo('<p class="mr-4">' . '<span class="font-bold">Total completed: </span>' .  $completed . '</p>');
                     @endphp
