@@ -33,7 +33,7 @@
                                 <h3 class="mr-4"><span class="font-bold">Course: </span>{{$course->title}}</h3>
                                 <p class="mr-4"><span class="font-bold">Chapters: </span>{{$course->number_of_chapters}}</p>
                                 @php
-                                    $participation = App\models\Participation::where([['user_id', '=', auth()->user()->id],['course_id', '=', $course->id]])->first();
+                                    $participation = App\models\Participation::where([['user_id', '=', $user->id],['course_id', '=', $course->id]])->first();
                                     $completed = $participation->total_completed;
                                     echo('<p class="mr-4">' . '<span class="font-bold">Total completed: </span>' .  $completed . '</p>');
                                     if($participation->mandatory === 1){
@@ -62,7 +62,7 @@
                         <div class="bg-white my-2 rounded p-4 flex w-8/12 shadow-md">
                             @php
                                 $course = App\Models\Course::where('id', $c->course->id)->first();
-                                $participation = App\models\Participation::where([['user_id', '=', auth()->user()->id],['course_id', '=', $c->course_id]])->first();
+                                $participation = App\models\Participation::where([['user_id', '=', $user()->id],['course_id', '=', $c->course_id]])->first();
                                 echo('<p class="mr-4 font-bold text-xl">'.  $participation->updated_at->isoFormat('D/M') . ' |</p>');
                                 echo('<p class="mr-4">' . '<span class="font-bold">Course: </span>' .  $course->title . '</p>');
                             @endphp
@@ -107,7 +107,7 @@
                         <h3 class="mr-4"><span class="font-bold">Course: </span>{{$course->title}}</h3>
                         <p class="mr-4"><span class="font-bold">Chapters: </span>{{$course->number_of_chapters}}</p>
                         @php
-                            $participation = App\models\Participation::where([['user_id', '=', auth()->user()->id],['course_id', '=', $course->id]])->first();
+                            $participation = App\models\Participation::where([['user_id', '=', $user->id],['course_id', '=', $course->id]])->first();
                             $completed = $participation->total_completed;
                             echo('<p class="mr-4">' . '<span class="font-bold">Total completed: </span>' .  $completed . '</p>');
                         @endphp
@@ -130,7 +130,7 @@
                         <h3 class="mr-4"><span class="font-bold">Course: </span>{{$course->title}}</h3>
                         <p class="mr-4"><span class="font-bold">Chapters: </span>{{$course->number_of_chapters}}</p>
                         @php
-                            $participation = App\models\Participation::where([['user_id', '=', auth()->user()->id],['course_id', '=', $course->id]])->first();
+                            $participation = App\models\Participation::where([['user_id', '=', $user()->id],['course_id', '=', $course->id]])->first();
                             $completed = $participation->total_completed;
                             echo('<p class="mr-4">' . '<span class="font-bold">Total completed: </span>' .  $completed . '</p>');
                         @endphp
