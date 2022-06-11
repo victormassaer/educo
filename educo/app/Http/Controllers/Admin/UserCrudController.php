@@ -38,15 +38,11 @@ class UserCrudController extends CrudController {
 
     protected function setupCreateOperation()
     {
-        $profiles = Profile::all();
+        $profiles = Profile::where('company_id', backpack_user()->company_id)->get();
         $profileSelect = [];
         foreach($profiles as $pr){
-            $profileSelect[] = $pr->title;
+            $profileSelect[$pr->id] = $pr->title;
         }
-
-        $array = $profileSelect;
-        array_unshift($array,"");
-        unset($array[0]);
 
         //$this->crud->setValidation(TagRequest::class);
 
@@ -65,7 +61,7 @@ class UserCrudController extends CrudController {
         $this->crud->addField([
             'name' => 'profile_id',
             'type' => 'select_from_array',
-            'options' => $array,
+            'options' => $profileSelect,
             'label' => 'Profile'
         ]);
 
@@ -99,15 +95,11 @@ class UserCrudController extends CrudController {
 
     protected function setupUpdateOperation()
     {
-        $profiles = Profile::all();
+        $profiles = Profile::where('company_id', backpack_user()->company_id)->get();
         $profileSelect = [];
         foreach($profiles as $pr){
-            $profileSelect[] = $pr->title;
+            $profileSelect[$pr->id] = $pr->title;
         }
-
-        $array = $profileSelect;
-        array_unshift($array,"");
-        unset($array[0]);
 
         //$this->crud->setValidation(TagRequest::class);
 
@@ -126,7 +118,7 @@ class UserCrudController extends CrudController {
         $this->crud->addField([
             'name' => 'profile_id',
             'type' => 'select_from_array',
-            'options' => $array,
+            'options' => $profileSelect,
             'label' => 'Profile'
         ]);
 
