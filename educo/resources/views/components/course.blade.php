@@ -1,4 +1,4 @@
-<a href="{{route('course.detail', $course->id)}}" class="p-3 m-4 w-1/4 w-288 h-177">
+<a href="{{route('course.detail', $course->id)}}" class="m-4 w-1/4 w-288 h-177 shadow-md rounded-md">
 <img class="w-fit m-0 rounded-md " src="{{ asset('storage/' . $course->img) }}" alt="">
     <div class="bg-white pt-4 pb-1 m-0 rounded-md">
         <div class="flex flex-col px-3">
