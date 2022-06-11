@@ -60,7 +60,7 @@ class User extends Authenticatable
     public function userHasSkills()
     {
         //userhasskill table aanmaken
-        return $this->hasMany(userHasSkill::class);
+        return $this->hasMany(UserHasSkill::class);
     }
 
     public function certificate()
