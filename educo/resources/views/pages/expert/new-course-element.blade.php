@@ -67,7 +67,7 @@
             </form>
         @elseif($step === '3')
             <div class="max-w-3xl">
-                <iframe src={{ $video_element['body']['player_embed_url'] }} class="max-w-4xl h-96" frameborder="0"
+                <iframe src="{{ $video_element['body']['player_embed_url'] }}" class="max-w-4xl h-96" frameborder="0"
                     webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
                 <h3 class="text-3xl font-bold mt-4 mb-4">{{ $element->title }}</h3>
                 <p>{{ $element->description }}</p>

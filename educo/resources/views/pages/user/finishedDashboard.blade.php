@@ -8,7 +8,7 @@
         </div>
         <div class="py-5 max-w-7xl mx-auto sm:px-6 lg:px-8 flex flex-row">
             @foreach($finishedCourses as $finishedCourse)
-                <x-Course :course="$finishedCourse" class="basis-1/3"/>
+                <x-course :course="$finishedCourse" class="basis-1/3"/>
             @endforeach
         </div>
 </x-app-layout>

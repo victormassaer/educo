@@ -15,7 +15,6 @@ class Course extends Model
         'img',
         'instructor_id',
         'mandatory',
-        'duration',
         'number_of_chapters',
         'difficulty',
         'draft',

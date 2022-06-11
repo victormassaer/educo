@@ -33,7 +33,7 @@
                                 <h3 class="mr-4"><span class="font-bold">Course: </span>{{$course->title}}</h3>
                                 <p class="mr-4"><span class="font-bold">Chapters: </span>{{$course->number_of_chapters}}</p>
                                 @php
-                                    $participation = App\models\Participation::where([['user_id', '=', auth()->user()->id],['course_id', '=', $course->id]])->first();
+                                    $participation = App\models\Participation::where([['user_id', '=', $user->id],['course_id', '=', $course->id]])->first();
                                     $completed = $participation->total_completed;
                                     echo('<p class="mr-4">' . '<span class="font-bold">Total completed: </span>' .  $completed . '</p>');
                                     if($participation->mandatory === 1){
@@ -59,10 +59,10 @@
                 @if($key <= 3)
                 @foreach($chapter as $key2 => $c)
                     @if($key2 <= 2)
-                        <div class="bg-white my-2 rounded p-4 flex w-8/12 shadow-md">
+                        <div class="bg-white my-2 mb-4 rounded p-4 flex w-8/12 shadow-md">
                             @php
                                 $course = App\Models\Course::where('id', $c->course->id)->first();
-                                $participation = App\models\Participation::where([['user_id', '=', auth()->user()->id],['course_id', '=', $c->course_id]])->first();
+                                $participation = App\Models\Participation::where([['user_id', '=', $user->id],['course_id', '=', $c->course_id]])->first();
                                 echo('<p class="mr-4 font-bold text-xl">'.  $participation->updated_at->isoFormat('D/M') . ' |</p>');
                                 echo('<p class="mr-4">' . '<span class="font-bold">Course: </span>' .  $course->title . '</p>');
                             @endphp
@@ -88,7 +88,7 @@
             @endif
             @foreach($certificates as $certificate)
                 <div class="inline-block mr-5 text-center bg-white rounded p-6 shadow-md">
-                    <img src="https://placekitten.com/120/120" class="rounded" alt="certicate image">
+                    <img src="{{asset('images/logo2color.png')}}" class="rounded w-24 border-solid border-8 p-2 border-secondary" alt="certicate image">
                     <p class="font-bold">{{$certificate->title}}</p>
                     <span>Acquired at: </span>
                     <p>{{\Carbon\Carbon::parse($certificate->date_acquired)->format('j F, Y')}}</p>
@@ -107,7 +107,7 @@
                         <h3 class="mr-4"><span class="font-bold">Course: </span>{{$course->title}}</h3>
                         <p class="mr-4"><span class="font-bold">Chapters: </span>{{$course->number_of_chapters}}</p>
                         @php
-                            $participation = App\models\Participation::where([['user_id', '=', auth()->user()->id],['course_id', '=', $course->id]])->first();
+                            $participation = App\Models\Participation::where([['user_id', '=', $user->id],['course_id', '=', $course->id]])->first();
                             $completed = $participation->total_completed;
                             echo('<p class="mr-4">' . '<span class="font-bold">Total completed: </span>' .  $completed . '</p>');
                         @endphp
@@ -130,7 +130,7 @@
                         <h3 class="mr-4"><span class="font-bold">Course: </span>{{$course->title}}</h3>
                         <p class="mr-4"><span class="font-bold">Chapters: </span>{{$course->number_of_chapters}}</p>
                         @php
-                            $participation = App\models\Participation::where([['user_id', '=', auth()->user()->id],['course_id', '=', $course->id]])->first();
+                            $participation = App\Models\Participation::where([['user_id', '=', $user->id],['course_id', '=', $course->id]])->first();
                             $completed = $participation->total_completed;
                             echo('<p class="mr-4">' . '<span class="font-bold">Total completed: </span>' .  $completed . '</p>');
                         @endphp

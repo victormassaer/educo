@@ -2,6 +2,10 @@
     <section>
         <h1>{{$course->title}}</h1>
         <h3><span>Created by: </span>{{$expert->name}}</h3>
+        <h3 class="text-tertiary font-bold text-2xl mt-3">Skills</h3>
+        @foreach($skills as $key => $skill)
+            <div class="inline-block bg-gray-200 px-2 rounded my-2 mr-2 shadow-md">{{$skill->title}}</div>
+        @endforeach
         @if(!$participation)
             <div>
                 <p>{{$course->description}}</p>
@@ -29,7 +33,32 @@
 
         @if($activeElement->type == 'task')
             <div>
+                @php
+                    $task = \App\Models\Task::with(array('element', 'questions' => function ($query) {
+                    $query->orderBy('order', 'ASC');
+                    }))->find($activeElement->task_id);
+                    $questions = $task->questions;
+                @endphp
+                <form action="">
+                    @csrf
+                    @foreach($questions as $question)
+                        <div class="bg-white rounded p-3 w-1/3 my-5">
+                            <h2>{{$question->question}}</h2>
+                            <select name="{{$question->id}}" id="{{$question->question}}">
+                                @foreach (unserialize($question->options) as $option)
+                                    <option value="{{$option}}">{{ $option }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    @endforeach
+                    <input type="submit" value="check questions" class="cursor-pointer">
+                </form>
+            </div>
+        @else
+            <div>
+                @php
 
+                @endphp
             </div>
         @endif
 
@@ -38,4 +67,8 @@
             </div>
         @endif
     </section>
+
+    <script>
+
+    </script>
 </x-app-layout>

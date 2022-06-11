@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Course;
 use App\Models\CourseHasSkill;
+use App\Models\MandatoryCourse;
 use App\Models\Participation;
 use App\Models\Skill;
 use App\Models\User;
@@ -50,21 +51,24 @@ class UserDashboardController extends Controller
     public function getObligated()
     {
         $user = Auth::user();
-        $mandatoryParticipations = Participation::where([
-            ['user_id', '=', $user->id],
-            ['mandatory', '=', 1]
-        ])->get();
+        $profile_id = $user->profile_id;
+        $company_id = $user->company_id;
 
-        $mandatoryCourses = [];
+        $mandatoryCourses = MandatoryCourse::where([
+            ['profile_id', '=', $profile_id],
+            ['company_id', '=', $company_id],
+        ])->get('course_id');
 
-        foreach($mandatoryParticipations as $participation){
-            $course = Course::where('id', $participation->course_id)->first();
-            $mandatoryCourses[] = $course;
+        $mandatory = [];
+
+        foreach ($mandatoryCourses as $mandatoryCourse) {
+            $id = $mandatoryCourse->course_id;
+            $mandatory [] = Course::where('id', $id)->first();
         }
 
         $data = [
             'user' => $user,
-            'mandatoryCourses' => $mandatoryCourses,
+            'mandatoryCourses' => $mandatory,
         ];
 
         return view('pages.user.obligatedDashboard', $data);
