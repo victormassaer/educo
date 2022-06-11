@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminAllEmployeesDashboardController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\AdminRolesDashboardController;
 use App\Http\Controllers\AdminUserDetailPageController;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\ExpertDashboardController;
 use App\Http\Controllers\ExpertDetailController;
@@ -27,9 +28,8 @@ use App\Http\Controllers\ExpertElementController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [AuthenticatedSessionController::class, 'create'])
+    ->name('login');
 
 Route::get('/linkstorage', function () {
     Artisan::call('storage:link');
