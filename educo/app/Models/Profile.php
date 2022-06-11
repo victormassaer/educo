@@ -24,4 +24,10 @@ class Profile extends Model
         return $this->hasMany(ProfileHasSkills::class);
     }
 
+    public function mandatoryCourse() {
+        return $this->hasMany(MandatoryCourse::class);
+    }
+
+
+
 }

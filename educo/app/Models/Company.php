@@ -17,8 +17,4 @@ class Company extends Model
     public function company() {
         return $this->belongsTo(User::class);
     }
-
-    public function mandatoryCourse() {
-        return $this->belongsTo(MandatoryCourse::class);
-    }
 }
