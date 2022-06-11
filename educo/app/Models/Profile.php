@@ -28,6 +28,11 @@ class Profile extends Model
         return $this->hasMany(MandatoryCourse::class);
     }
 
+    public function skills()
+    {
+        return $this->belongsToMany(Skill::class, 'profile_has_skills');
+    }
+
 
 
 }
