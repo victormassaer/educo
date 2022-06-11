@@ -14,7 +14,6 @@ class AdminRolesDashboardController extends Controller
     public function index(){
         $user = Auth::user();
         $profiles = Profile::where('company_id', $user->company_id)->get();
-        dd($profiles);
         $company = Company::where('id', $user->company_id)->first();
         $skillsPerProfile= [];
         foreach($profiles as $profile){
