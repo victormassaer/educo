@@ -67,6 +67,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Certificate::class);
     }
+    public function userHasCertificate()
+    {
+        return $this->hasMany(UserHasCertificate::class);
+    }
 
     public function profile()
     {

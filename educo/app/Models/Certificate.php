@@ -16,8 +16,13 @@ class Certificate extends Model
         'date_acquired', //eig moeten we nog aparte table aanmaken 'user_has_certificate'
     ];
 
-    public function skill() {
+    public function skill()
+    {
         return $this->belongsTo(Skill::class);
     }
 
+    public function userHasCertificate()
+    {
+        return $this->hasMany(UserHasCertificate::class);
+    }
 }
