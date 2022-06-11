@@ -14,11 +14,13 @@ class CourseHasSkill extends Model
         'skill_id',
     ];
 
-    public function course() {
-        return $this->hasOne(Course::class);
+    public function course()
+    {
+        return $this->belongsTo(Course::class);
     }
 
-    public function skill() {
-        return $this->hasOne(Skill::class);
+    public function skill()
+    {
+        return $this->belongsTo(Skill::class);
     }
 }
