@@ -11,7 +11,7 @@
         @foreach($profile->user as $key => $user)
             <a href="{{route('admin.userDetail.index', $user->id)}}">
                 <div class="bg-white rounded p-2 my-2 w-8/12 shadow-md">
-                    <img src="{{$user->picture}}" class="rounded-full inline-block" alt="profile picture">
+                    <img src="{{asset($user->picture)}}" class="rounded-full inline-block" alt="profile picture">
                     <h3 class="font-bold text-xl inline-block">{{$user->name}}</h3>
                 </div>
             </a>
