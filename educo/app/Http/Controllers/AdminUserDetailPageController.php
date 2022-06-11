@@ -37,7 +37,7 @@ class AdminUserDetailPageController extends Controller
         $certificates = [];
         $c = UserHasCertificate::where('user_id', $user->id)->get();
         foreach($c as $certificate){
-            $certificates[] =Certificate::where('id', $certificate->certificate_id);
+            $certificates[] =Certificate::where('id', $certificate->certificate_id)->first();
         }
         $activeCourses = [];
         foreach($participations as $participation){
