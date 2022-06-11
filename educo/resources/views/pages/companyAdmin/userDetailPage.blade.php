@@ -88,7 +88,7 @@
             @endif
             @foreach($certificates as $certificate)
                 <div class="inline-block mr-5 text-center bg-white rounded p-6 shadow-md">
-                    <img src="{{asset('images/logo2color.png')}}" class="rounded w-24 border-solid border-8 border-secondary" alt="certicate image">
+                    <img src="{{asset('images/logo2color.png')}}" class="rounded w-24 border-solid border-8 p-2 border-secondary" alt="certicate image">
                     <p class="font-bold">{{$certificate->title}}</p>
                     <span>Acquired at: </span>
                     <p>{{\Carbon\Carbon::parse($certificate->date_acquired)->format('j F, Y')}}</p>
