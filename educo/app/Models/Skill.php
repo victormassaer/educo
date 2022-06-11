@@ -39,8 +39,6 @@ class Skill extends Model
 
     public function Profiles()
     {
-
-    public function Profiles(){
         return $this->BelongsToMany(Profile::class);
     }
 }
