@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Certificate;
 use App\Models\Chapter;
 use App\Models\Company;
 use App\Models\Course;
@@ -36,7 +37,7 @@ class UserDetailController extends Controller
         $certificates = [];
         $c = UserHasCertificate::where('user_id', $user->id)->get();
         foreach($c as $certificate){
-            $certificates[] = $certificate;
+            $certificates[] = Certificate::where('id', $certificate->certificate_id);
         }
         $activeCourses = [];
         foreach($participations as $participation){
