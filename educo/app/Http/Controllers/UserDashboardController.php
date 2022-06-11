@@ -6,11 +6,8 @@ use App\Models\Course;
 use App\Models\CourseHasSkill;
 use App\Models\MandatoryCourse;
 use App\Models\Participation;
-use App\Models\Skill;
-use App\Models\User;
 use App\Models\UserHasSkill;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
 
 class UserDashboardController extends Controller
 {
@@ -20,7 +17,7 @@ class UserDashboardController extends Controller
 
         $data = [
             'user' => $user,
-            'courses' => Course::all(),
+            'courses' => Course::paginate(12),
         ];
 
         return view('pages.user.dashboard', $data);
@@ -141,7 +138,7 @@ class UserDashboardController extends Controller
 
         $data = [
             'user' => $user,
-            'recommendedCourses' => $recommendedCourses
+            'recommendedCourses' => array_slice($recommendedCourses, 0, 12, true)
         ];
 
         return view('pages.user.recommendedDashboard', $data);
