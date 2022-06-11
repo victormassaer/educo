@@ -16,10 +16,11 @@ class ProfileHasSkills extends Model
         'company_id',
     ];
 
-    public function profiles(){
-        return $this->hasMany(Profile::class, 'profiles');
+    public function profile(){
+        return $this->belongsTo(Profile::class);
     }
-    public function skills(){
-        return $this->hasMany(Skill::class, 'skills');
+
+    public function skill(){
+        return $this->belongsTo(Skill::class);
     }
 }
