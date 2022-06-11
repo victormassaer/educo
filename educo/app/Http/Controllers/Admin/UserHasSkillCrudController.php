@@ -63,34 +63,28 @@ class UserHasSkillCrudController extends CrudController
         $users = User::where('company_id', backpack_user()->company_id)->get();
         $userSelect = [];
         foreach($users as $user){
-            $userSelect[] = $user->name;
+            $userSelect[$user->id] = $user->name;
         }
-        $userArray = $userSelect;
-        array_unshift($userArray,"");
-        unset($userArray[0]);
 
         $skills = Skill::all();
         $skillSelect = [];
         foreach($skills as $skill){
-            $skillSelect[] = $skill->title;
+            $skillSelect[$skill->id] = $skill->title;
         }
-        $skillArray = $skillSelect;
-        array_unshift($skillArray,"");
-        unset($skillArray[0]);
 
         CRUD::setValidation(UserHasSkillRequest::class);
 
         CRUD::addField([
             'name' => 'user_id',
             'type' => 'select_from_array',
-            'options' => $userArray,
+            'options' => $userSelect,
             'label' => 'User'
         ]);
 
         CRUD::addField([
             'name' => 'skill_id',
             'type' => 'select_from_array',
-            'options' => $skillArray,
+            'options' => $skillSelect,
             'label' => 'Skill'
         ]);
 

@@ -15,4 +15,11 @@ class ProfileHasSkills extends Model
         'skill_id',
         'company_id',
     ];
+
+    public function profiles(){
+        return $this->hasMany(Profile::class, 'profiles');
+    }
+    public function skills(){
+        return $this->hasMany(Skill::class, 'skills');
+    }
 }

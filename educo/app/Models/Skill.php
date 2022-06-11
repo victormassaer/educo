@@ -15,11 +15,7 @@ class Skill extends Model
         'description'
     ];
 
-    public function ProfileHasSkill(){
-        return $this->BelongsToMany(ProfileHasSkills::class);
-    }
-
-    public function Profiles(){
-        return $this->BelongsToMany(Profile::class);
+    public function ProfileHasSkills(){
+        return $this->belongsToMany(ProfileHasSkills::class);
     }
 }
