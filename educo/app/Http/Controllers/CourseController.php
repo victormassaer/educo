@@ -149,6 +149,7 @@ class CourseController extends Controller
 
            $certificates = [];
            $userCertificates = UserHasCertificate::where('user_id', auth()->user()->id)->get();
+           $certificateFromSkill = [];
            foreach($skills as $skill){
                foreach($userCertificates as $userCertificate){
                    $certificateFromSkill[] = Certificate::where([
