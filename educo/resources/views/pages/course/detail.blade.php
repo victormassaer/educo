@@ -1,74 +1,77 @@
 <x-app-layout>
     <section>
-        <h1>{{$course->title}}</h1>
-        <h3><span>Created by: </span>{{$expert->name}}</h3>
+        <h1>{{ $course->title }}</h1>
+        <h3><span>Created by: </span>{{ $expert->name }}</h3>
         <h3 class="text-tertiary font-bold text-2xl mt-3">Skills</h3>
-        @foreach($skills as $key => $skill)
-            <div class="inline-block bg-gray-200 px-2 rounded my-2 mr-2 shadow-md">{{$skill->title}}</div>
+        @foreach ($skills as $key => $skill)
+            <div class="inline-block bg-gray-200 px-2 rounded my-2 mr-2 shadow-md">{{ $skill->title }}</div>
         @endforeach
-        @if(!$participation)
+        @if (!$participation)
             <div>
-                <p>{{$course->description}}</p>
+                <p>{{ $course->description }}</p>
                 <h2>Course structure</h2>
                 <div>
-                    @foreach($chapters as $chapter)
-                        <h3>{{$chapter->title}}</h3>
-                        @foreach($chapter->elements as $element)
-                            <p>{{$element->title}}</p>
+                    @foreach ($chapters as $chapter)
+                        <h3>{{ $chapter->title }}</h3>
+                        @foreach ($chapter->elements as $element)
+                            <p>{{ $element->title }}</p>
                         @endforeach
                     @endforeach
                 </div>
 
-                <a href="{{route('course.participation', $course->id)}}">
+                <a href="{{ route('course.participation', $course->id) }}">
                     start this course
                 </a>
             </div>
         @else
-
             <div>
-                <h2><span>Current chapter: </span>{{$activeChapter->title}}</h2>
-                <h3><span>Current: </span>{{$activeElement->title}}</h3>
-                <p>{{$activeElement->description}}</p>
+                <h2><span>Current chapter: </span>{{ $activeChapter->title }}</h2>
+                <h3><span>Current: </span>{{ $activeElement->title }}</h3>
+                <p>{{ $activeElement->description }}</p>
             </div>
 
-        @if($activeElement->type == 'task')
-            <div>
-                @php
-                    $task = \App\Models\Task::with(array('element', 'questions' => function ($query) {
-                    $query->orderBy('order', 'ASC');
-                    }))->find($activeElement->task_id);
-                    $questions = $task->questions;
-                @endphp
-                <form action="">
-                    @csrf
-                    @foreach($questions as $question)
-                        <div class="bg-white rounded p-3 w-1/3 my-5">
-                            <h2>{{$question->question}}</h2>
-                            <select name="{{$question->id}}" id="{{$question->question}}">
-                                @foreach (unserialize($question->options) as $option)
-                                    <option value="{{$option}}">{{ $option }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    @endforeach
-                    <input type="submit" value="check questions" class="cursor-pointer">
-                </form>
-            </div>
-        @else
-            <div>
-                @php
+            @if ($activeElement->type == 'task')
+                <div>
+                    @php
+                        $task = \App\Models\Task::with([
+                            'element',
+                            'questions' => function ($query) {
+                                $query->orderBy('order', 'ASC');
+                            },
+                        ])->find($activeElement->task_id);
+                        $questions = $task->questions;
+                    @endphp
+                    <form action="">
+                        @csrf
+                        @foreach ($questions as $question)
+                            <div class="bg-white rounded p-3 w-1/3 my-5">
+                                <h2>{{ $question->question }}</h2>
+                                <select name="{{ $question->id }}" id="{{ $question->question }}">
+                                    @foreach (unserialize($question->options) as $option)
+                                        <option value="{{ $option }}">{{ $option }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        @endforeach
+                        <input type="submit" value="check questions" class="cursor-pointer">
+                    </form>
+                </div>
+            @else
+                <div>
+                    @php
+                        $video = \App\Models\Video::find($activeElement->video_id);
+                        $video_element = Vimeo\Laravel\Facades\Vimeo::request($video->url, ['per_page' => 1], 'GET');
+                    @endphp
+                    <iframe src={{ $video_element['body']['player_embed_url'] }} class="max-w-4xl h-96"
+                        frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+                </div>
+            @endif
 
-                @endphp
-            </div>
-        @endif
-
             <div>
-                <a href="{{route('next.step.course', [$activeElement->id, $activeChapter->id])}}">next step</a>
+                <a href="{{ route('next.step.course', [$activeElement->id, $activeChapter->id]) }}">next step</a>
             </div>
         @endif
     </section>
 
-    <script>
-
-    </script>
+    <script></script>
 </x-app-layout>
