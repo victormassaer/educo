@@ -49,7 +49,6 @@
 
         <div class="mt-4">
             <a class="px-3 py-2 bg-primary-blue rounded text-white font-bold" href="{{route('user.detail.edit.index')}}">edit profile</a>
-            <a class="px-3 py-2 bg-secondary rounded text-white font-bold" href="{{route('user.detail.complete.index')}}">complete profile information</a>
         </div>
 
         <div class="my-5 mt-10">
