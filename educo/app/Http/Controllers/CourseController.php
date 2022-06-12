@@ -13,6 +13,7 @@ use App\Models\Participation;
 use App\Models\Skill;
 use App\Models\User;
 use App\Models\UserHasCertificate;
+use App\Models\UserHasSkill;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -156,6 +157,14 @@ class CourseController extends Controller
                        ['id', '=', $userCertificate->certificate_id],
                        ['skill_id', '=', $skill->id]
                    ])->first();
+               }if(!UserHasSkill::where([
+                   ['user_id', '=', auth()->user()->id],
+                   ['skill_id', '=', $skill->id]
+               ])){
+                   $s = new UserHasSkill();
+                   $s->user_id = auth()->user()->id;
+                   $s->skill_id = $skill->id;
+                   $s->save();
                }
                if(!$certificateFromSkill){
                    $certificate = new Certificate();
