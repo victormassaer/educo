@@ -20,20 +20,6 @@
                             </div>
                         </a>
                     </li>
-                    <li class="flex justify-center flex-col ">
-                        <a href="/my-courses">
-                            <div class="w-10 flex items-center px-2 py-1 rounded-2xl mx-auto">
-                                <x-svg.navicons.layout class="stroke-white" />
-                            </div>
-                        </a>
-                    </li>
-                    <li class="flex justify-center flex-col">
-                        <a href="/new-courses">
-                            <div class="w-10 flex items-center px-2 py-1 rounded-2xl mx-auto">
-                                <x-svg.navicons.layout-add class="stroke-white" />
-                            </div>
-                        </a>
-                    </li>
                     <li class="flex justify-center flex-col">
                         <a href="/expert/list">
                             <div class="w-10 flex items-center px-2 py-1 rounded-2xl mx-auto">
@@ -45,13 +31,6 @@
                         <a href="/competention-profile">
                             <div class="w-10 flex items-center px-2 py-1 rounded-2xl mx-auto">
                                 <x-svg.navicons.radar class="stroke-white" />
-                            </div>
-                        </a>
-                    </li>
-                    <li class="flex justify-center flex-col">
-                        <a href="/certificates">
-                            <div class="w-10 flex items-center px-2 py-1 rounded-2xl  mx-auto">
-                                <x-svg.navicons.certificate class="stroke-white" />
                             </div>
                         </a>
                     </li>

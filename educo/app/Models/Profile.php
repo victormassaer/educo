@@ -21,11 +21,18 @@ class Profile extends Model
     }
 
     public function profileHasSkills() {
-        return $this->belongsToMany(ProfileHasSkills::class);
+        return $this->hasMany(ProfileHasSkills::class);
     }
 
-    public function skills(){
+    public function mandatoryCourse() {
+        return $this->hasMany(MandatoryCourse::class);
+    }
+
+    public function skills()
+    {
         return $this->belongsToMany(Skill::class, 'profile_has_skills');
     }
+
+
 
 }

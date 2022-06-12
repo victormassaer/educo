@@ -43,7 +43,6 @@ class MandatoryCourseCrudController extends CrudController
     {
         CRUD::column('course_id');
         CRUD::column('profile_id');
-        CRUD::column('company_id');
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:

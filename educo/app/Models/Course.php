@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Course extends Model
 {
     use HasFactory;
+    use \Backpack\CRUD\app\Models\Traits\CrudTrait;
 
     protected $fillable = [
         'title',
@@ -42,8 +43,7 @@ class Course extends Model
         return $this->belongsTo(Participation::class);
     }
 
-    public function mandatoryCourse()
-    {
-        return $this->belongsTo(MandatoryCourse::class);
+    public function mandatoryCourse() {
+        return $this->hasMany(MandatoryCourse::class);
     }
 }
