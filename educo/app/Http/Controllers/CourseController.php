@@ -158,12 +158,16 @@ class CourseController extends Controller
                }
                if(!$certificateFromSkill){
                    $certificate = new Certificate();
-                   $certificate->user_id = Auth::user()->id;
                    $certificate->date_acquired = now();
                    $certificate->skill_id = $skill->id; //HIER NOG SKILLS OPHALEN UIT COURSE HAS SKILLS TABLE!
                    $certificate->title = $skill->title; //VANWAAR KOMT TITEL?
                    $certificate->course_id = $course->id; //VANWAAR KOMT TITEL?
                    $certificate->save();
+
+                   $userHasCertificate = new UserHasCertificate();
+                   $userHasCertificate->user_id = auth()->user()->id;
+                   $userHasCertificate->certificate_id = $certificate->id;
+                   $userHasCertificate->save();
                    $certificates[] = $certificate;
                    $certificateFromSkill = [];
                }
