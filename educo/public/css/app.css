@@ -1012,6 +1012,9 @@ select {
 .w-36 {
   width: 9rem;
 }
+.w-32 {
+  width: 8rem;
+}
 .max-w-288 {
   max-width: 288px;
 }
