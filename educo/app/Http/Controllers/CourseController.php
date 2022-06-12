@@ -12,6 +12,7 @@ use App\Models\MandatoryCourse;
 use App\Models\Participation;
 use App\Models\Skill;
 use App\Models\User;
+use App\Models\UserHasCertificate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -127,7 +128,7 @@ class CourseController extends Controller
             ])->first();
             $participation->finished_element = $nextElement->order;
             $participation->update();
-            $this->checkTask($nextElement->id);
+            //$this->checkTask($nextElement->id);
             return $this->detail($course->id);
         }elseif(count($chapters) != $currentChapter->order+1){
             $nextChapter = Chapter::where([
@@ -147,11 +148,15 @@ class CourseController extends Controller
            $participation->update();
 
            $certificates = [];
+           $userCertificates = UserHasCertificate::where('user_id', auth()->user()->id)->get();
            foreach($skills as $skill){
-               if(!Certificate::where([
-                   ['user_id', '=', auth()->user()->id],
-                   ['skill_id', '=', $skill->id],
-               ])->first()){
+               foreach($userCertificates as $userCertificate){
+                   $certificateFromSkill[] = Certificate::where([
+                       ['id', '=', $userCertificate->certificate_id],
+                       ['skill_id', '=', $skill->id]
+                   ])->first();
+               }
+               if(!$certificateFromSkill){
                    $certificate = new Certificate();
                    $certificate->user_id = Auth::user()->id;
                    $certificate->date_acquired = now();
@@ -160,7 +165,9 @@ class CourseController extends Controller
                    $certificate->course_id = $course->id; //VANWAAR KOMT TITEL?
                    $certificate->save();
                    $certificates[] = $certificate;
+                   $certificateFromSkill = [];
                }
+               $certificateFromSkill = [];
            }
             return $this->detail($course->id);
         }
