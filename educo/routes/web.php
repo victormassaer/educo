@@ -17,6 +17,7 @@ use App\Http\Controllers\ExpertCourseController;
 use App\Http\Controllers\ExpertSectionController;
 use App\Http\Controllers\ExpertElementController;
 use App\Http\Controllers\UserCompetencyController;
+use App\Http\Controllers\AdminUserCompetencyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -104,6 +105,7 @@ Route::group(
             Route::get('/companyAdmin/userDetail/{id}/allActivity', [AdminUserDetailPageController::class, 'allActivity'])->name('admin.userDetail.allActivity');
             Route::get('/companyAdmin/userDetail/{id}/allMandatoryCourses', [AdminUserDetailPageController::class, 'allMandatoryCourses'])->name('admin.userDetail.allMandatoryCourses');
             Route::get('/companyAdmin/userDetail/{id}/allPersonalCourses', [AdminUserDetailPageController::class, 'allPersonalCourses'])->name('admin.userDetail.allPersonalCourses');
+            Route::get('/companyAdmin/userDetail/{id}/competency', [AdminUserCompetencyController::class, 'index'])->name('admin.user.competency');
             Route::get('/companyAdmin/profiles', [AdminRolesDashboardController::class, 'index'])->name('admin.profiles.index');
             Route::get('/companyAdmin/profiles/{id}/detail', [AdminRolesDashboardController::class, 'detail'])->name('admin.profiles.detail');
             Route::get('/companyAdmin/employees/index', [AdminAllEmployeesDashboardController::class, 'index'])->name('admin.employees.index');
