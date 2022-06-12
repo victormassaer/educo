@@ -5,8 +5,8 @@
         <div class="my-5">
             <h2 class="font-bold text-primary text-xl">Certificates obtained</h2>
             @foreach($certificates as $certificate)
-                <div class="inline-block mr-5 mt-4 text-center bg-white rounded p-6 shadow-md">
-                    <img src="{{asset('images/logo2color.png')}}" class="rounded w-24 border-solid border-8 p-2 border-secondary" alt="certicate image">
+                <div class="inline-block mr-5 mt-4 text-center bg-white rounded p-6 shadow-md w-40">
+                    <img src="{{asset('images/logo2color.png')}}" class="rounded w-24 border-solid border-8 p-2 border-secondary ml-2" alt="certicate image">
                     <p class="font-bold">{{$certificate->title}}</p>
                     <span>Acquired at: </span>
                     <p>{{\Carbon\Carbon::parse($certificate->date_acquired)->format('j F, Y')}}</p>
