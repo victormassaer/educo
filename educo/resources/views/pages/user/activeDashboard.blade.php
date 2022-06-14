@@ -1,4 +1,4 @@
-<x-app-layout class="">
+<x-app-layout>
     <div class="mx-auto">
         <div class="py-3 w-3/5 max-w-3xl mx-auto flex flex-row justify-around">
             <a href="/dashboard"><p>All courses</p></a>

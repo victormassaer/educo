@@ -10,7 +10,7 @@
                         <h2 class="font-bold">members:</h2>
                         @foreach($profile->user as $key => $user)
                             @if($key <= 3)
-                            <img src="{{asset($user->picture)}}" class="rounded-full inline-block w-8" alt="profile picture">
+                            <img src="{{asset($user->picture)}}" class="rounded-full inline-block h-8 w-8" alt="profile picture">
                             @endif
                         @endforeach
                         <h2 class="font-bold">mandatory skills:</h2>
