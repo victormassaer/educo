@@ -34,8 +34,22 @@ class CourseController extends Controller
             $skills[] = $skill;
         }
 
+        $chapters = Chapter::where('course_id', $id)->get();
+        // $elements = Element::where('chapter_id', $chapter_id->id)->get();
+
+        $courseAttr = Course::with(array(
+            'chapters' => function ($query) {
+                $query->orderBy('order', 'ASC');
+            }, 'chapters.elements' => function ($query) {
+                $query->orderBy('order', 'ASC');
+            }
+        ))->find($id);
+
+        $activeChapter = [];
+        $activeElement =[];
+
         if($participation){
-            $chapters = Chapter::where('course_id', $id)->get();
+            // $chapters = Chapter::where('course_id', $id)->get();
             //$skills = //HIER DE SKILLS VAN DE COURSE UIT MODEL COURSEHASSKILL EN DB TABLE
             $activeChapter = Chapter::where([
                 ['course_id', '=', $id],
@@ -49,17 +63,15 @@ class CourseController extends Controller
                 ])->first();
             }else{
                 $activeElement = [];
+                $activeChapter = [];
             }
         }else{
-            $chapters = [];
-            $activeChapter = [];
-            $activeElement = [];
+            $courseAttr;
         }
-
         $data = [
             'course' => $course,
+            'courseAttr' => $courseAttr,
             'expert' => $expert,
-            'chapters' => $chapters,
             'participation' => $participation,
             'activeChapter' => $activeChapter,
             'activeElement' => $activeElement,

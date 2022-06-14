@@ -5,7 +5,8 @@
         <H4 class="font-semibold pb-1"> {{ $course->title }}</H4>
             <div class="flex flex-row justify-between py-1">
                 <p>{{ $course->number_of_chapters }} lessons</p>
-                <p>{{ $course->duration }}h</p>
+
+                <p>{{ $course->duration }}</p>
             </div>
         </div>
     </div>

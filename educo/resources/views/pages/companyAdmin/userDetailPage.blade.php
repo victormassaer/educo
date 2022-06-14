@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-app-layout >
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('User Detail Page') }}
@@ -8,9 +8,9 @@
         <div class="grid grid-rows-1 grid-cols-2">
             <div class="py-5 grid grid-cols-2 grid-rows-1 bg-white justify-items-center rounded shadow-md">
                 <div class="mt-50 text-center">
-                    <img src="https://placekitten.com/150/150" class="rounded" alt="profile picture">
-                    <h2 class="text-xl font-bold text-primary">{{ $user->name }}</h2>
-                    <h3>{{ $user->profile->title }}</h3>
+                    <img src="{{asset($user->picture)}}" class="rounded w-36" alt="profile picture">
+                    <h2 class="text-xl font-bold text-primary">{{ $user->name}}</h2>
+                    <h3>{{$user->profile->title}}</h3>
                 </div>
                 <div class="justify-self-start">
                     <div><span class="font-bold">email: </span>{{ $user->email }}</div>
