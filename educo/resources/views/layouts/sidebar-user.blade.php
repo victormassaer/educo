@@ -16,21 +16,24 @@
                     <li class="flex justify-center flex-col ">
                         <a href="/dashboard">
                             <div class="w-10 flex items-center px-2 py-1 rounded-2xl mx-auto">
-                                <x-svg.navicons.logo />
+                                <x-svg.navicons.logo
+                                    class="{{ Request::is('dashboard') ? 'fill-secondary' : 'fill-white' }}" />
                             </div>
                         </a>
                     </li>
                     <li class="flex justify-center flex-col">
                         <a href="/expert/list">
                             <div class="w-10 flex items-center px-2 py-1 rounded-2xl mx-auto">
-                                <x-svg.navicons.teach class="stroke-white" />
+                                <x-svg.navicons.teach class="stroke-white"
+                                    class="{{ Request::is('expert/list') ? 'stroke-secondary' : 'stroke-white' }}" />
                             </div>
                         </a>
                     </li>
                     <li class="flex justify-center flex-col">
                         <a href="/competention-profile">
                             <div class="w-10 flex items-center px-2 py-1 rounded-2xl mx-auto">
-                                <x-svg.navicons.radar class="stroke-white" />
+                                <x-svg.navicons.radar class="stroke-white"
+                                    class="{{ Request::is('competention-profile') ? 'stroke-secondary' : 'stroke-white' }}" />
                             </div>
                         </a>
                     </li>

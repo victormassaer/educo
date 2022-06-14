@@ -1,5 +1,5 @@
 <x-app-layout>
-    <section class="px-44">
+    <section>
         <h2 class="text-primary-blue font-bold text-3xl">Profiles</h2>
         <h2 class="font-bold text-2xl text-tertiary my-5">{{$company->name}}</h2>
         <div class="flex flex-rows">
@@ -10,7 +10,7 @@
                         <h2 class="font-bold">members:</h2>
                         @foreach($profile->user as $key => $user)
                             @if($key <= 3)
-                            <img src="{{asset($user->picture)}}" class="rounded-full inline-block w-8" alt="profile picture">
+                            <img src="{{asset($user->picture)}}" class="rounded-full inline-block h-8 w-8" alt="profile picture">
                             @endif
                         @endforeach
                         <h2 class="font-bold">mandatory skills:</h2>

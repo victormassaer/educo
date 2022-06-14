@@ -1,5 +1,5 @@
 <x-app-layout>
-    <section class="px-44">
+    <section>
         <h1 class="text-3xl font-bold text-primary-blue my-5">Expert Overview</h1>
         <section class="flex flex-row">
             @foreach($experts as $expert)

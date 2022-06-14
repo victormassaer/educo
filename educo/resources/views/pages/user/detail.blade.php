@@ -4,11 +4,11 @@
             {{ __('User Detail Page') }}
         </h2>
     </x-slot>
-    <section class="p-20 px-20 box-border">
+    <section class=" box-border">
         <div class="grid grid-rows-1 grid-cols-2">
             <div class="py-5 grid grid-cols-2 grid-rows-1 bg-white justify-items-center rounded">
                 <div class="mt-50 text-center">
-                    <img src="{{asset(Auth::user()->picture)}}" class="rounded w-36" alt="profile picture">
+                    <img src="{{asset(Auth::user()->picture)}}" class="rounded w-36 h-36" alt="profile picture">
                     <h2 class="text-xl font-bold text-primary">{{ Auth::user()->name}}</h2>
                     <h3>{{ Auth::user()->profile->title}}</h3>
                 </div>
