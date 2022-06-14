@@ -27,7 +27,7 @@
                         {{ $skill->skill->title }}
                     </th>
                     <td class="px-6 py-4">
-                        @foreach ($skill->skill->coursesHasSkill as $course)
+                        @foreach ($skill->skill->coursesHasSkills as $course)
                             @php
                                 $hasParticipation = false;
                                 foreach ($user->participation as $key => $participation) {
