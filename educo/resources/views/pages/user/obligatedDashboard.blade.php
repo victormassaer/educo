@@ -1,5 +1,5 @@
 <x-app-layout>
-        <div class="py-3 w-3/5 max-w-3xl mx-auto flex flex-row justify-around">
+        <div class="py-3 w-3/5 max-w-3xl flex flex-row justify-around">
             <a href="/dashboard"><p>All courses</p></a>
             <a href="{{route('dashboard.active', $user->id)}}"><p>Active</p></a>
             <a href="{{route('dashboard.obligated', $user->id)}}"><p class="font-semibold">Obligated</p></a>
@@ -7,13 +7,13 @@
             <a href="{{route('dashboard.recommended', $user->id)}}"><p>Recommended</p></a>
         </div>
     @if($mandatoryCourses)
-        <div class="py-5 w-5/6 max-w-7xl mx-auto sm:px-6 lg:px-8 flex justify-center flex-wrap">
+        <div class="py-5 w-5/6 max-w-7xl sm:px-6 lg:px-8 flex justify-center flex-wrap">
             @foreach($mandatoryCourses as $mandatoryCourse)
                 <x-course :course="$mandatoryCourse" class="basis-1/3"/>
             @endforeach
         </div>
     @else
-        <div class="py-5 w-5/6 max-w-7xl mx-auto sm:px-6 lg:px-8 flex justify-center flex-wrap">
+        <div class="py-5 w-5/6 max-w-7xl sm:px-6 lg:px-8 flex justify-center flex-wrap">
             <div class="bg-white inline-block mr-4 rounded my-5 p-4 text-center w-56 h-60 shadow-md">
                 <svg id="Laag_1" data-name="Laag 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1316.74 655.26"><defs>
                         <style>.cls-1{fill:#f1877a;}.cls-2{fill:#305299;}</style>

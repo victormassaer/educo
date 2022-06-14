@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="mx-auto">
+    <div>
         <div class="py-3 w-3/5 max-w-3xl mx-auto flex flex-row justify-around">
             <a href="/dashboard"><p>All courses</p></a>
             <a href="{{route('dashboard.active', $user->id)}}"><p class="font-semibold">Active</p></a>
@@ -8,7 +8,7 @@
             <a href="{{route('dashboard.recommended', $user->id)}}"><p>Recommended</p></a>
         </div>
         @if($activeCourses)
-        <div class="py-5 w-5/6 mx-auto sm:px-6 lg:px-8 flex justify-center flex-wrap">
+        <div class="py-5 w-5/6 sm:px-6 lg:px-8 flex justify-center flex-wrap">
             @foreach($activeCourses as $activeCourse)
                 <x-course :course="$activeCourse" class=""/>
             @endforeach
