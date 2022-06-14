@@ -111,7 +111,9 @@ class UserDashboardController extends Controller
         }
 
         foreach ($skills as $skill) {
-            $coursePerSkill[] = CourseHasSkill::where('skill_id', $skill->id)->get('course_id');
+            if(CourseHasSkill::where('skill_id', $skill->id)->get('course_id') != NULL) {
+                $coursePerSkill[] = CourseHasSkill::where('skill_id', $skill->id)->get('course_id');
+            }
         }
 
         foreach ($coursePerSkill as $course) {
