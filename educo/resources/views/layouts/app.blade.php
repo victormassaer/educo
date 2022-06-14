@@ -33,7 +33,7 @@
 
         <!-- Page Content -->
         <div class="w-full relative flex-1 overflow-y-auto h-screen">
-            <div class="py-12 max-w-screen-2xl mx-auto sm:px-6 lg:px-8">{{ $slot }}</div>
+            <div class="py-12 px-44 max-w-screen-2xl mx-auto sm:px-6 lg:px-8">{{ $slot }}</div>
         </div>
 
 
