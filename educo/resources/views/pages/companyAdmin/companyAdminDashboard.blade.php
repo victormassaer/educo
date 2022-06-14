@@ -10,7 +10,7 @@
             @foreach($activeEmployees as $employee)
                 <a href="{{route('admin.userDetail.index', $employee->id)}}">
                     <div class="bg-white inline-block mr-4 rounded p-4 text-center my-5 w-56 h-60 shadow-md">
-                        <img src="{{asset($employee->picture)}}" class="rounded-full w-32 ml-11 mb-2" alt="profile picture">
+                        <img src="{{asset($employee->picture)}}" class="rounded-full w-32 h-32 ml-11 mb-2" alt="profile picture">
                         <p class="font-bold">{{$employee->name}}</p>
                         <p>{{$employee->profile->title}}</p>
                         <p class="font-bold mt-1">Last activity:</p>
@@ -29,7 +29,7 @@
                 @foreach($inactiveEmployees as $employee)
                     <a href="{{route('admin.userDetail.index', $employee->id)}}">
                         <div class="bg-white inline-block mr-4 rounded p-4 text-center my-5 w-56 h-60 shadow-md">
-                            <img src="{{asset($employee->picture)}}" class="rounded-full w-36 ml-11 mb-2" alt="profile picture">
+                            <img src="{{asset($employee->picture)}}" class="rounded-full w-32 h-32 ml-11 mb-2" alt="profile picture">
                             <p class="font-bold">{{$employee->name}}</p>
                             <p>{{$employee->profile->title}}</p>
                             <p class="font-bold mt-1">Last activity:</p>
