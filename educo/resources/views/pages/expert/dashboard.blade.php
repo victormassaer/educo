@@ -24,12 +24,16 @@
                         <h4 class="text-2xl font-bold">{{ $course->title }}</h4>
                         <img class="rounded-md" src="{{ asset('storage/' . $course->img) }}"
                             alt=" course thumbnail">
-                        <p class="text-lg">50 Students</p>
+                        @php
+                            $count = 0;
+                            foreach ($participations as $key => $participation) {
+                                if ($participation->course_id === $course->id) {
+                                    $count++;
+                                }
+                            }
+                        @endphp
+                        <p class="text-lg">{{ $count }} Student{{ $count === 1 ? '' : 's' }}</p>
                         <div class="flex gap-4">
-                            <button
-                                class="whitespace-nowrap flex-1 py-2 px-4 border-2 rounded-md border-tertiary text-tertiary cursor-pointer">
-                                Stats
-                            </button>
                             <button
                                 onclick="window.location='{{ url('expert/edit-course/?course_id=' . $course->id . '') }}'"
                                 class="whitespace-nowrap flex-1 py-2 px-4 border-2 rounded-md border-secondary text-secondary cursor-pointer">

@@ -15,12 +15,12 @@
                 </div>
             </div>
         </div>
-        <div>
-            <h3><span>Number of courses: </span>{{count($courses)}}</h3>
-            <div class="flex flex-rows">
+        <div class="my-5">
+            <h3 class="text-primary text-xl font-bold"><span>Number of courses: </span>{{count($courses)}}</h3>
+            <div class="py-5 w-5/6 max-w-7xl mx-auto sm:px-6 lg:px-8 flex justify-center flex-wrap">
                 @foreach($courses as $course)
                     <div>
-                        <x-Course :course="$course" class="basis-1/3"/>
+                        <x-course :course="$course" class="basis-1/3"/>
                     </div>
                 @endforeach
             </div>

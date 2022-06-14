@@ -12,6 +12,8 @@ use App\Models\MandatoryCourse;
 use App\Models\Participation;
 use App\Models\Skill;
 use App\Models\User;
+use App\Models\UserHasCertificate;
+use App\Models\UserHasSkill;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -139,7 +141,7 @@ class CourseController extends Controller
             ])->first();
             $participation->finished_element = $nextElement->order;
             $participation->update();
-            $this->checkTask($nextElement->id);
+            //$this->checkTask($nextElement->id);
             return $this->detail($course->id);
         }elseif(count($chapters) != $currentChapter->order+1){
             $nextChapter = Chapter::where([
@@ -159,20 +161,39 @@ class CourseController extends Controller
            $participation->update();
 
            $certificates = [];
+           $userCertificates = UserHasCertificate::where('user_id', auth()->user()->id)->get();
+           $certificateFromSkill = [];
            foreach($skills as $skill){
-               if(!Certificate::where([
+               foreach($userCertificates as $userCertificate){
+                   $certificateFromSkill[] = Certificate::where([
+                       ['id', '=', $userCertificate->certificate_id],
+                       ['skill_id', '=', $skill->id]
+                   ])->first();
+               }if(!UserHasSkill::where([
                    ['user_id', '=', auth()->user()->id],
-                   ['skill_id', '=', $skill->id],
-               ])->first()){
+                   ['skill_id', '=', $skill->id]
+               ])){
+                   $s = new UserHasSkill();
+                   $s->user_id = auth()->user()->id;
+                   $s->skill_id = $skill->id;
+                   $s->save();
+               }
+               if(!$certificateFromSkill){
                    $certificate = new Certificate();
-                   $certificate->user_id = Auth::user()->id;
                    $certificate->date_acquired = now();
                    $certificate->skill_id = $skill->id; //HIER NOG SKILLS OPHALEN UIT COURSE HAS SKILLS TABLE!
                    $certificate->title = $skill->title; //VANWAAR KOMT TITEL?
                    $certificate->course_id = $course->id; //VANWAAR KOMT TITEL?
                    $certificate->save();
+
+                   $userHasCertificate = new UserHasCertificate();
+                   $userHasCertificate->user_id = auth()->user()->id;
+                   $userHasCertificate->certificate_id = $certificate->id;
+                   $userHasCertificate->save();
                    $certificates[] = $certificate;
+                   $certificateFromSkill = [];
                }
+               $certificateFromSkill = [];
            }
             return $this->detail($course->id);
         }

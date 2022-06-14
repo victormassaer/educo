@@ -8,7 +8,7 @@ use App\Models\Company;
 use App\Models\Course;
 use App\Models\Participation;
 use App\Models\Profile;
-use App\Models\UserHasCertificate;
+//use App\Models\UserHasCertificate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use phpDocumentor\Reflection\Element;
@@ -35,10 +35,10 @@ class UserDetailController extends Controller
         $personalCourses = [];
         $chapters = [];
         $certificates = [];
-        $c = UserHasCertificate::where('user_id', $user->id)->get();
+        /*$c = UserHasCertificate::where('user_id', $user->id)->get();
         foreach($c as $certificate){
             $certificates[] = Certificate::where('id', $certificate->certificate_id);
-        }
+        }*/
         $activeCourses = [];
         foreach($participations as $participation){
             $course = Course::where('id', $participation->course_id)->first();

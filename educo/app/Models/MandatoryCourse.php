@@ -16,5 +16,12 @@ class MandatoryCourse extends Model
         'company_id',
     ];
 
+    public function profile(){
+        return $this->belongsTo(Profile::class);
+    }
+
+    public function course(){
+        return $this->belongsTo(Course::class);
+    }
 
 }

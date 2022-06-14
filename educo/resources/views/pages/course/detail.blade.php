@@ -34,7 +34,7 @@
             <div class="mt-3">
                 @foreach($courseAttr->chapters as $chapter)
                 <div class="bg-white p-6 rounded-md my-2 mr-2 shadow-md">
-                    <h3 class=""><span class="font-bold pt-2 pb-2">Chapter {{$chapter->order}} - </span>{{$chapter->title}}</h3>
+                    <h3 class=""><span class="font-bold pt-2 pb-2">Chapter - </span>{{$chapter->title}}</h3>
                     @foreach($chapter->elements as $element)
                         @if($element->type === "video")
                         <div class="bg-grey-200">
@@ -56,54 +56,66 @@
             </div>
 
         </div>
-        @else
+            @else
+            <h2 class="text-primary font-bold text-2xl mt-4"><span>Current chapter: </span>{{$activeChapter->title}}</h2>
 
-            <div class="bg-white p-6 rounded-md my-2 mr-2 shadow-md">
-                <h2><span>Current chapter: </span>{{$activeChapter->title}}</h2>
-                <h3><span>Current: </span>{{$activeElement->title}}</h3>
-                <p>{{$activeElement->description}}</p>
+            <div class="bg-white w-3/5 p-6 rounded-md my-2 shadow-md ">   
+                @if($activeElement->type === "video")
+                <h3 class="font-bold"><span>Current video: </span>{{$activeElement->title}}</h3>
+                @else
+                <h3 class="font-bold"><span>Current task: </span>{{$activeElement->title}}</h3>
+                @endif
+                <p class="font-semibold pb-3">{{$activeElement->description}}</p>
+                @if($activeElement->type == 'task')
+
+                <div>
+                    @php
+                        $task = \App\Models\Task::with([
+                            'element',
+                            'questions' => function ($query) {
+                                $query->orderBy('order', 'ASC');
+                            },
+                        ])->find($activeElement->task_id);
+                        $questions = $task->questions;
+                    @endphp
+
+                    <form action="">
+                        @csrf
+                        @foreach ($questions as $question)
+                            <div class="bg-white rounded py-3 w-1/3 my-5">
+                                <h2>{{ $question->question }}</h2>
+                                <select class=" rounded-md border-none" name="{{ $question->id }}" id="{{ $question->question }}">
+                                    @foreach (unserialize($question->options) as $option)
+                                        <option value="{{ $option }}">{{ $option }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        @endforeach
+                        <input type="submit" value="check questions" class="cursor-pointer">
+                    </form>
+                </div>
+                @else
+                <div class="">
+                    @php
+                        $video = \App\Models\Video::find($activeElement->video_id);
+                        $video_element = Vimeo\Laravel\Facades\Vimeo::request($video->url, ['per_page' => 1], 'GET');
+                    @endphp
+                    <iframe src={{ $video_element['body']['player_embed_url'] }} class="mx-auto w-5/6 max-w-4xl h-96"
+                        frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+                </div>
+                
+                @endif
+
+                <div class="text-center mt-3 underline decoration-1">
+                <a href="{{ route('next.step.course', [$activeElement->id, $activeChapter->id]) }}">next step</a>
+                </div>
             </div>
 
-        @if($activeElement->type == 'task')
-            <div>
-                @php
-                    $task = \App\Models\Task::with(array('element', 'questions' => function ($query) {
-                    $query->orderBy('order', 'ASC');
-                    }))->find($activeElement->task_id);
-                    $questions = $task->questions;
-                @endphp
-                <form action="">
-                    @csrf
-                    @foreach($questions as $question)
-                        <div class="bg-white rounded p-3 w-1/3 my-5">
-                            <h2>{{$question->question}}</h2>
-                            <select name="{{$question->id}}" id="{{$question->question}}">
-                                @foreach (unserialize($question->options) as $option)
-                                    <option value="{{$option}}">{{ $option }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    @endforeach
-                    <input type="submit" value="check questions" class="cursor-pointer">
-                </form>
-            </div>
-        @else
-            <div>
-                @php
+            @endif  
 
-                @endphp
-            </div>
-        @endif
-
-            <div>
-                <a href="{{route('next.step.course', [$activeElement->id, $activeChapter->id])}}">next step</a>
-            </div>
-        @endif
         </section>
         
     </section>
 
-    <script>
-
-    </script>
+    <script></script>
 </x-app-layout>

@@ -17,13 +17,13 @@ class Skill extends Model
 
     public function ProfileHasSkills()
     {
-        return $this->belongsToMany(ProfileHasSkills::class);
+        return $this->hasMany(ProfileHasSkills::class);
     }
     public function userHasSkills()
     {
         return $this->BelongsToMany(UserHasSkill::class);
     }
-    public function coursesHasSkill()
+    public function coursesHasSkills()
     {
         return $this->hasMany(CourseHasSkill::class);
     }
