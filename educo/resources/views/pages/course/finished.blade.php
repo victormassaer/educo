@@ -1,5 +1,5 @@
 <x-app-layout>
-    <section class="px-44">
+    <section>
         <h1 class="font-bold text-primary text-2xl">Course Finished, congratulations!</h1>
         <h2 class="font-bold text-tertiary text-xl">{{$course->title}}</h2>
         <div class="my-5">

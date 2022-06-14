@@ -1,5 +1,5 @@
 <x-app-layout>
-    <section class="px-44">
+    <section>
         <h2 class="text-primary-blue font-bold text-3xl">Profiles</h2>
         <h2 class="font-bold text-2xl text-tertiary my-5">{{$company->name}}</h2>
         <div class="flex flex-rows">

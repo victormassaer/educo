@@ -2,7 +2,7 @@
     <x-slot name="header">
     </x-slot>
 
-    <section class="px-44">
+    <section>
         <h1 class="text-3xl font-bold text-primary-blue">Dashboard</h1>
         <h2 class="font-bold text-2xl text-tertiary my-5">{{$company->name}}</h2>
         <div class="mb-5">

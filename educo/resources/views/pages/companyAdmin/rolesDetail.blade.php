@@ -1,5 +1,5 @@
 <x-app-layout>
-    <section class="px-44">
+    <section>
         <a href="{{ url()->previous() }}" class="p-3 bg-white rounded text-primary font-bold text-2xl mr-5 mb-3"><--</a>
         <h2 class="text-primary-blue font-bold text-3xl inline-block">{{$profile->title}}</h2>
         <h3 class="text-tertiary font-bold text-2xl mt-3">Skills</h3>

@@ -2,7 +2,7 @@
     <x-slot name="header">
     </x-slot>
 
-    <section class="px-44">
+    <section>
         <h1 class="text-3xl font-bold text-primary-blue my-5">All employees</h1>
         <h2 class="font-bold text-2xl text-tertiary">{{$company->name}}</h2>
         @foreach($employees as $employee)
