@@ -1966,5 +1966,15 @@ select {
     padding-left: 11rem;
     padding-right: 11rem;
   }
+
+  .xl\:px-36 {
+    padding-left: 9rem;
+    padding-right: 9rem;
+  }
+
+  .xl\:px-32 {
+    padding-left: 8rem;
+    padding-right: 8rem;
+  }
 }
 
