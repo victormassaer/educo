@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="p-20 px-20 box-border">
+    <div class="box-border">
         <div class="">
             <img src="{{ Auth::user()->picture }}" alt="profile picture">
         </div>
