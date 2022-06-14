@@ -15,14 +15,16 @@
                     <li class="flex justify-center flex-col my-3">
                         <a href="/expert/dashboard">
                             <div class="w-full flex items-center p-3 rounded-2xl">
-                                <x-svg.navicons.logo />
+                                <x-svg.navicons.logo
+                                    class="{{ Request::is('expert/dashboard') ? 'fill-secondary' : 'fill-white' }}" />
                             </div>
                         </a>
                     </li>
                     <li class="flex justify-center flex-col my-3">
                         <a href="/expert/new-course">
                             <div class="w-full flex items-center p-3 rounded-2xl">
-                                <x-svg.navicons.layout-add class="stroke-white" />
+                                <x-svg.navicons.layout-add
+                                    class="{{ Request::is('expert/new-course') || Request::is('expert/edit-course') || Request::is('expert/edit-course/*') ? 'stroke-secondary' : 'stroke-white' }}" />
                             </div>
                         </a>
                     </li>
