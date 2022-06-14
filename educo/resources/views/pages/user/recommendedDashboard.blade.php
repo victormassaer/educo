@@ -6,7 +6,7 @@
         <a href="{{route('dashboard.finished', $user->id)}}"><p>Finished</p></a>
         <a href="{{route('dashboard.recommended', $user->id)}}"><p class="font-semibold">Recommended</p></a>
     </div>
-    @if($recommendedCourses[0])
+    @if(count($recommendedCourses) != 0)
         <div class="py-5 w-5/6 max-w-7xl mx-auto sm:px-6 lg:px-8 flex justify-center flex-wrap">
             @foreach($recommendedCourses as $recommendedCourse)
                 <x-course :course="$recommendedCourse" class="basis-1/3"/>
