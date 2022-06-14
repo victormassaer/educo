@@ -4,7 +4,7 @@
             {{ __('User Detail Page') }}
         </h2>
     </x-slot>
-    <section class="p-20 box-border">
+    <section class=" box-border">
         <div class="grid grid-rows-1 grid-cols-2">
             <div class="py-5 grid grid-cols-2 grid-rows-1 bg-white justify-items-center rounded">
                 <div class="mt-50 text-center">
