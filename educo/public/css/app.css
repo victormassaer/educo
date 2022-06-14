@@ -1960,4 +1960,11 @@ select {
     padding-right: 2rem;
   }
 }
+@media (min-width: 1280px) {
+
+  .xl\:px-44 {
+    padding-left: 11rem;
+    padding-right: 11rem;
+  }
+}
 
