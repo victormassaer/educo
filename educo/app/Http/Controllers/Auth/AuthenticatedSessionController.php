@@ -38,14 +38,20 @@ class AuthenticatedSessionController extends Controller
         $request->authenticate();
 
         $request->session()->regenerate();
-
-        return redirect()->intended(RouteServiceProvider::HOME);
+        $user = Auth::user();
+        if ($user->role_id === 1) {
+            return redirect()->intended(RouteServiceProvider::HOME);
+        } else if ($user->role_id === 2) {
+            return redirect()->intended(RouteServiceProvider::EXPERT);
+        } else if ($user->role_id === 3) {
+            return redirect()->intended(RouteServiceProvider::ADMIN);
+        }
     }
 
     public function storeExpert(LoginExpertRequest $request)
     {
         $expert = User::where('email', $request->email)->firstOrFail();
-        if($expert['role_id'] === 2){
+        if ($expert['role_id'] === 2) {
             $request->authenticate();
 
             $request->session()->regenerate();
