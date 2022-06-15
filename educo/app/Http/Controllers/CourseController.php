@@ -162,13 +162,12 @@ class CourseController extends Controller
 
            $certificates = [];
            $userCertificates = UserHasCertificate::where('user_id', auth()->user()->id)->get();
-           $certificateFromSkill = [];
+           $skillNeedsCertificate = [];
            foreach($skills as $skill){
                foreach($userCertificates as $userCertificate){
-                   $certificateFromSkill[] = Certificate::where([
-                       ['id', '=', $userCertificate->certificate_id],
-                       ['skill_id', '=', $skill->id]
-                   ])->first();
+                   if(!$skill->id === Certificate::where('id', $userCertificate->id)->first()->skill_id){
+                      $skillNeedsCertificate[] = $skill;
+                   }
                }if(!UserHasSkill::where([
                    ['user_id', '=', auth()->user()->id],
                    ['skill_id', '=', $skill->id]
@@ -178,23 +177,19 @@ class CourseController extends Controller
                    $s->skill_id = $skill->id;
                    $s->save();
                }
-               if(!$certificateFromSkill){
-                   $certificate = new Certificate();
-                   $certificate->date_acquired = now();
-                   $certificate->skill_id = $skill->id; //HIER NOG SKILLS OPHALEN UIT COURSE HAS SKILLS TABLE!
-                   $certificate->title = $skill->title; //VANWAAR KOMT TITEL?
-                   $certificate->course_id = $course->id; //VANWAAR KOMT TITEL?
-                   $certificate->save();
+           }foreach($skillNeedsCertificate as $s){
+                $certificate = new Certificate();
+                $certificate->date_acquired = now();
+                $certificate->skill_id = $s->id; //HIER NOG SKILLS OPHALEN UIT COURSE HAS SKILLS TABLE!
+                $certificate->title = $s->title; //VANWAAR KOMT TITEL?
+                $certificate->course_id = $course->id; //VANWAAR KOMT TITEL?
+                $certificate->save();
 
-                   $userHasCertificate = new UserHasCertificate();
-                   $userHasCertificate->user_id = auth()->user()->id;
-                   $userHasCertificate->certificate_id = $certificate->id;
-                   $userHasCertificate->save();
-                   $certificates[] = $certificate;
-                   $certificateFromSkill = [];
-               }
-               $certificateFromSkill = [];
-           }
+                $userHasCertificate = new UserHasCertificate();
+                $userHasCertificate->user_id = auth()->user()->id;
+                $userHasCertificate->certificate_id = $certificate->id;
+                $userHasCertificate->save();
+            }
             return $this->detail($course->id);
         }
     }
