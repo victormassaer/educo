@@ -14,7 +14,7 @@
             class="flex flex-col max-w-screen-sm gap-2 items-start">
             @csrf
             <label class="mt-4" for="title">Title</label>
-            <input class="rounded-md w-2/5" type="text" name="title" id="title" placeholder="title">
+            <input class="rounded-md w-2/5" type="text" name="title" id="title" placeholder="title" required>
             <label class="mt-4" for="description">Description</label>
             <textarea class="rounded-md max-h-96" name="description" id="description" cols="70" rows="10" placeholder="description"></textarea>
             <label class="mt-4" for="difficulty">Difficulty</label>

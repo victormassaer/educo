@@ -24,9 +24,9 @@
                 <label class="mt-4" for="title">Title</label>
                 <input type="hidden" name="course_id" id="course_id" value={{ $course_id }}>
                 <input type="hidden" name="chapter_id" id="chapter_id" value={{ $section_id }}>
-                <input class="rounded-md w-3/5" type="text" name="title" id="title" placeholder="title">
+                <input class="rounded-md w-3/5" type="text" name="title" id="title" placeholder="title" required>
                 <label class="mt-4" for="description">Description</label>
-                <textarea class="rounded-md max-h-96" name="description" id="description" cols="70" rows="10"
+                <textarea required class="rounded-md max-h-96" name="description" id="description" cols="70" rows="10"
                     placeholder="description"></textarea>
                 <label class="mt-4" for="">Type</label>
                 <select class="rounded-md w-3/5" name="type" id="type">

@@ -24,9 +24,10 @@
                 <input type="hidden" name="course_id" id="course_id" value={{ $course_id }}>
                 <input type="hidden" name="chapter_id" id="chapter_id" value={{ $section_id }}>
                 <input class="rounded-md w-3/5" type="text" name="title" value={{ $element->title }} id="title"
-                    placeholder="title">
+                    placeholder="title" required>
                 <label class="mt-4" for="description">Description</label>
-                <textarea class="rounded-md max-h-96" name="description" id="description" cols="70" rows="10" placeholder="description">{{ $element->description }}</textarea>
+                <textarea class="rounded-md max-h-96" name="description" id="description" cols="70" rows="10" placeholder="description"
+                    required>{{ $element->description }}</textarea>
                 <div class="flex gap-2">
                     <button type="submit"
                         class="mt-4 whitespace-nowrap py-2 px-4 border-2 rounded-md border-tertiary text-tertiary cursor-pointer">
@@ -131,7 +132,7 @@
                     <h3 class="text-2xl font-bold text-primary mb-2 mt-4">Add question</h3>
                     <div class="flex flex-col max-w-screen-sm gap-2 items-start">
                         <label class="mt-2" for="question">Question</label>
-                        <input required type="text" id="question" name="question">
+                        <input required type="text" id="question" name="question" required>
                         <label class="mt-2" for="">Options</label>
                         <div class="options flex flex-col gap-2">
                             <div class=" flex gap-4 items-center text-2xl">
@@ -145,7 +146,7 @@
                             <x-svg.icons.plus class="w-10 h-10 p-1 stroke-primary" />
                         </p>
                         <label class="mt-2" for="question">Answer (number)</label>
-                        <input id="answer" type="number">
+                        <input id="answer" type="number" required>
                         <p id="errorMessage" class="text-red-600 my-2"></p>
                         <button id="submitQuestionButton"
                             class="mt-2 whitespace-nowrap py-2 px-4 border-2 rounded-md border-tertiary text-tertiary cursor-pointer">
@@ -253,7 +254,7 @@
 
                 const children = options.children;
                 if (answerValue <= 0 || answerValue > children.length) {
-                    document.querySelector("#errorMessage").innerHTML = "Please provide a correct answer"
+                    return document.querySelector("#errorMessage").innerHTML = "Please provide a correct answer"
                 }
                 const values = [];
                 for (let i = 0; i < children.length; i++) {

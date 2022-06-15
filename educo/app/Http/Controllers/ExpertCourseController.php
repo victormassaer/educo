@@ -72,12 +72,14 @@ class ExpertCourseController extends Controller
             $course->img = 'images/course_thumbnails/' . $filename;
         }
         $course->save();
-        $skills = explode(",", $request->skillIds);
-        foreach ($skills as $key => $skill) {
-            $courseHasSkill = new CourseHasSkill();
-            $courseHasSkill->course_id = $course->id;
-            $courseHasSkill->skill_id = $skill;
-            $courseHasSkill->save();
+        if ($request->skillIds !== null) {
+            $skills = explode(",", $request->skillIds);
+            foreach ($skills as $key => $skill) {
+                $courseHasSkill = new CourseHasSkill();
+                $courseHasSkill->course_id = $course->id;
+                $courseHasSkill->skill_id = $skill;
+                $courseHasSkill->save();
+            }
         }
         $newSkills =  explode(",", $request->new_skills);
         foreach ($newSkills as $key => $skill) {

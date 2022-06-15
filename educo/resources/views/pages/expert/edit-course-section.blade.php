@@ -21,7 +21,7 @@
             <div class=" flex flex-col gap-2 max-w-screen-sm">
                 <label class="mt-4" for="title">Title</label>
                 <input class="rounded-md w-3/5" type="text" name="title" id="title" placeholder="title"
-                    value='{{ $chapter->title }}'>
+                    value='{{ $chapter->title }}' required>
             </div>
 
         </form>
