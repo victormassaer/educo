@@ -17,7 +17,7 @@ class UserDashboardController extends Controller
 
         $data = [
             'user' => $user,
-            'courses' => Course::paginate(12),
+            'courses' => Course::paginate(15),
         ];
 
         return view('pages.user.dashboard', $data);
@@ -139,7 +139,7 @@ class UserDashboardController extends Controller
 
         $data = [
             'user' => $user,
-            'recommendedCourses' => array_slice($recommendedCourses, 0, 12, true)
+            'recommendedCourses' => array_slice($recommendedCourses, 0, 15, true)
         ];
 
         return view('pages.user.recommendedDashboard', $data);
