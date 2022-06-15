@@ -160,7 +160,6 @@ class CourseController extends Controller
            $participation->updated_at = now();
            $participation->update();
 
-           $certificates = [];
            $userCertificates = UserHasCertificate::where('user_id', auth()->user()->id)->get();
            $skillNeedsCertificate = [];
            foreach($skills as $skill){
@@ -177,7 +176,9 @@ class CourseController extends Controller
                    $s->skill_id = $skill->id;
                    $s->save();
                }
-           }foreach($skillNeedsCertificate as $s){
+           }
+           $certificatesNeeded = array_unique($skillNeedsCertificate);
+           foreach($certificatesNeeded as $s){
                 $certificate = new Certificate();
                 $certificate->date_acquired = now();
                 $certificate->skill_id = $s->id; //HIER NOG SKILLS OPHALEN UIT COURSE HAS SKILLS TABLE!
