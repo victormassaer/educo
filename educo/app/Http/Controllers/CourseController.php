@@ -164,13 +164,13 @@ class CourseController extends Controller
            $skillNeedsCertificate = [];
            foreach($skills as $skill){
                foreach($userCertificates as $userCertificate){
-                   if(!$skill->id === Certificate::where('id', $userCertificate->id)->first()->skill_id){
+                   if($skill->id != Certificate::where('id', $userCertificate->id)->first()->skill_id){
                       $skillNeedsCertificate[] = $skill;
                    }
                }if(!UserHasSkill::where([
                    ['user_id', '=', auth()->user()->id],
                    ['skill_id', '=', $skill->id]
-               ])){
+               ])->first()){
                    $s = new UserHasSkill();
                    $s->user_id = auth()->user()->id;
                    $s->skill_id = $skill->id;
