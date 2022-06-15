@@ -104,7 +104,7 @@ class UserDashboardController extends Controller
         $allCourses = [];
 
         $courseScores = [];
-
+        $recommendedCourses = [];
         $courseScoresUnique = [];
 
         foreach ($getSkills as $skill) {
