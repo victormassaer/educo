@@ -111,7 +111,7 @@ class CourseController extends Controller
         }
         $participation->save();
 
-        return redirect()->route('dashboard');
+        return redirect()->route('course.detail', $id);
     }
 
     public function nextStep($elementId, $chapterId){
