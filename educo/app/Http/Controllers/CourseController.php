@@ -191,7 +191,7 @@ class CourseController extends Controller
                 $userHasCertificate->certificate_id = $certificate->id;
                 $userHasCertificate->save();
             }
-            return $this->detail($course->id);
+            return redirect(route('course.detail', $course->id));
         }
     }
 
