@@ -7,7 +7,7 @@
             <a class="px-6" href="{{route('dashboard.recommended', $user->id)}}"><p>Recommended</p></a>
         </div>
     @if($mandatoryCourses)
-        <div class="py-5 w-4/5 sm:px-6 flex justify-start flex-wrap">
+        <div class="py-5 sm:px-6 flex justify-start flex-wrap">
             @foreach($mandatoryCourses as $mandatoryCourse)
                 <x-course :course="$mandatoryCourse" class="basis-1/3"/>
             @endforeach
