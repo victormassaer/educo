@@ -136,10 +136,12 @@ class UserDashboardController extends Controller
             $id = $course_id[0];
             $recommendedCourses[] = Course::where('id', $id)->first();
         }
-
+        
+        $recommendedCoursesUnique = array_unique($recommendedCourses, SORT_REGULAR);
+        dd($recommendedCoursesUnique);
         $data = [
             'user' => $user,
-            'recommendedCourses' => array_slice($recommendedCourses, 0, 15, true)
+            'recommendedCourses' => array_slice($recommendedCoursesUnique, 0, 15, true)
         ];
 
         return view('pages.user.recommendedDashboard', $data);
