@@ -138,7 +138,7 @@ class UserDashboardController extends Controller
         }
         
         $recommendedCoursesUnique = array_unique($recommendedCourses, SORT_REGULAR);
-        dd($recommendedCoursesUnique);
+
         $data = [
             'user' => $user,
             'recommendedCourses' => array_slice($recommendedCoursesUnique, 0, 15, true)
