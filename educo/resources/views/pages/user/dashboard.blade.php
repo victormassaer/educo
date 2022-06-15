@@ -6,7 +6,7 @@
         <a class="px-6" href="{{route('dashboard.finished', $user->id)}}"><p>Finished</p></a>
         <a class="px-6" href="{{route('dashboard.recommended', $user->id)}}"><p>Recommended</p></a>
     </div>
-    <div class="py-5 w-4/5 sm:px-6 flex justify-start flex-wrap">
+    <div class="py-5 sm:px-6 flex justify-start flex-wrap">
         @foreach($courses as $course)
             <x-course :course="$course" class=""/>
         @endforeach
