@@ -1,5 +1,5 @@
 <a href="{{route('course.detail', $course->id)}}" class="m-4 w-56 shadow-md rounded-md">
-<img class="w-56 rounded-md " src="{{ asset('storage/' . $course->img) }}" alt="">
+<img class="w-56 h-44 rounded-md " src="{{ asset('storage/' . $course->img) }}" alt="">
     <div class="bg-white pt-4 pb-1  rounded-md">
         <div class="flex flex-col px-3">
         <H4 class="font-semibold pb-1"> {{ $course->title }}</H4>

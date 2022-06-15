@@ -106,6 +106,8 @@ class UserDashboardController extends Controller
 
         $courseScores = [];
 
+        $courseScoresUnique = [];
+
         foreach ($getSkills as $skill) {
             $skills [] = $skill;
         }
@@ -126,7 +128,7 @@ class UserDashboardController extends Controller
             $tmp = array_keys($allCourses, $course);
             $cnt = count($tmp);
             $courseScores [] = [ $cnt, $course ];
-            $courseScoresUnique = array_unique($courseScores, SORT_REGULAR);
+            $courseScoresUnique [] = array_unique($courseScores, SORT_REGULAR);
             asort($courseScoresUnique);
         }
 
