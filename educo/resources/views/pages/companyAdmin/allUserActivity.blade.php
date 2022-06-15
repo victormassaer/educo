@@ -4,7 +4,7 @@
             {{ __('User Detail Page') }}
         </h2>
     </x-slot>
-    <section class="p-20 px-20 box-border">
+    <section class="box-border">
         <div class="py-5">
             <div class="mt-50">
                 <a href="{{route('admin.userDetail.index', $user->id)}}" class="p-3 bg-white rounded text-primary font-bold text-2xl mr-8"><--</a>

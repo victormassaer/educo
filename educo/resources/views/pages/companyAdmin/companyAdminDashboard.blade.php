@@ -2,14 +2,14 @@
     <x-slot name="header">
     </x-slot>
 
-    <section class="px-44">
+    <section>
         <h1 class="text-3xl font-bold text-primary-blue">Dashboard</h1>
         <h2 class="font-bold text-2xl text-tertiary my-5">{{$company->name}}</h2>
         <div class="mb-5">
             <h2 class="font-bold text-2xl text-primary-blue">Active Employees</h2>
             @foreach($activeEmployees as $employee)
                 <a href="{{route('admin.userDetail.index', $employee->id)}}">
-                    <div class="bg-white inline-block mr-4 rounded p-4 text-center my-5 w-56 h-60 shadow-md">
+                    <div class="bg-white inline-block mr-4 rounded p-4 text-center my-5 w-56 h-64 shadow-md">
                         <img src="{{asset($employee->picture)}}" class="rounded-full w-32 h-32 ml-11 mb-2" alt="profile picture">
                         <p class="font-bold">{{$employee->name}}</p>
                         <p>{{$employee->profile->title}}</p>
@@ -28,7 +28,7 @@
             <div class="flex flex-row flex-wrap">
                 @foreach($inactiveEmployees as $employee)
                     <a href="{{route('admin.userDetail.index', $employee->id)}}">
-                        <div class="bg-white inline-block mr-4 rounded p-4 text-center my-5 w-56 h-60 shadow-md">
+                        <div class="bg-white inline-block mr-4 rounded p-4 text-center my-5 w-56 h-64 shadow-md">
                             <img src="{{asset($employee->picture)}}" class="rounded-full w-32 h-32 ml-11 mb-2" alt="profile picture">
                             <p class="font-bold">{{$employee->name}}</p>
                             <p>{{$employee->profile->title}}</p>
@@ -44,7 +44,7 @@
                         </div>
                     </a>
                 @endforeach
-                    <div class="bg-white inline-block mr-4 rounded my-5 p-4 text-center w-56 h-60 shadow-md">
+                    <div class="bg-white inline-block mr-4 rounded my-5 p-4 text-center w-56 h-64 shadow-md">
                         <svg id="Laag_1" data-name="Laag 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1316.74 655.26"><defs>
                                 <style>.cls-1{fill:#f1877a;}.cls-2{fill:#305299;}</style>
                             </defs>
