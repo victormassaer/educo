@@ -78,6 +78,9 @@ class ExpertSectionController extends Controller
         $chapter->title = $request->input('title');
         $chapter->course_id = $course_id;
         $chapter->save();
+        $course = Course::find($course_id);
+        $course->number_of_chapters = $course->number_of_chapters + 1;
+        $course->save();
         return redirect()->route('expert.dashboard.edit-course', ['course_id' => $course_id, 'step' => '2']);
     }
 
@@ -107,6 +110,8 @@ class ExpertSectionController extends Controller
             $chapter->order = $key;
             $chapter->save();
         };
+        $course->number_of_chapters = $course->number_of_chapters - 1;
+        $course->save();
         return redirect()->route('expert.dashboard.edit-course', ['course_id' => $course_id, 'step' => '2']);;
     }
 
