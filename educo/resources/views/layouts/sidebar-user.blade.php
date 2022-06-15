@@ -4,7 +4,7 @@
             <div class=" mx-auto flex justify-center flex-col my-6">
                 <x-svg.navicons.logo-word />
             </div>
-            <div class="flex gap-4 flex-col items-center justify-center mx-4 m-5 my-6">
+            <div class="flex gap-4 flex-col items-center justify-center mx-4 m-5 my-12">
                 <a href="{{ route('user.detail.index') }}">
                     <img class="rounded-full h-16 w-16 object-cover" src="https://picsum.photos/id/237/200/300"
                         alt="user-image">
@@ -15,7 +15,7 @@
                 <ul class="mx-2">
                     <li class="flex justify-center flex-col ">
                         <a href="/dashboard">
-                            <div class="w-10 flex items-center px-2 py-1 rounded-2xl mx-auto">
+                            <div class="w-14 flex items-center px-2 py-3 rounded-2xl mx-auto">
                                 <x-svg.navicons.logo
                                     class="{{ Request::is('dashboard') ? 'fill-secondary' : 'fill-white' }}" />
                             </div>
@@ -23,7 +23,7 @@
                     </li>
                     <li class="flex justify-center flex-col">
                         <a href="/expert/list">
-                            <div class="w-10 flex items-center px-2 py-1 rounded-2xl mx-auto">
+                            <div class="w-14 flex items-center px-2 py-3 rounded-2xl mx-auto">
                                 <x-svg.navicons.teach class="stroke-white"
                                     class="{{ Request::is('expert/list') ? 'stroke-secondary' : 'stroke-white' }}" />
                             </div>
@@ -31,7 +31,7 @@
                     </li>
                     <li class="flex justify-center flex-col">
                         <a href="/competention-profile">
-                            <div class="w-10 flex items-center px-2 py-1 rounded-2xl mx-auto">
+                            <div class="w-14 flex items-center px-2 py-3 rounded-2xl mx-auto">
                                 <x-svg.navicons.radar class="stroke-white"
                                     class="{{ Request::is('competention-profile') ? 'stroke-secondary' : 'stroke-white' }}" />
                             </div>
@@ -46,7 +46,7 @@
                             @csrf
                             <a class="cursor-pointer" :href="route('logout')" onclick="event.preventDefault();
                                                         this.closest('form').submit();">
-                                <div class="w-10 flex items-center px-2 py-1 rounded-2xl mx-auto">
+                                <div class="w-14 flex items-center px-2 py-3 rounded-2xl mx-auto">
                                     <x-svg.navicons.logout class="stroke-red-600" />
                                 </div>
                             </a>
