@@ -55,7 +55,6 @@ class UserDashboardController extends Controller
             ['profile_id', '=', $profile_id],
             ['company_id', '=', $company_id],
         ])->get('course_id');
-
         $mandatory = [];
 
         foreach ($mandatoryCourses as $mandatoryCourse) {
@@ -123,21 +122,19 @@ class UserDashboardController extends Controller
                 $allCourses[]= $c;
             }
         }
-
         foreach ($allCourses as $course) {
             $tmp = array_keys($allCourses, $course);
             $cnt = count($tmp);
-            $courseScores [] = [ $cnt, $course ];
-            $courseScoresUnique [] = array_unique($courseScores, SORT_REGULAR);
+            $courseScores = [ $cnt, $course->course_id ];
+            $courseScoresUnique[] = array_unique($courseScores, SORT_REGULAR);
             asort($courseScoresUnique);
         }
 
         $recommendedCourseIds = array_reverse($courseScoresUnique);
-
         foreach ($recommendedCourseIds as $recommendedCourseId) {
             $course_id = array_slice($recommendedCourseId, 1);
-            $id = $course_id[0]->course_id;
-            $recommendedCourses [] = Course::where('id', $id)->first();
+            $id = $course_id[0];
+            $recommendedCourses[] = Course::where('id', $id)->first();
         }
 
         $data = [

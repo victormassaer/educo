@@ -935,6 +935,9 @@ select {
 .h-36 {
   height: 9rem;
 }
+.h-44 {
+  height: 11rem;
+}
 .max-h-177 {
   max-height: 177px;
 }
@@ -1024,6 +1027,9 @@ select {
 .w-2\/5 {
   width: 40%;
 }
+.w-4\/5 {
+  width: 80%;
+}
 .max-w-288 {
   max-width: 288px;
 }
@@ -1111,6 +1117,9 @@ select {
 }
 .items-center {
   align-items: center;
+}
+.justify-start {
+  justify-content: flex-start;
 }
 .justify-end {
   justify-content: flex-end;
